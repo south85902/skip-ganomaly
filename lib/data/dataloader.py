@@ -12,6 +12,21 @@ from torchvision.datasets import MNIST, CIFAR10, ImageFolder
 from lib.data.datasets import get_cifar_anomaly_dataset
 from lib.data.datasets import get_mnist_anomaly_dataset
 
+# add padding ===================
+# 參考 https://discuss.pytorch.org/t/how-to-resize-and-pad-in-a-torchvision-transforms-compose/71850/4
+import numpy as np
+from torchvision.transforms.functional import pad
+
+class SquarePad:
+	def __call__(self, image):
+		w, h = image.size
+		max_wh = np.max([w, h])
+		hp = int((max_wh - w) / 2)
+		vp = int((max_wh - h) / 2)
+		padding = (hp, vp, hp, vp)
+		return pad(image, padding, 0, 'constant')
+# add padding ===================
+
 class Data:
     """ Dataloader containing train and valid sets.
     """
@@ -61,11 +76,15 @@ def load_data(opt):
 
     # FOLDER
     else:
-        transform = transforms.Compose([transforms.Resize(opt.isize),
-                                        transforms.CenterCrop(opt.isize),
+        # transform = transforms.Compose([transforms.Resize(opt.isize),
+        #                                 transforms.CenterCrop(opt.isize),
+        #                                 transforms.ToTensor(),
+        #                                 transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)), ])
+
+        transform = transforms.Compose([SquarePad(),
+                                        transforms.Resize(opt.isize),
                                         transforms.ToTensor(),
                                         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)), ])
-
         train_ds = ImageFolder(os.path.join(opt.dataroot, 'train'), transform)
         valid_ds = ImageFolder(os.path.join(opt.dataroot, 'test'), transform)
 
