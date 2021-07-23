@@ -229,7 +229,7 @@ class BaseModel():
         print(f">> Training {self.name} on {self.opt.dataset} to detect {self.opt.abnormal_class}")
         for self.epoch in range(self.opt.iter, self.opt.niter):
             self.train_one_epoch()
-            res = self.test()
+            res = self.test(test_set='val')
             if res['AUC'] > best_auc:
                 best_auc = res['AUC']
                 self.save_weights(self.epoch)

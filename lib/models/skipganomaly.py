@@ -148,7 +148,7 @@ class Skipganomaly(BaseModel):
         self.update_netd()
 
     ##
-    def test(self, plot_hist=False):
+    def test(self, plot_hist=False, test_set='test'):
         """ Test GANomaly model.
 
         Args:
@@ -167,15 +167,26 @@ class Skipganomaly(BaseModel):
             scores = {}
 
             # Create big error tensor for the test set.
-            self.an_scores = torch.zeros(size=(len(self.data.valid.dataset),), dtype=torch.float32, device=self.device)
-            self.gt_labels = torch.zeros(size=(len(self.data.valid.dataset),), dtype=torch.long, device=self.device)
-            self.features  = torch.zeros(size=(len(self.data.valid.dataset), self.opt.nz), dtype=torch.float32, device=self.device)
+            # self.an_scores = torch.zeros(size=(len(self.data.valid.dataset),), dtype=torch.float32, device=self.device)
+            # self.gt_labels = torch.zeros(size=(len(self.data.valid.dataset),), dtype=torch.long, device=self.device)
+            # self.features  = torch.zeros(size=(len(self.data.valid.dataset), self.opt.nz), dtype=torch.float32, device=self.device)
 
             print("   Testing %s" % self.name)
+            print("   Test set %s" % test_set)
+            if test_set == 'val':
+                test_data = self.data.valid
+            else:
+                test_data = self.data.test
+
+            # Create big error tensor for the test set.
+            self.an_scores = torch.zeros(size=(len(test_data.dataset),), dtype=torch.float32, device=self.device)
+            self.gt_labels = torch.zeros(size=(len(test_data.dataset),), dtype=torch.long, device=self.device)
+            self.features  = torch.zeros(size=(len(test_data.dataset), self.opt.nz), dtype=torch.float32, device=self.device)
+
             self.times = []
             self.total_steps = 0
             epoch_iter = 0
-            for i, data in enumerate(self.data.valid, 0):
+            for i, data in enumerate(test_data, 0):
                 self.total_steps += self.opt.batchsize
                 epoch_iter += self.opt.batchsize
                 time_i = time.time()
@@ -205,11 +216,12 @@ class Skipganomaly(BaseModel):
 
                 # Save test images.
                 if self.opt.save_test_images:
-                    dst = os.path.join(self.opt.outf, self.opt.name, 'test', 'images')
+                    #dst = os.path.join(self.opt.outf, self.opt.name, 'test', 'images')
+                    dst = os.path.join(self.opt.outf, self.opt.name, test_set, 'images')
                     if not os.path.isdir(dst): os.makedirs(dst)
                     real, fake, _ = self.get_current_images()
-                    vutils.save_image(real, '%s/real_%03d.eps' % (dst, i+1), normalize=True)
-                    vutils.save_image(fake, '%s/fake_%03d.eps' % (dst, i+1), normalize=True)
+                    #vutils.save_image(real, '%s/real_%03d.eps' % (dst, i+1), normalize=True)
+                    #vutils.save_image(fake, '%s/fake_%03d.eps' % (dst, i+1), normalize=True)
                     vutils.save_image(real, '%s/real_%03d.png' % (dst, i+1), normalize=True)
                     vutils.save_image(fake, '%s/fake_%03d.png' % (dst, i+1), normalize=True)
             # Measure inference time.
