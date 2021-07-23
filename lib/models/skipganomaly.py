@@ -50,9 +50,9 @@ class Skipganomaly(BaseModel):
         ##
         if self.opt.resume != '':
             print("\nLoading pre-trained networks.")
-            self.opt.iter = torch.load(os.path.join(self.opt.resume, 'netG.pth'))['epoch']
-            self.netg.load_state_dict(torch.load(os.path.join(self.opt.resume, 'netG.pth'))['state_dict'])
-            self.netd.load_state_dict(torch.load(os.path.join(self.opt.resume, 'netD.pth'))['state_dict'])
+            self.opt.iter = torch.load(os.path.join(self.opt.resume, 'netG_best.pth'))['epoch']
+            self.netg.load_state_dict(torch.load(os.path.join(self.opt.resume, 'netG_best.pth'))['state_dict'])
+            self.netd.load_state_dict(torch.load(os.path.join(self.opt.resume, 'netD_best.pth'))['state_dict'])
             print("\tDone.\n")
 
         if self.opt.verbose:
@@ -210,7 +210,8 @@ class Skipganomaly(BaseModel):
                     real, fake, _ = self.get_current_images()
                     vutils.save_image(real, '%s/real_%03d.eps' % (dst, i+1), normalize=True)
                     vutils.save_image(fake, '%s/fake_%03d.eps' % (dst, i+1), normalize=True)
-
+                    vutils.save_image(real, '%s/real_%03d.png' % (dst, i+1), normalize=True)
+                    vutils.save_image(fake, '%s/fake_%03d.png' % (dst, i+1), normalize=True)
             # Measure inference time.
             self.times = np.array(self.times)
             self.times = np.mean(self.times[:100] * 1000)
@@ -249,6 +250,8 @@ class Skipganomaly(BaseModel):
             if self.opt.display_id > 0 and self.opt.phase == 'test':
                 counter_ratio = float(epoch_iter) / len(self.data.valid.dataset)
                 self.visualizer.plot_performance(self.epoch, counter_ratio, performance)
+
+            self.visualizer.print_current_performance(performance, performance['AUC'])
 
             ##
             # RETURN

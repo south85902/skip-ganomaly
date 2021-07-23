@@ -24,7 +24,8 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 from PIL import Image
-
+from tensorboardX import SummaryWriter
+#from torch.utils.tensorboard import SummaryWriter
 class BaseModel():
     """ Base Model for ganomaly
     """
@@ -40,6 +41,7 @@ class BaseModel():
         self.trn_dir = os.path.join(self.opt.outf, self.opt.name, 'train')
         self.tst_dir = os.path.join(self.opt.outf, self.opt.name, 'test')
         self.device = torch.device("cuda:0" if self.opt.device != 'cpu' else "cpu")
+        self.writer = SummaryWriter(comment='test1')
 
     ##
     def seed(self, seed_value):
@@ -160,9 +162,10 @@ class BaseModel():
             fname_d = f"netD_{epoch}.pth"
 
         if path is None:
-            path_g = f"./output/{self.name}/{self.opt.dataset}/train/weights/{fname_g}"
-            path_d = f"./output/{self.name}/{self.opt.dataset}/train/weights/{fname_d}"
-
+            #path_g = f"./output/{self.name}/{self.opt.dataset}/train/weights/{fname_g}"
+            #path_d = f"./output/{self.name}/{self.opt.dataset}/train/weights/{fname_d}"
+            path_g = f"./output/{self.opt.name}/train/weights/{fname_g}"
+            path_d = f"./output/{self.opt.name}/train/weights/{fname_d}"
         # Load the weights of netg and netd.
         print('>> Loading weights...')
         weights_g = torch.load(path_g)['state_dict']
@@ -194,6 +197,16 @@ class BaseModel():
                     counter_ratio = float(epoch_iter) / len(self.data.train.dataset)
                     self.visualizer.plot_current_errors(self.epoch, counter_ratio, errors)
 
+                    # write error on tensorboard
+                    self.writer.add_scalar('loss/err_d', errors['err_d'], self.epoch)
+                    self.writer.add_scalar('loss/err_g', errors['err_g'], self.epoch)
+                    self.writer.add_scalar('loss/err_g_adv', errors['err_g_adv'], self.epoch)
+                    self.writer.add_scalar('loss/err_g_con', errors['err_g_con'], self.epoch)
+                    self.writer.add_scalar('loss/err_g_lat', errors['err_g_lat'], self.epoch)
+                    #self.writer.add_scalars('loss', errors, self.epoch)
+
+
+
             if self.total_steps % self.opt.save_image_freq == 0:
                 reals, fakes, fixed = self.get_current_images()
                 self.visualizer.save_current_images(self.epoch, reals, fakes, fixed)
@@ -220,6 +233,7 @@ class BaseModel():
             if res['AUC'] > best_auc:
                 best_auc = res['AUC']
                 self.save_weights(self.epoch)
+                self.save_weights(self.epoch, True) # save best weights
             self.visualizer.print_current_performance(res, best_auc)
         print(">> Training model %s.[Done]" % self.name)
 
