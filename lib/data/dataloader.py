@@ -52,7 +52,7 @@ def load_data(opt):
     ##
     # LOAD DATA SET
     if opt.dataroot == '':
-        opt.dataroot = './data/{}'.format(opt.dataset)
+        opt.dataroot = '../dataSet/{}'.format(opt.dataset)
 
     ## CIFAR
     if opt.dataset in ['cifar10']:
@@ -60,8 +60,8 @@ def load_data(opt):
                                         transforms.ToTensor(),
                                         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
-        train_ds = CIFAR10(root='./data', train=True, download=True, transform=transform)
-        valid_ds = CIFAR10(root='./data', train=False, download=True, transform=transform)
+        train_ds = CIFAR10(root='../dataSet', train=True, download=True, transform=transform)
+        valid_ds = CIFAR10(root='../dataSet', train=False, download=True, transform=transform)
         train_ds, valid_ds = get_cifar_anomaly_dataset(train_ds, valid_ds, train_ds.class_to_idx[opt.abnormal_class])
 
     ## MNIST
@@ -71,8 +71,8 @@ def load_data(opt):
                                         transforms.Normalize((0.1307,), (0.3081,))])
 
 
-        train_ds = MNIST(root='./data', train=True, download=True, transform=transform)
-        valid_ds = MNIST(root='./data', train=False, download=True, transform=transform)
+        train_ds = MNIST(root='../dataSet', train=True, download=True, transform=transform)
+        valid_ds = MNIST(root='../dataSet', train=False, download=True, transform=transform)
         train_ds, valid_ds = get_mnist_anomaly_dataset(train_ds, valid_ds, int(opt.abnormal_class))
 
     # FOLDER
