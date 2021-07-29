@@ -16,7 +16,6 @@ from options import Options
 from lib.data.dataloader import load_data
 from lib.models import load_model
 from line_notify import sent_message
-from lib.visualizer import Visualizer
 ##
 def main():
     """ Testing
@@ -25,9 +24,8 @@ def main():
     data = load_data(opt)
     model = load_model(opt, data)
     test_set = opt.phase
-    res = model.test(plot_hist=True, test_set=test_set)
-    model.visualizer.print_current_performance(res, 0)
-    sent_message('done')
+    model.eval(plot_hist=True, test_set=test_set, min=0.1263, max=0.3753, threshold=0.040829003)
+    sent_message('eval done')
 
 if __name__ == '__main__':
     main()
