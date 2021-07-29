@@ -13,7 +13,7 @@ def copyFile(fileDir):
     pathDir = os.listdir(fileDir)
 
     # 2
-    sample = random.sample(pathDir, 1000)
+    sample = random.sample(pathDir, 5)
     print
     sample
 
@@ -23,6 +23,6 @@ def copyFile(fileDir):
 
 
 if __name__ == '__main__':
-    fileDir = "./data/AnomalyDetectionData/test/0.normal/"
-    tarDir = './data/AnomalyDetectionData/val/test/'
+    fileDir = "../dataSet/AnomalyDetectionData/test/1.abnormal/"
+    tarDir = '../dataSet/AnomalyDetectionData/val/test/'
     copyFile(fileDir)

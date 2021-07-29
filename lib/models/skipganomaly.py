@@ -80,7 +80,7 @@ class Skipganomaly(BaseModel):
         if self.opt.isTrain:
             self.netg.train()
             self.netd.train()
-            self.optimizers  = []
+            self.optimizers = []
             self.optimizer_d = optim.Adam(self.netd.parameters(), lr=self.opt.lr, betas=(self.opt.beta1, 0.999))
             self.optimizer_g = optim.Adam(self.netg.parameters(), lr=self.opt.lr, betas=(self.opt.beta1, 0.999))
             self.optimizers.append(self.optimizer_d)

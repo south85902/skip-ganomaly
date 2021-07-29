@@ -203,6 +203,8 @@ class BaseModel():
                     self.writer.add_scalar('loss/err_g_adv', errors['err_g_adv'], self.epoch)
                     self.writer.add_scalar('loss/err_g_con', errors['err_g_con'], self.epoch)
                     self.writer.add_scalar('loss/err_g_lat', errors['err_g_lat'], self.epoch)
+                    self.writer.add_scalar('lr', self.optimizers[0].param_groups[0]['lr'], self.epoch)
+
                     #self.writer.add_scalars('loss', errors, self.epoch)
 
 
