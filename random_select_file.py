@@ -7,22 +7,30 @@
 '''
 import os, random, shutil
 
+def check_dir(tar_dir):
+    if not os.path.isdir(tar_dir):
+        os.makedirs(tar_dir)
 
 def copyFile(fileDir):
     # 1
     pathDir = os.listdir(fileDir)
 
     # 2
-    sample = random.sample(pathDir, 5)
-    print
-    sample
+    sample = random.sample(pathDir, 0)
 
+    check_dir(tarDir_first)
+    check_dir(tarDir_less)
+    
     # 3
-    for name in sample:
-        shutil.copyfile(fileDir + name, tarDir + name)
+    for name in pathDir:
+        if name in sample:
+            shutil.copyfile(fileDir + name, tarDir_first + name)
+        else:
+            shutil.copyfile(fileDir + name, tarDir_less + name)
 
 
 if __name__ == '__main__':
-    fileDir = "../dataSet/AnomalyDetectionData/test/1.abnormal/"
-    tarDir = '../dataSet/AnomalyDetectionData/val/test/'
+    fileDir = "../dataSet/AnomalyDetectionData0.5/val/0.normal/"
+    tarDir_first = '../dataSet/AnomalyDetectionData0.5/val/0.normal/'
+    tarDir_less = '../dataSet/AnomalyDetectionData0.5/test/0.normal/'
     copyFile(fileDir)
