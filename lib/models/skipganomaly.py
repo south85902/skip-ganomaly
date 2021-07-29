@@ -369,21 +369,21 @@ class Skipganomaly(BaseModel):
                 hist.to_csv(os.path.join(save_path, 'histogram.csv'))
 
                 # Filter normal and abnormal scores.
-                abn_scr = hist.loc[hist.labels == 1]['scores']
-                nrm_scr = hist.loc[hist.labels == 0]['scores']
-                abn_scr = abn_scr.values
-                nrm_scr = nrm_scr.values
+                #abn_scr = hist.loc[hist.labels == 1]['scores']
+                #nrm_scr = hist.loc[hist.labels == 0]['scores']
+                #abn_scr = abn_scr.values
+                #nrm_scr = nrm_scr.values
                 # abn_scr = abn_scr.cpu()
                 # nrm_scr = nrm_scr.cpu()
                 # Create figure and plot the distribution.
                 #fig, ax = plt.subplots(figsize=(4,4))
                 #nrm_scr = [1, 2, 3, 4, 5, 6]
                 #abn_scr = [1, 2, 3, 4, 5, 6]
-                sns.distplot(nrm_scr, label=r'Normal Scores')
-                sns.distplot(abn_scr, label=r'Abnormal Scores')
-                plt.legend()
-                plt.yticks([])
-                plt.xlabel(r'Anomaly Scores')
+                #sns.distplot(nrm_scr, label='Normal Scores')
+                #sns.distplot(abn_scr, label='Abnormal Scores')
+                #plt.legend()
+                #plt.yticks([])
+                #plt.xlabel('Anomaly Scores')
 
                 #plt.savefig(os.path.join(save_path, 'Anomaly_scores.png'))
                 #plt.savefig('Anomaly_scores.png')
