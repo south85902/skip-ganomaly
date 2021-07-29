@@ -23,7 +23,7 @@ from lib.visualizer import Visualizer
 from lib.loss import l2_loss
 from lib.evaluate import roc
 from lib.models.basemodel import BaseModel
-
+import shutil
 
 
 class Skipganomaly(BaseModel):
@@ -219,6 +219,9 @@ class Skipganomaly(BaseModel):
                     #dst = os.path.join(self.opt.outf, self.opt.name, 'test', 'images')
                     dst = os.path.join(self.opt.outf, self.opt.name, test_set, 'images')
                     if not os.path.isdir(dst): os.makedirs(dst)
+                    else:
+                        shutil.rmtree(dst)
+                        os.makedirs(dst)
                     real, fake, _ = self.get_current_images()
                     #vutils.save_image(real, '%s/real_%03d.eps' % (dst, i+1), normalize=True)
                     #vutils.save_image(fake, '%s/fake_%03d.eps' % (dst, i+1), normalize=True)
@@ -309,6 +312,13 @@ class Skipganomaly(BaseModel):
             self.times = []
             self.total_steps = 0
             epoch_iter = 0
+            dst = os.path.join(self.opt.outf, self.opt.name, test_set, 'images')
+            if not os.path.isdir(dst):
+                os.makedirs(dst)
+            else:
+                shutil.rmtree(dst)
+                os.makedirs(dst)
+
             for i, data in enumerate(test_data, 0):
                 self.total_steps += self.opt.batchsize
                 epoch_iter += self.opt.batchsize
@@ -340,8 +350,6 @@ class Skipganomaly(BaseModel):
                 # Save test images.
                 if self.opt.save_test_images:
                     #dst = os.path.join(self.opt.outf, self.opt.name, 'test', 'images')
-                    dst = os.path.join(self.opt.outf, self.opt.name, test_set, 'images')
-                    if not os.path.isdir(dst): os.makedirs(dst)
                     real, fake, _ = self.get_current_images()
                     #vutils.save_image(real, '%s/real_%03d.eps' % (dst, i+1), normalize=True)
                     #vutils.save_image(fake, '%s/fake_%03d.eps' % (dst, i+1), normalize=True)
