@@ -42,7 +42,15 @@ def roc(labels, scores, saveto=None):
     scores = scores.cpu()
 
     # True/False Positive Rates.
-    fpr, tpr, _ = roc_curve(labels, scores)
+    fpr, tpr, thre = roc_curve(labels, scores)
+    #print('labels\n', labels)
+    #diprint('scores\n', scores)
+    # print('len fpr:', len(fpr))
+    # print('len tpr:', len(fpr))
+    # print('len thre:', len(thre))
+    # print('fpr ', fpr)
+    # print('tpr ', tpr)
+    # print('thre ', thre)
     roc_auc = auc(fpr, tpr)
 
     # Equal Error Rate
