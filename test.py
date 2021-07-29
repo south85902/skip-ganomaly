@@ -24,7 +24,7 @@ def main():
     data = load_data(opt)
     model = load_model(opt, data)
     test_set = opt.phase
-    model.test_2(plot_hist=True, test_set=test_set)
+    model.test(plot_hist=True, test_set=test_set)
     sent_message('done')
 
 if __name__ == '__main__':

@@ -41,7 +41,7 @@ class BaseModel():
         self.trn_dir = os.path.join(self.opt.outf, self.opt.name, 'train')
         self.tst_dir = os.path.join(self.opt.outf, self.opt.name, 'test')
         self.device = torch.device("cuda:0" if self.opt.device != 'cpu' else "cpu")
-        self.writer = SummaryWriter(comment='test1')
+
 
     ##
     def seed(self, seed_value):
@@ -229,6 +229,7 @@ class BaseModel():
 
         # Train for niter epochs.
         print(f">> Training {self.name} on {self.opt.dataset} to detect {self.opt.abnormal_class}")
+        self.writer = SummaryWriter(comment='_self.opt.dataset')
         for self.epoch in range(self.opt.iter, self.opt.niter):
             self.train_one_epoch()
             res = self.test(test_set='val')

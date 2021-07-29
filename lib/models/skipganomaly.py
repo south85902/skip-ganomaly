@@ -148,7 +148,7 @@ class Skipganomaly(BaseModel):
         self.update_netd()
 
     ##
-    def test(self, plot_hist=False, test_set='test'):
+    def test_og(self, plot_hist=False, test_set='test'):
         """ Test GANomaly model.
 
         Args:
@@ -269,7 +269,7 @@ class Skipganomaly(BaseModel):
             # RETURN
             return performance
 
-    def test_2(self, plot_hist=False, test_set='test'):
+    def test(self, plot_hist=False, test_set='test'):
         """ Test GANomaly model.
 
         Args:

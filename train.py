@@ -15,7 +15,7 @@ TRAIN SKIP/GANOMALY
 from options import Options
 from lib.data.dataloader import load_data
 from lib.models import load_model
-
+from line_notify import sent_message
 ##
 def main():
     """ Training
@@ -27,6 +27,6 @@ def main():
         model.train()
     else:
         model.test()
-
+    sent_message('train done')
 if __name__ == '__main__':
     main()
