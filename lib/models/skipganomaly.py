@@ -685,10 +685,7 @@ class Skipganomaly(BaseModel):
                     #fp+=1
                     pass
 
-                print('tp ',tp/len(self.an_scores))
-                print('tn ', tn/len(self.an_scores))
-                print('fp ',fp/len(self.an_scores))
-                print('fn',fn/len(self.an_scores))
+
             ##
             # PLOT HISTOGRAM
             if plot_hist:
@@ -700,6 +697,10 @@ class Skipganomaly(BaseModel):
                 hist = pd.DataFrame.from_dict(scores)
                 hist.to_csv(os.path.join(save_path, 'eval_histogram.csv'))
 
+            print('tp ', tp/len(hist.loc[hist.labels == 1]['scores']))
+            #print('tn ', tn/len(self.an_scores))
+            print('fp ', fp/len(hist.loc[hist.labels == 0]['scores']))
+            #print('fn', fn/len(self.an_scores))
                 # Filter normal and abnormal scores.
                 #abn_scr = hist.loc[hist.labels == 1]['scores']
                 #nrm_scr = hist.loc[hist.labels == 0]['scores']
