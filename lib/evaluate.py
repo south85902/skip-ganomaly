@@ -15,6 +15,7 @@ from scipy.optimize import brentq
 from scipy.interpolate import interp1d
 import matplotlib.pyplot as plt
 from matplotlib import rc
+import pandas as pd
 rc('font', **{'family': 'serif', 'serif': ['Computer Modern']})
 rc('text', usetex=True)
 
@@ -49,27 +50,30 @@ def roc(labels, scores, saveto=None):
     # print('len tpr:', len(fpr))
     # print('len thre:', len(thre))
     # print('fpr ', fpr)
-    # print('tpr ', tpr)
-    # print('thre ', thre)
+    #print('tpr ', tpr)
+    #print('thre ', thre)
+    df_dict = {'fpr':fpr , 'tpr': tpr, 'threhold': thre}
+    df = pd.DataFrame.from_dict(df_dict)
+    df.to_csv(os.path.join(saveto, 'fpr_tpr_thre.csv'))
     roc_auc = auc(fpr, tpr)
 
     # Equal Error Rate
     eer = brentq(lambda x: 1. - x - interp1d(fpr, tpr)(x), 0., 1.)
-
-    if saveto:
-        plt.figure()
-        lw = 2
-        plt.plot(fpr, tpr, color='darkorange', lw=lw, label='(AUC = %0.2f, EER = %0.2f)' % (roc_auc, eer))
-        plt.plot([eer], [1-eer], marker='o', markersize=5, color="navy")
-        plt.plot([0, 1], [1, 0], color='navy', lw=1, linestyle=':')
-        plt.xlim([0.0, 1.0])
-        plt.ylim([0.0, 1.05])
-        plt.xlabel('False Positive Rate')
-        plt.ylabel('True Positive Rate')
-        plt.title('Receiver operating characteristic')
-        plt.legend(loc="lower right")
-        plt.savefig(os.path.join(saveto, "ROC.pdf"))
-        plt.close()
+    #
+    # if saveto:
+    #     plt.figure()
+    #     lw = 2
+    #     plt.plot(fpr, tpr, color='darkorange', lw=lw, label='(AUC = %0.2f, EER = %0.2f)' % (roc_auc, eer))
+    #     plt.plot([eer], [1-eer], marker='o', markersize=5, color="navy")
+    #     plt.plot([0, 1], [1, 0], color='navy', lw=1, linestyle=':')
+    #     plt.xlim([0.0, 1.0])
+    #     plt.ylim([0.0, 1.05])
+    #     plt.xlabel('False Positive Rate')
+    #     plt.ylabel('True Positive Rate')
+    #     plt.title('Receiver operating characteristic')
+    #     plt.legend(loc="lower right")
+    #     plt.savefig(os.path.join(saveto, "ROC.pdf"))
+    #     plt.close()
 
     return roc_auc
 
