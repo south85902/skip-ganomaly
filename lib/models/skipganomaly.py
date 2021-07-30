@@ -306,6 +306,8 @@ class Skipganomaly(BaseModel):
 
             # Create big error tensor for the test set.
             self.an_scores = torch.zeros(size=(len(test_data.dataset),), dtype=torch.float32, device=self.device)
+            self.rec_scores = torch.zeros(size=(len(test_data.dataset),), dtype=torch.float32, device=self.device)
+            self.lat_scores = torch.zeros(size=(len(test_data.dataset),), dtype=torch.float32, device=self.device)
             self.gt_labels = torch.zeros(size=(len(test_data.dataset),), dtype=torch.long, device=self.device)
             self.features  = torch.zeros(size=(len(test_data.dataset), self.opt.nz), dtype=torch.float32, device=self.device)
 
@@ -343,6 +345,8 @@ class Skipganomaly(BaseModel):
                 time_o = time.time()
 
                 self.an_scores[i*self.opt.batchsize: i*self.opt.batchsize + error.size(0)] = error.reshape(error.size(0))
+                self.rec_scores[i*self.opt.batchsize: i*self.opt.batchsize + error.size(0)] = rec.reshape(error.size(0))
+                self.lat_scores[i*self.opt.batchsize: i*self.opt.batchsize + error.size(0)] = lat.reshape(error.size(0))
                 self.gt_labels[i*self.opt.batchsize: i*self.opt.batchsize + error.size(0)] = self.gt.reshape(error.size(0))
 
                 self.times.append(time_o - time_i)
@@ -375,6 +379,8 @@ class Skipganomaly(BaseModel):
                 # Create data frame for scores and labels.
                 scores['min'] = min.cpu()
                 scores['max'] = max.cpu()
+                scores['rec scores'] = self.rec_scores.cpu()
+                scores['lat scores'] = self.lat_scores.cpu()
                 scores['scores'] = self.an_scores.cpu()
                 scores['labels'] = self.gt_labels.cpu()
                 hist = pd.DataFrame.from_dict(scores)
@@ -561,174 +567,3 @@ class Skipganomaly(BaseModel):
                 scores['labels'] = self.gt_labels.cpu()
                 hist = pd.DataFrame.from_dict(scores)
                 hist.to_csv(os.path.join(save_path, 'eval_histogram.csv'))
-
-    def eval_(self, plot_hist=False, test_set='test', min=0.0, max=0.0, threshold=0.0):
-        """ Test GANomaly model.
-
-        Args:
-            data ([type]): Dataloader for the test set
-
-        Raises:
-            IOError: Model weights not found.
-        """
-        with torch.no_grad():
-            # Load the weights of netg and netd.
-            if self.opt.load_weights:
-                self.load_weights(is_best=True)
-
-            self.opt.phase = 'test'
-
-            scores = {}
-
-            # Create big error tensor for the test set.
-            # self.an_scores = torch.zeros(size=(len(self.data.valid.dataset),), dtype=torch.float32, device=self.device)
-            # self.gt_labels = torch.zeros(size=(len(self.data.valid.dataset),), dtype=torch.long, device=self.device)
-            # self.features  = torch.zeros(size=(len(self.data.valid.dataset), self.opt.nz), dtype=torch.float32, device=self.device)
-
-            print("   Testing %s" % self.name)
-            print("   Test set %s" % test_set)
-            if test_set == 'train':
-                test_data = self.data.train
-            elif test_set == 'val':
-                test_data = self.data.valid
-            else:
-                test_data = self.data.test
-
-            # Create big error tensor for the test set.
-            self.an_scores = torch.zeros(size=(len(test_data.dataset),), dtype=torch.float32, device=self.device)
-            self.gt_labels = torch.zeros(size=(len(test_data.dataset),), dtype=torch.long, device=self.device)
-            self.features  = torch.zeros(size=(len(test_data.dataset), self.opt.nz), dtype=torch.float32, device=self.device)
-
-            self.times = []
-            self.total_steps = 0
-            epoch_iter = 0
-            dst = os.path.join(self.opt.outf, self.opt.name, test_set, 'images')
-            if not os.path.isdir(dst):
-                os.makedirs(dst)
-            else:
-                shutil.rmtree(dst)
-                os.makedirs(dst)
-
-            for i, data in enumerate(test_data, 0):
-                self.total_steps += self.opt.batchsize
-                epoch_iter += self.opt.batchsize
-                time_i = time.time()
-
-                # Forward - Pass
-                self.set_input(data)
-                self.fake = self.netg(self.input)
-
-                _, self.feat_real = self.netd(self.input)
-                _, self.feat_fake = self.netd(self.fake)
-
-                # Calculate the anomaly score.
-                si = self.input.size()
-                sz = self.feat_real.size()
-                rec = (self.input - self.fake).view(si[0], si[1] * si[2] * si[3])
-                lat = (self.feat_real - self.feat_fake).view(sz[0], sz[1] * sz[2] * sz[3])
-                rec = torch.mean(torch.pow(rec, 2), dim=1)
-                lat = torch.mean(torch.pow(lat, 2), dim=1)
-                error = 0.9*rec + 0.1*lat
-
-                time_o = time.time()
-
-                self.an_scores[i*self.opt.batchsize: i*self.opt.batchsize + error.size(0)] = error.reshape(error.size(0))
-                self.gt_labels[i*self.opt.batchsize: i*self.opt.batchsize + error.size(0)] = self.gt.reshape(error.size(0))
-
-                self.times.append(time_o - time_i)
-
-                # Save test images.
-                if self.opt.save_test_images:
-                    #dst = os.path.join(self.opt.outf, self.opt.name, 'test', 'images')
-                    real, fake, _ = self.get_current_images()
-                    #vutils.save_image(real, '%s/real_%03d.eps' % (dst, i+1), normalize=True)
-                    #vutils.save_image(fake, '%s/fake_%03d.eps' % (dst, i+1), normalize=True)
-                    vutils.save_image(real, '%s/real_%03d.png' % (dst, i+1), normalize=True)
-                    vutils.save_image(fake, '%s/fake_%03d.png' % (dst, i+1), normalize=True)
-            # Measure inference time.
-            self.times = np.array(self.times)
-            self.times = np.mean(self.times[:100] * 1000)
-
-            #Scale error vector between [0, 1]
-            # self.an_scores = (self.an_scores - torch.min(self.an_scores)) / \
-            #                  (torch.max(self.an_scores) - torch.min(self.an_scores))
-            #auc = roc(self.gt_labels, self.an_scores, saveto=os.path.join(self.opt.outf, self.opt.name, test_set))
-            #performance = OrderedDict([('Avg Run Time (ms/batch)', self.times), ('AUC', auc)])
-
-            self.an_scores = (self.an_scores - min) / \
-                             (max - min)
-
-
-
-            tp = 0
-            tn = 0
-            fp = 0
-            fn = 0
-            self.an_scores = self.an_scores.float()
-            self.gt_labels = self.gt_labels.float()
-            for i in range(0, len(self.an_scores)):
-                print('score ', self.an_scores[i])
-                if (self.an_scores[i] >= threshold):
-                    predict = 1
-                else:
-                    predict = 0
-                print('predict ', self.an_scores[i])
-                print('gt ', self.gt_labels[i])
-                if (self.gt_labels[i] == 0) and (predict == self.gt_labels[i]):
-                    #tp+=1
-                    pass
-                elif (self.gt_labels[i] == 1) and (predict == self.gt_labels[i]):
-                    tp+=1
-                elif (self.gt_labels[i] == 0) and (predict != self.gt_labels[i]):
-                    fp+=1
-                elif (self.gt_labels[i] == 1) and (predict != self.gt_labels[i]):
-                    #fp+=1
-                    pass
-
-
-            ##
-            # PLOT HISTOGRAM
-            if plot_hist:
-                save_path = os.path.join(self.opt.outf, self.opt.name, test_set)
-                plt.ion()
-                # Create data frame for scores and labels.
-                scores['scores'] = self.an_scores.cpu()
-                scores['labels'] = self.gt_labels.cpu()
-                hist = pd.DataFrame.from_dict(scores)
-                hist.to_csv(os.path.join(save_path, 'eval_histogram.csv'))
-
-            print('tp ', tp/len(hist.loc[hist.labels == 1]['scores']))
-            #print('tn ', tn/len(self.an_scores))
-            print('fp ', fp/len(hist.loc[hist.labels == 0]['scores']))
-            #print('fn', fn/len(self.an_scores))
-                # Filter normal and abnormal scores.
-                #abn_scr = hist.loc[hist.labels == 1]['scores']
-                #nrm_scr = hist.loc[hist.labels == 0]['scores']
-                #abn_scr = abn_scr.values
-                #nrm_scr = nrm_scr.values
-                # abn_scr = abn_scr.cpu()
-                # nrm_scr = nrm_scr.cpu()
-                # Create figure and plot the distribution.
-                #fig, ax = plt.subplots(figsize=(4,4))
-                #nrm_scr = [1, 2, 3, 4, 5, 6]
-                #abn_scr = [1, 2, 3, 4, 5, 6]
-                #sns.distplot(nrm_scr, label='Normal Scores')
-                #sns.distplot(abn_scr, label='Abnormal Scores')
-                #plt.legend()
-                #plt.yticks([])
-                #plt.xlabel('Anomaly Scores')
-
-                #plt.savefig(os.path.join(save_path, 'Anomaly_scores.png'))
-                #plt.savefig('Anomaly_scores.png')
-
-            ##
-            # PLOT PERFORMANCE
-            # if self.opt.display_id > 0 and self.opt.phase == 'test':
-            #     counter_ratio = float(epoch_iter) / len(self.data.valid.dataset)
-            #     self.visualizer.plot_performance(self.epoch, counter_ratio, performance)
-
-            #self.visualizer.print_current_performance(performance, performance['AUC'])
-
-            ##
-            # RETURN
-            # return performance
