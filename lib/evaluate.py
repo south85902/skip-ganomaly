@@ -32,6 +32,28 @@ def evaluate(labels, scores, metric='roc'):
     else:
         raise NotImplementedError("Check the evaluation metric.")
 
+def get_abnormal_num(labels, abnormal_tar):
+    abn_num = 0
+    for l in labels:
+        if l == abnormal_tar:
+            abn_num+=1
+    return abn_num
+
+def get_recall(fpr, tpr):
+    normal_recall = 1 - fpr
+    abnormal_recall = tpr
+    return normal_recall, abnormal_recall
+
+def get_precision(fpr, tpr, nor_num, abn_num):
+    # normal_precision = []
+    # abnormal_precision = []
+    # for i in range(0, len(fpr)):
+    normal_precision = (nor_num * (1-fpr)) / ((nor_num * (1-fpr))+((abn_num * (1-tpr))))
+    abnormal_precision = (abn_num*tpr)/((nor_num*fpr)+(abn_num*tpr))
+    # normal_precision.append((nor_num * (1-fpr[i])) / ((nor_num * (1-fpr[i]))+((abn_num * (1-tpr[i])))))
+    # abnormal_precision = (abn_num*tpr[i])/((nor_num*fpr[i])+(abn_num*tpr[i]))
+    return normal_precision, abnormal_precision
+
 ##
 def roc(labels, scores, saveto=None):
     """Compute ROC curve and ROC area for each class"""
@@ -41,8 +63,12 @@ def roc(labels, scores, saveto=None):
 
     labels = labels.cpu()
     scores = scores.cpu()
+    total_num = len(labels)
+    abn_num = get_abnormal_num(labels, abnormal_tar=1.)
 
     # True/False Positive Rates.
+    # fpr 代表 0 不對的 (類別0 的 1-recall)
+    # tpr 代表 1 對的 (類別1 的 recall)
     fpr, tpr, thre = roc_curve(labels, scores)
     #print('labels\n', labels)
     #diprint('scores\n', scores)
@@ -52,7 +78,9 @@ def roc(labels, scores, saveto=None):
     # print('fpr ', fpr)
     #print('tpr ', tpr)
     #print('thre ', thre)
-    df_dict = {'fpr':fpr , 'tpr': tpr, 'threhold': thre}
+    nor_rec, abn_rec = get_recall(fpr, tpr)
+    nor_pre, abn_pre = get_precision(fpr,tpr, total_num-abn_num, abn_num)
+    df_dict = {'fpr':fpr , 'tpr': tpr, 'threhold': thre, 'normal recall':nor_rec, 'normal precision': nor_pre, 'abnormal recall': abn_rec, 'abnormal precision': abn_pre}
     df = pd.DataFrame.from_dict(df_dict)
     df.to_csv(os.path.join(saveto, 'fpr_tpr_thre.csv'))
     roc_auc = auc(fpr, tpr)
