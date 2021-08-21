@@ -111,4 +111,4 @@ def auprc(labels, scores):
     return ap
 
 def ssim_score(input, target):
-    return pytorch_ssim.ssim(input, target, window_size=11, size_average=False)
+    return 1-pytorch_ssim.ssim(input, target, window_size=11, size_average=False)

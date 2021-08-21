@@ -40,4 +40,4 @@ def l2_loss(input, target, size_average=True):
 
 def ssim_loss(input, target):
     ssim_loss = pytorch_ssim.SSIM(window_size=11)
-    return ssim_loss(input, target)
+    return -ssim_loss(input, target)
