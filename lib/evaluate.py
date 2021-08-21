@@ -16,6 +16,7 @@ from scipy.interpolate import interp1d
 import matplotlib.pyplot as plt
 from matplotlib import rc
 import pandas as pd
+from lib import pytorch_ssim
 rc('font', **{'family': 'serif', 'serif': ['Computer Modern']})
 rc('text', usetex=True)
 
@@ -108,3 +109,6 @@ def roc(labels, scores, saveto=None):
 def auprc(labels, scores):
     ap = average_precision_score(labels, scores)
     return ap
+
+def ssim_score(input, target):
+    return pytorch_ssim.ssim(input, target, window_size=11, size_average=False)

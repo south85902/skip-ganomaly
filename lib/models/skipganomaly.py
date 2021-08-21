@@ -20,8 +20,8 @@ import matplotlib.pyplot as plt
 
 from lib.models.networks import NetD, weights_init, define_G, define_D, get_scheduler
 from lib.visualizer import Visualizer
-from lib.loss import l2_loss
-from lib.evaluate import roc
+from lib.loss import l2_loss, ssim_loss
+from lib.evaluate import roc, ssim_score
 from lib.models.basemodel import BaseModel
 import shutil
 
@@ -62,7 +62,10 @@ class Skipganomaly(BaseModel):
         ##
         # Loss Functions
         self.l_adv = nn.BCELoss()
-        self.l_con = nn.L1Loss()
+        if self.opt.l_con == 'l1':
+            self.l_con = nn.L1Loss()
+        elif self.opt.l_con == 'ssim':
+            self.l_con = ssim_loss
         self.l_lat = l2_loss
 
         ##
@@ -336,9 +339,15 @@ class Skipganomaly(BaseModel):
                 # Calculate the anomaly score.
                 si = self.input.size()
                 sz = self.feat_real.size()
-                rec = (self.input - self.fake).view(si[0], si[1] * si[2] * si[3])
+                if self.opt.l_con == 'l1':
+                    rec = (self.input - self.fake).view(si[0], si[1] * si[2] * si[3])
+                elif self.opt.l_con == 'ssim':
+                    rec = ssim_score(self.input, self.fake)
                 lat = (self.feat_real - self.feat_fake).view(sz[0], sz[1] * sz[2] * sz[3])
-                rec = torch.mean(torch.pow(rec, 2), dim=1)
+                if self.opt.l_con == 'l1':
+                    rec = torch.mean(torch.pow(rec, 2), dim=1)
+                elif self.opt.l_con == 'ssim':
+                    pass
                 lat = torch.mean(torch.pow(lat, 2), dim=1)
                 error = 0.9*rec + 0.1*lat
 
@@ -366,8 +375,9 @@ class Skipganomaly(BaseModel):
             # Scale error vector between [0, 1]
             min = torch.min(self.an_scores)
             max = torch.max(self.an_scores)
-            self.an_scores = (self.an_scores - torch.min(self.an_scores)) / \
-                             (torch.max(self.an_scores) - torch.min(self.an_scores))
+            if self.opt.l_con == 'l1':
+                self.an_scores = (self.an_scores - torch.min(self.an_scores)) / \
+                                 (torch.max(self.an_scores) - torch.min(self.an_scores))
             auc = roc(self.gt_labels, self.an_scores, saveto=os.path.join(self.opt.outf, self.opt.name, test_set))
             performance = OrderedDict([('Avg Run Time (ms/batch)', self.times), ('AUC', auc), ('min', min), ('max', max)])
 

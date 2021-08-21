@@ -7,7 +7,7 @@ Losses
 ##
 # LIBRARIES
 import torch
-
+from lib import pytorch_ssim
 ##
 def l1_loss(input, target):
     """ L1 Loss without reduce flag.
@@ -37,3 +37,7 @@ def l2_loss(input, target, size_average=True):
         return torch.mean(torch.pow((input-target), 2))
     else:
         return torch.pow((input-target), 2)
+
+def ssim_loss(input, target):
+    ssim_loss = pytorch_ssim.SSIM(window_size=11)
+    return ssim_loss(input, target)
