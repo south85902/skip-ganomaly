@@ -37,7 +37,7 @@ def _ssim(img1, img2, window, window_size, channel, size_average = True):
         return ssim_map.mean(1).mean(1).mean(1)
 
 class SSIM(torch.nn.Module):
-    def __init__(self, window_size = 11, size_average = True):
+    def __init__(self, window_size = 3, size_average = True):
         super(SSIM, self).__init__()
         self.window_size = window_size
         self.size_average = size_average
@@ -62,7 +62,7 @@ class SSIM(torch.nn.Module):
 
         return _ssim(img1, img2, window, self.window_size, channel, self.size_average)
 
-def ssim(img1, img2, window_size = 11, size_average = True):
+def ssim(img1, img2, window_size = 3, size_average = True):
     (_, channel, _, _) = img1.size()
     window = create_window(window_size, channel)
     
