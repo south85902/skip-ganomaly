@@ -209,7 +209,7 @@ class BaseModel():
 
 
 
-            if self.total_steps % self.opt.save_image_freq == 0:
+            if self.total_steps % self.opt.save_image_freq == 0 and not self.opt.DFR:
                 reals, fakes, fixed = self.get_current_images()
                 self.visualizer.save_current_images(self.epoch, reals, fakes, fixed)
                 if self.opt.display:
@@ -229,7 +229,7 @@ class BaseModel():
 
         # Train for niter epochs.
         print(f">> Training {self.name} on {self.opt.dataset} to detect {self.opt.abnormal_class}")
-        self.writer = SummaryWriter(comment='_self.opt.dataset')
+        self.writer = SummaryWriter(comment='_'+self.opt.name)
         for self.epoch in range(self.opt.iter, self.opt.niter):
             self.train_one_epoch()
             res = self.test(test_set='val')

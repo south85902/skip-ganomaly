@@ -53,6 +53,7 @@ class Options():
         self.parser.add_argument('--abnormal_class', default='automobile', help='Anomaly class idx for mnist and cifar datasets')
         self.parser.add_argument('--metric', type=str, default='roc', help='Evaluation metric.')
         self.parser.add_argument('--l_con', type=str, default='l1', help='l1, l2, ssim, etc')
+        self.parser.add_argument('--DFR', action='store_true', help='DFR.')
         ##
         # Train
         self.parser.add_argument('--print_freq', type=int, default=100, help='frequency of showing training results on console')

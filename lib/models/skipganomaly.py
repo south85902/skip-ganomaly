@@ -24,7 +24,7 @@ from lib.loss import l2_loss, ssim_loss
 from lib.evaluate import roc, ssim_score
 from lib.models.basemodel import BaseModel
 import shutil
-
+from lib.DFR.feature import Extractor
 
 class Skipganomaly(BaseModel):
     """GANomaly Class
@@ -46,6 +46,21 @@ class Skipganomaly(BaseModel):
         # Create and initialize networks.
         self.netg = define_G(self.opt, norm='batch', use_dropout=False, init_type='normal')
         self.netd = define_D(self.opt, norm='batch', use_sigmoid=False, init_type='normal')
+
+        # add CNN for DFR ===========================================================
+        if self.opt.DFR:
+            print('++++++++++++++DFR+++++++++++++++++++++')
+            print('device ', self.device)
+            cnn_layers = ('relu1_2', 'relu2_2', 'relu3_4', 'relu4_4', 'relu5_4')
+            self.extractor = Extractor(backbone='vgg19',
+                                       cnn_layers=cnn_layers,
+                                       is_agg=True,
+                                       kernel_size=(1, 1),
+                                       stride=(1, 1),
+                                       featmap_size=(self.opt.isize, self.opt.isize),
+                                       device=self.device)
+            self.extractor.to(self.device)
+        # add CNN for DFR ===========================================================
 
         ##
         if self.opt.resume != '':
@@ -81,6 +96,8 @@ class Skipganomaly(BaseModel):
         ##
         # Setup optimizer
         if self.opt.isTrain:
+            if self.opt.DFR:
+                self.extractor.train()
             self.netg.train()
             self.netd.train()
             self.optimizers = []
@@ -99,6 +116,8 @@ class Skipganomaly(BaseModel):
         """
         #self.fake = self.netg(self.input + self.noise)
         # no noise
+        if self.opt.DFR:
+            self.input = self.extractor(self.input)
         self.fake = self.netg(self.input)
 
     def forward_d(self):
@@ -333,7 +352,11 @@ class Skipganomaly(BaseModel):
 
                 # Forward - Pass
                 self.set_input(data)
-                self.fake = self.netg(self.input)
+                if self.opt.DFR:
+                    self.input = self.extractor(self.input)
+                    self.fake = self.netg(self.input)
+                else:
+                    self.fake = self.netg(self.input)
 
                 _, self.feat_real = self.netd(self.input)
                 _, self.feat_fake = self.netd(self.fake)
