@@ -97,7 +97,9 @@ class Skipganomaly(BaseModel):
     def forward_g(self):
         """ Forward propagate through netG
         """
-        self.fake = self.netg(self.input + self.noise)
+        #self.fake = self.netg(self.input + self.noise)
+        # no noise
+        self.fake = self.netg(self.input)
 
     def forward_d(self):
         """ Forward propagate through netD
