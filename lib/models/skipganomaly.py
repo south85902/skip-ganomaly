@@ -140,7 +140,6 @@ class Skipganomaly(BaseModel):
         self.err_g_lat = self.opt.w_lat * self.l_lat(self.feat_fake, self.feat_real)
 
         if self.opt.no_discriminator:
-            print('no dis')
             self.err_g = self.err_g_con
         else:
             self.err_g = self.err_g_adv + self.err_g_con + self.err_g_lat
