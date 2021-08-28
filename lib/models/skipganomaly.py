@@ -18,7 +18,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-from lib.models.networks import NetD, weights_init, define_G, define_D, get_scheduler
+from lib.models.networks import NetD, weights_init, define_G, define_D, get_scheduler, define_G_DFR, define_D_DFR
 from lib.visualizer import Visualizer
 from lib.loss import l2_loss, ssim_loss
 from lib.evaluate import roc, ssim_score
@@ -48,10 +48,15 @@ class Skipganomaly(BaseModel):
         if self.opt.netg == 'CAE':
             print('net g', self.opt.netg)
             self.netg = FeatCAE(in_channels=self.opt.nc, latent_dim=200).to(self.device)
+        elif self.opt.netg == 'Unet_DFR':
+            self.netg = define_G_DFR(self.opt, norm='batch', use_dropout=False, init_type='normal')
         else:
             self.netg = define_G(self.opt, norm='batch', use_dropout=False, init_type='normal')
 
-        self.netd = define_D(self.opt, norm='batch', use_sigmoid=False, init_type='normal')
+        if self.opt.netg == 'Unet_DFR':
+            self.netd = define_D_DFR(self.opt, norm='batch', use_sigmoid=False, init_type='normal')
+        else:
+            self.netd = define_D(self.opt, norm='batch', use_sigmoid=False, init_type='normal')
 
         # add CNN for DFR ===========================================================
         if self.opt.DFR:
