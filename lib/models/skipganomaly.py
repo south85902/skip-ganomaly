@@ -25,6 +25,7 @@ from lib.evaluate import roc, ssim_score
 from lib.models.basemodel import BaseModel
 import shutil
 from lib.DFR.feature import Extractor
+from lib.DFR.feat_cae import FeatCAE
 
 class Skipganomaly(BaseModel):
     """GANomaly Class
@@ -44,7 +45,12 @@ class Skipganomaly(BaseModel):
 
         ##
         # Create and initialize networks.
-        self.netg = define_G(self.opt, norm='batch', use_dropout=False, init_type='normal')
+        if self.opt.netg == 'CAE':
+            print('net g', self.opt.netg)
+            self.netg = FeatCAE(in_channels=self.opt.nc, latent_dim=200).to(self.device)
+        else:
+            self.netg = define_G(self.opt, norm='batch', use_dropout=False, init_type='normal')
+
         self.netd = define_D(self.opt, norm='batch', use_sigmoid=False, init_type='normal')
 
         # add CNN for DFR ===========================================================
@@ -133,7 +139,11 @@ class Skipganomaly(BaseModel):
         self.err_g_con = self.opt.w_con * self.l_con(self.fake, self.input)
         self.err_g_lat = self.opt.w_lat * self.l_lat(self.feat_fake, self.feat_real)
 
-        self.err_g = self.err_g_adv + self.err_g_con + self.err_g_lat
+        if self.opt.no_discriminator:
+            print('no dis')
+            self.err_g = self.err_g_con
+        else:
+            self.err_g = self.err_g_adv + self.err_g_con + self.err_g_lat
         self.err_g.backward(retain_graph=True)
 
     def backward_d(self):
@@ -374,7 +384,11 @@ class Skipganomaly(BaseModel):
                 elif self.opt.l_con == 'ssim':
                     pass
                 lat = torch.mean(torch.pow(lat, 2), dim=1)
-                error = 0.9*rec + 0.1*lat
+
+                if self.opt.no_discriminator:
+                    error = rec
+                else:
+                    error = 0.9 * rec + 0.1 * lat
 
                 time_o = time.time()
 

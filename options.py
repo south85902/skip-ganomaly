@@ -54,6 +54,8 @@ class Options():
         self.parser.add_argument('--metric', type=str, default='roc', help='Evaluation metric.')
         self.parser.add_argument('--l_con', type=str, default='l1', help='l1, l2, ssim, etc')
         self.parser.add_argument('--DFR', action='store_true', help='DFR.')
+        self.parser.add_argument('--netg', type=str, default='Unet', help='Unet, CAE, etc')
+        self.parser.add_argument('--no_discriminator', action='store_true', help='not use the discriminator loss.')
         ##
         # Train
         self.parser.add_argument('--print_freq', type=int, default=100, help='frequency of showing training results on console')
