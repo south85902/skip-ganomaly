@@ -569,7 +569,7 @@ class UnetGenerator_DFR(nn.Module):
         unet_block = UnetSkipConnectionBlock(int(input_nc / 16), int(input_nc / 32), input_nc=None, submodule=unet_block, norm_layer=norm_layer)
         unet_block = UnetSkipConnectionBlock(int(input_nc / 8), int(input_nc / 16), input_nc=None, submodule=unet_block, norm_layer=norm_layer)
         unet_block = UnetSkipConnectionBlock(int(input_nc/4), int(input_nc / 8), input_nc=None, submodule=unet_block, norm_layer=norm_layer)
-        unet_block = UnetSkipConnectionBlock(output_nc, input_nc / 4, input_nc=input_nc, submodule=unet_block, outermost=True, norm_layer=norm_layer)
+        unet_block = UnetSkipConnectionBlock(output_nc, int(input_nc / 4), input_nc=input_nc, submodule=unet_block, outermost=True, norm_layer=norm_layer)
 
         self.model = unet_block
 

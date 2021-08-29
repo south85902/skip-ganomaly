@@ -76,7 +76,8 @@ class Skipganomaly(BaseModel):
         if self.opt.netg == 'Unet_DFR':
             self.netd = define_D_DFR(self.opt, norm='batch', use_sigmoid=False, init_type='normal')
         else:
-            self.netd = define_D(self.opt, norm='batch', use_sigmoid=False, init_type='normal')
+            #self.netd = define_D(self.opt, norm='batch', use_sigmoid=False, init_type='normal')
+            self.netd = define_D_DFR(self.opt, norm='batch', use_sigmoid=False, init_type='normal')
 
         ##
         if self.opt.resume != '':
