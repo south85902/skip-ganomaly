@@ -28,10 +28,13 @@ class AvgFeatAGG2d(nn.Module):
     # TODO: using unfold, fold, then xx.mean(dim=, keepdim=True)
     def forward(self, input):
         N, C, H, W = input.shape
+        #print('before unfold ', input.shape)
         output = self.unfold(input)  # (b, cxkxk, h*w)
+        #print('after unfold ', output.shape)
         output = torch.reshape(output, (N, C, int(self.kernel_size[0]*self.kernel_size[1]), int(self.output_size[0]*self.output_size[1])))
-        # print(output.shape)
+        #print('after reshape ', output.shape)
         output = torch.mean(output, dim=2)
+        #print('mean output ', output.shape)
         # output = self.fold(input)
         return output
 
@@ -63,9 +66,12 @@ class Extractor(nn.Module):
         self.dilation = dilation
 
         # feature processing
+        #print('patch size', self.patch_size)
+        #print('stride ', self.stride)
         padding_h = (self.patch_size[0] - self.stride[0]) // 2
         padding_w = (self.patch_size[1] - self.stride[1]) // 2
         self.padding = (padding_h, padding_w)
+        #print('padding ', self.padding)
         self.replicationpad = nn.ReplicationPad2d((padding_w, padding_w, padding_h, padding_h))
 
         self.out_h = int((self.map_size[0] + 2*self.padding[0] - (self.dilation * (self.patch_size[0] - 1) + 1)) / self.stride[0] + 1)
@@ -86,6 +92,7 @@ class Extractor(nn.Module):
             if self.is_agg:
                 # with aggregations
                 # resizing
+                #print("feat_map before interpolate:", feat_map.shape)
                 feat_map = nn.functional.interpolate(feat_map, size=self.map_size, mode=self.upsample, align_corners=True if self.upsample == 'bilinear' else None)
                 #print("feat_map:", feat_map.shape)
                 feat_map = self.replicationpad(feat_map)

@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 from lib.DFR.vgg import vgg19
+#from vgg import vgg19
 
 class VGG19(torch.nn.Module):
     """
