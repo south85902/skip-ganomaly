@@ -63,10 +63,11 @@ class Skipganomaly(BaseModel):
         # Create and initialize networks.
         if self.opt.netg == 'CAE':
             # PCA decide latent_dim
-            self.n_dim = None
-            self.netg = self.build_classifier()
+            # self.n_dim = None
+            # self.netg = self.build_classifier()
+
             # default latent_dim 200
-            #self.netg = FeatCAE(in_channels=self.opt.nc, latent_dim=200).to(self.device)
+            self.netg = FeatCAE(in_channels=self.opt.nc, latent_dim=200).to(self.device)
         elif self.opt.netg == 'Unet_DFR':
             self.netg = define_G_DFR(self.opt, norm='batch', use_dropout=False, init_type='normal')
         else:
