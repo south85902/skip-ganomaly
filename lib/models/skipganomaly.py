@@ -26,6 +26,7 @@ from lib.models.basemodel import BaseModel
 import shutil
 from lib.DFR.feature import Extractor
 from lib.DFR.feat_cae import FeatCAE
+from sklearn.decomposition import PCA
 
 class Skipganomaly(BaseModel):
     """GANomaly Class
@@ -43,21 +44,6 @@ class Skipganomaly(BaseModel):
         self.times = []
         self.total_steps = 0
 
-        ##
-        # Create and initialize networks.
-        if self.opt.netg == 'CAE':
-            print('net g', self.opt.netg)
-            self.netg = FeatCAE(in_channels=self.opt.nc, latent_dim=200).to(self.device)
-        elif self.opt.netg == 'Unet_DFR':
-            self.netg = define_G_DFR(self.opt, norm='batch', use_dropout=False, init_type='normal')
-        else:
-            self.netg = define_G(self.opt, norm='batch', use_dropout=False, init_type='normal')
-
-        if self.opt.netg == 'Unet_DFR':
-            self.netd = define_D_DFR(self.opt, norm='batch', use_sigmoid=False, init_type='normal')
-        else:
-            self.netd = define_D(self.opt, norm='batch', use_sigmoid=False, init_type='normal')
-
         # add CNN for DFR ===========================================================
         if self.opt.DFR:
             print('++++++++++++++DFR+++++++++++++++++++++')
@@ -72,6 +58,24 @@ class Skipganomaly(BaseModel):
                                        device=self.device)
             self.extractor.to(self.device)
         # add CNN for DFR ===========================================================
+
+        ##
+        # Create and initialize networks.
+        if self.opt.netg == 'CAE':
+            # PCA decide latent_dim
+            self.n_dim = None
+            self.netg = self.build_classifier()
+            # default latent_dim 200
+            #self.netg = FeatCAE(in_channels=self.opt.nc, latent_dim=200).to(self.device)
+        elif self.opt.netg == 'Unet_DFR':
+            self.netg = define_G_DFR(self.opt, norm='batch', use_dropout=False, init_type='normal')
+        else:
+            self.netg = define_G(self.opt, norm='batch', use_dropout=False, init_type='normal')
+
+        if self.opt.netg == 'Unet_DFR':
+            self.netd = define_D_DFR(self.opt, norm='batch', use_sigmoid=False, init_type='normal')
+        else:
+            self.netd = define_D(self.opt, norm='batch', use_sigmoid=False, init_type='normal')
 
         ##
         if self.opt.resume != '':
@@ -620,3 +624,38 @@ class Skipganomaly(BaseModel):
                 scores['labels'] = self.gt_labels.cpu()
                 hist = pd.DataFrame.from_dict(scores)
                 hist.to_csv(os.path.join(save_path, 'eval_histogram.csv'))
+
+    def build_classifier(self):
+        # self.load_dim(self.model_path)
+        if self.n_dim is None:
+            print("Estimating one class classifier AE parameter...")
+            feats = torch.Tensor()
+            for i, normal_img in enumerate(self.data.valid):
+                i += 1
+                if i > 1:
+                    break
+                normal_img = normal_img[0].to(self.device)
+                feat = self.extractor.feat_vec(normal_img)
+                feats = torch.cat([feats, feat.cpu()], dim=0)
+            # to numpy
+            feats = feats.detach().numpy()
+            print('feats shape ', feats.shape)
+            # estimate parameters for mlp
+            pca = PCA(n_components=0.90)  # 0.9 here try 0.8
+            pca.fit(feats)
+            n_dim, in_feat = pca.components_.shape
+            print("AE Parameter (in_feat, n_dim): ({}, {})".format(in_feat, n_dim))
+            self.n_dim = n_dim
+        else:
+            for i, normal_img in enumerate(self.data.valid):
+                i += 1
+                if i > 1:
+                    break
+                normal_img = normal_img.to(self.device)
+                feat = self.extractor.feat_vec(normal_img)
+            in_feat = feat.shape[1]
+
+        #print("BN?:", self.cfg.is_bn)
+        autoencoder = FeatCAE(in_channels=in_feat, latent_dim=self.n_dim, is_bn=True).to(self.device)
+
+        return autoencoder
