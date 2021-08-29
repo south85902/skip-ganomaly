@@ -145,7 +145,7 @@ class BasicDiscriminator(nn.Module):
     """
     def __init__(self, opt):
         super(BasicDiscriminator, self).__init__()
-        kernel_size = 3
+        kernel_size = 4
         isize = opt.isize
         nz = opt.nz
         nc = opt.nc
@@ -584,7 +584,7 @@ class UnetSkipConnectionBlock(nn.Module):
                  submodule=None, outermost=False, innermost=False, norm_layer=nn.BatchNorm2d, use_dropout=False):
         super(UnetSkipConnectionBlock, self).__init__()
         self.outermost = outermost
-        kernel_size = 3
+        kernel_size = 4
         if type(norm_layer) == functools.partial:
             use_bias = norm_layer.func == nn.InstanceNorm2d
         else:
