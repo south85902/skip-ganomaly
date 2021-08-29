@@ -315,7 +315,7 @@ class Skipganomaly(BaseModel):
             # RETURN
             return performance
 
-    def test(self, plot_hist=False, test_set='test'):
+    def test(self, plot_hist=True, test_set='test'):
         """ Test GANomaly model.
 
         Args:
@@ -497,8 +497,8 @@ class Skipganomaly(BaseModel):
             # self.gt_labels = torch.zeros(size=(len(self.data.valid.dataset),), dtype=torch.long, device=self.device)
             # self.features  = torch.zeros(size=(len(self.data.valid.dataset), self.opt.nz), dtype=torch.float32, device=self.device)
 
-            print("   Testing %s" % self.name)
-            print("   Test set %s" % test_set)
+            print("   Validation %s" % self.name)
+            print("   Val set %s" % test_set)
             if test_set == 'train':
                 test_data = self.data.train
             elif test_set == 'val':
