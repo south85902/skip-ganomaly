@@ -23,8 +23,8 @@ abn_scr = abn_scr.values
 nrm_scr = nrm_scr.values
 #nrm_scr = [1, 2, 3, 4, 5, 6]
 #abn_scr = [1, 2, 3, 4, 5, 6, 7, 3, 2, 4, 5]
-sns.distplot(nrm_scr, label=r'Normal Scores')
-sns.distplot(abn_scr, label=r'Abnormal Scores')
+sns.distplot(nrm_scr, label=r'Normal Scores', kde=False)
+sns.distplot(abn_scr, label=r'Abnormal Scores', kde=False)
 #plt.scatter(nrm_scr, color='b', linestyle='dotted', label=r'Normal Scores')
 #plt.scatter(abn_scr, color='r', linestyle='dotted', label=r'Abnormal Scores')
 plt.legend()
