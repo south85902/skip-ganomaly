@@ -515,7 +515,7 @@ class Skipganomaly(BaseModel):
             self.times = []
             self.total_steps = 0
             epoch_iter = 0
-            dst = os.path.join(self.opt.outf, self.opt.name, test_set, 'images')
+            dst = os.path.join(self.opt.outf, self.opt.name, test_set, 'images_all')
             if not os.path.isdir(dst):
                 os.makedirs(dst)
             else:
@@ -528,8 +528,14 @@ class Skipganomaly(BaseModel):
                 time_i = time.time()
 
                 # Forward - Pass
+
                 self.set_input(data)
-                self.fake = self.netg(self.input)
+                self.og_img = self.input
+                if self.opt.DFR:
+                    self.input = self.extractor(self.input)
+                    self.fake = self.netg(self.input)
+                else:
+                    self.fake = self.netg(self.input)
 
                 _, self.feat_real = self.netd(self.input)
                 _, self.feat_fake = self.netd(self.fake)
@@ -537,11 +543,21 @@ class Skipganomaly(BaseModel):
                 # Calculate the anomaly score.
                 si = self.input.size()
                 sz = self.feat_real.size()
-                rec = (self.input - self.fake).view(si[0], si[1] * si[2] * si[3])
+                if self.opt.l_con == 'l1':
+                    rec = (self.input - self.fake).view(si[0], si[1] * si[2] * si[3])
+                elif self.opt.l_con == 'ssim':
+                    rec = ssim_score(self.input, self.fake)
                 lat = (self.feat_real - self.feat_fake).view(sz[0], sz[1] * sz[2] * sz[3])
-                rec = torch.mean(torch.pow(rec, 2), dim=1)
+                if self.opt.l_con == 'l1':
+                    rec = torch.mean(torch.pow(rec, 2), dim=1)
+                elif self.opt.l_con == 'ssim':
+                    pass
                 lat = torch.mean(torch.pow(lat, 2), dim=1)
-                error = 0.9 * rec + 0.1 * lat
+
+                if self.opt.no_discriminator:
+                    error = rec
+                else:
+                    error = 0.9 * rec + 0.1 * lat
 
                 time_o = time.time()
 
@@ -555,11 +571,15 @@ class Skipganomaly(BaseModel):
                 # Save test images.
                 if self.opt.save_test_images:
                     # dst = os.path.join(self.opt.outf, self.opt.name, 'test', 'images')
-                    real, fake, _ = self.get_current_images()
+                    #real, fake, _ = self.get_current_images()
                     # vutils.save_image(real, '%s/real_%03d.eps' % (dst, i+1), normalize=True)
                     # vutils.save_image(fake, '%s/fake_%03d.eps' % (dst, i+1), normalize=True)
-                    vutils.save_image(real, '%s/real_%03d.png' % (dst, i + 1), normalize=True)
-                    vutils.save_image(fake, '%s/fake_%03d.png' % (dst, i + 1), normalize=True)
+                    for j in range(0, error.size(0)):
+                        vutils.save_image(self.og_img[j].data, '%s/real_%03d.png' % (dst, i * self.opt.batchsize+j), normalize=True)
+                        if not self.opt.DFR:
+                            vutils.save_image(self.fake[j].data, '%s/fake_%03d.png' % (dst, i * self.opt.batchsize+j), normalize=True)
+                    # vutils.save_image(real, '%s/real_%03d.png' % (dst, i + 1), normalize=True)
+                    # vutils.save_image(fake, '%s/fake_%03d.png' % (dst, i + 1), normalize=True)
             # Measure inference time.
             self.times = np.array(self.times)
             self.times = np.mean(self.times[:100] * 1000)

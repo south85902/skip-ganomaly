@@ -76,6 +76,11 @@ class Options():
         self.parser.add_argument('--lr_decay_iters', type=int, default=50, help='multiply by a gamma every lr_decay_iters iterations')
         self.isTrain = True
         self.opt = None
+        ##
+        # eval
+        self.parser.add_argument('--min', type=float, default=0, help='initial learning rate for adam')
+        self.parser.add_argument('--max', type=float, default=0, help='initial learning rate for adam')
+        self.parser.add_argument('--threshold', type=float, default=0.5, help='initial learning rate for adam')
 
     def parse(self):
         """ Parse Arguments.
