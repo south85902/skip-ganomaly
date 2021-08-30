@@ -604,9 +604,9 @@ class Skipganomaly(BaseModel):
             print('max ', torch.max(self.an_scores))
             # self.an_scores = (self.an_scores - torch.min(self.an_scores)) / \
             #                  (torch.max(self.an_scores) - torch.min(self.an_scores))
-
-            self.an_scores = (self.an_scores - torch.tensor(min, dtype=torch.float32, device=self.device)) / \
-                             (torch.tensor(max, dtype=torch.float32, device=self.device) - torch.tensor(min, dtype=torch.float32, device=self.device))
+            if self.opt.l_con == 'l1':
+                self.an_scores = (self.an_scores - torch.tensor(min, dtype=torch.float32, device=self.device)) / \
+                                 (torch.tensor(max, dtype=torch.float32, device=self.device) - torch.tensor(min, dtype=torch.float32, device=self.device))
             print('min ', torch.min(self.an_scores))
             print('max ', torch.max(self.an_scores))
             #auc = roc(self.gt_labels, self.an_scores, saveto=os.path.join(self.opt.outf, self.opt.name, test_set))
