@@ -27,6 +27,7 @@ import shutil
 from lib.DFR.feature import Extractor
 from lib.DFR.feat_cae import FeatCAE
 from sklearn.decomposition import PCA
+from shutil import copyfile
 
 class Skipganomaly(BaseModel):
     """GANomaly Class
@@ -522,6 +523,20 @@ class Skipganomaly(BaseModel):
                 shutil.rmtree(dst)
                 os.makedirs(dst)
 
+            nor_dst = os.path.join(self.opt.outf, self.opt.name, test_set, 'images_nor_error')
+            if not os.path.isdir(nor_dst):
+                os.makedirs(nor_dst)
+            else:
+                shutil.rmtree(nor_dst)
+                os.makedirs(nor_dst)
+
+            abn_dst = os.path.join(self.opt.outf, self.opt.name, test_set, 'images_abn_error')
+            if not os.path.isdir(abn_dst):
+                os.makedirs(abn_dst)
+            else:
+                shutil.rmtree(abn_dst)
+                os.makedirs(abn_dst)
+
             for i, data in enumerate(test_data, 0):
                 self.total_steps += self.opt.batchsize
                 epoch_iter += self.opt.batchsize
@@ -575,9 +590,9 @@ class Skipganomaly(BaseModel):
                     # vutils.save_image(real, '%s/real_%03d.eps' % (dst, i+1), normalize=True)
                     # vutils.save_image(fake, '%s/fake_%03d.eps' % (dst, i+1), normalize=True)
                     for j in range(0, error.size(0)):
-                        vutils.save_image(self.og_img[j].data, '%s/real_%03d.png' % (dst, i * self.opt.batchsize+j), normalize=True)
+                        vutils.save_image(self.og_img[j].data, '%s/%03d_real.png' % (dst, i * self.opt.batchsize+j), normalize=True)
                         if not self.opt.DFR:
-                            vutils.save_image(self.fake[j].data, '%s/fake_%03d.png' % (dst, i * self.opt.batchsize+j), normalize=True)
+                            vutils.save_image(self.fake[j].data, '%s/%03d_fake.png' % (dst, i * self.opt.batchsize+j), normalize=True)
                     # vutils.save_image(real, '%s/real_%03d.png' % (dst, i + 1), normalize=True)
                     # vutils.save_image(fake, '%s/fake_%03d.png' % (dst, i + 1), normalize=True)
             # Measure inference time.
@@ -611,7 +626,7 @@ class Skipganomaly(BaseModel):
                     predict = 1.0
                 else:
                     predict = 0.0
-                print('predict ', self.an_scores[i])
+                print('predict ', predict)
                 print('gt ', self.gt_labels[i])
                 if (self.gt_labels[i] == 0) and (predict == self.gt_labels[i]):
                     # tp+=1
@@ -619,15 +634,17 @@ class Skipganomaly(BaseModel):
                 elif (self.gt_labels[i] == 1) and (predict == self.gt_labels[i]):
                     tp += 1
                 elif (self.gt_labels[i] == 0) and (predict != self.gt_labels[i]):
+                    copyfile('%s/%03d_real.png' % (dst, i), '%s/%03d_real.png' % (nor_dst, i))
                     fp += 1
                 elif (self.gt_labels[i] == 1) and (predict != self.gt_labels[i]):
+                    copyfile('%s/%03d_real.png' % (dst, i), '%s/%03d_real.png' % (abn_dst, i))
                     # fp+=1
                     pass
 
-                print('tp ', tp / 5)
-                print('tn ', tn / len(self.an_scores))
-                print('fp ', fp / 1000)
-                print('fn', fn / len(self.an_scores))
+                # print('tp ', tp / 5)
+                # print('tn ', tn / len(self.an_scores))
+                # print('fp ', fp / 1000)
+                # print('fn', fn / len(self.an_scores))
 
             ##
             # PLOT HISTOGRAM
