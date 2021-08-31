@@ -145,7 +145,7 @@ class BasicDiscriminator(nn.Module):
     """
     def __init__(self, opt):
         super(BasicDiscriminator, self).__init__()
-        kernel_size = 4
+        kernel_size = 3
         isize = opt.isize
         nz = opt.nz
         nc = opt.nc
@@ -227,11 +227,11 @@ class BasicDiscriminator_DFR(nn.Module):
         feat = nn.Sequential()
         clas = nn.Sequential()
         # input is nc x isize x isize
-        feat.add_module('initial-conv-{0}-{1}'.format(nc, int(nc/2)),
-                        nn.Conv2d(nc, int(nc/2), kernel_size, 2, 1, bias=False))
+        feat.add_module('initial-conv-{0}-{1}'.format(nc, int(nc/14)),
+                        nn.Conv2d(nc, int(nc/14), kernel_size, 2, 1, bias=False))
         feat.add_module('initial-relu-{0}'.format(ndf),
                         nn.LeakyReLU(0.2, inplace=True))
-        csize, cndf = isize / 2, int(nc/2)
+        csize, cndf = isize / 2, int(nc/14)
 
         # Extra layers
         for t in range(n_extra_layers):
@@ -244,14 +244,14 @@ class BasicDiscriminator_DFR(nn.Module):
 
         while csize > 4:
             in_feat = cndf
-            out_feat = int(cndf / 2)
+            out_feat = cndf * 2
             feat.add_module('pyramid-{0}-{1}-conv'.format(in_feat, out_feat),
                             nn.Conv2d(in_feat, out_feat, kernel_size, 2, 1, bias=False))
             feat.add_module('pyramid-{0}-batchnorm'.format(out_feat),
                             nn.BatchNorm2d(out_feat))
             feat.add_module('pyramid-{0}-relu'.format(out_feat),
                             nn.LeakyReLU(0.2, inplace=True))
-            cndf = int(cndf / 2)
+            cndf = int(cndf * 2)
             csize = csize / 2
 
         # state size. K x 4 x 4
@@ -563,13 +563,14 @@ class UnetGenerator_DFR(nn.Module):
                  norm_layer=nn.BatchNorm2d, use_dropout=False):
         super(UnetGenerator_DFR, self).__init__()
         # construct unet structure
-        unet_block = UnetSkipConnectionBlock(int(input_nc / 32), int(input_nc / 32), input_nc=None, submodule=None, norm_layer=norm_layer, innermost=True)
+        first_nc = int(input_nc / 14)
+        unet_block = UnetSkipConnectionBlock(first_nc*8, first_nc*8, input_nc=None, submodule=None, norm_layer=norm_layer, innermost=True)
         for i in range(num_downs - 5):
-            unet_block = UnetSkipConnectionBlock(int(input_nc / 32), int(input_nc / 32), input_nc=None, submodule=unet_block, norm_layer=norm_layer, use_dropout=use_dropout)
-        unet_block = UnetSkipConnectionBlock(int(input_nc / 16), int(input_nc / 32), input_nc=None, submodule=unet_block, norm_layer=norm_layer)
-        unet_block = UnetSkipConnectionBlock(int(input_nc / 8), int(input_nc / 16), input_nc=None, submodule=unet_block, norm_layer=norm_layer)
-        unet_block = UnetSkipConnectionBlock(int(input_nc/4), int(input_nc / 8), input_nc=None, submodule=unet_block, norm_layer=norm_layer)
-        unet_block = UnetSkipConnectionBlock(output_nc, int(input_nc / 4), input_nc=input_nc, submodule=unet_block, outermost=True, norm_layer=norm_layer)
+            unet_block = UnetSkipConnectionBlock(first_nc*8, first_nc*8, input_nc=None, submodule=unet_block, norm_layer=norm_layer, use_dropout=use_dropout)
+        unet_block = UnetSkipConnectionBlock(first_nc*4, first_nc*8, input_nc=None, submodule=unet_block, norm_layer=norm_layer)
+        unet_block = UnetSkipConnectionBlock(first_nc*2, first_nc*4, input_nc=None, submodule=unet_block, norm_layer=norm_layer)
+        unet_block = UnetSkipConnectionBlock(first_nc, first_nc*2, input_nc=None, submodule=unet_block, norm_layer=norm_layer)
+        unet_block = UnetSkipConnectionBlock(output_nc, first_nc, input_nc=input_nc, submodule=unet_block, outermost=True, norm_layer=norm_layer)
 
         self.model = unet_block
 
@@ -584,7 +585,7 @@ class UnetSkipConnectionBlock(nn.Module):
                  submodule=None, outermost=False, innermost=False, norm_layer=nn.BatchNorm2d, use_dropout=False):
         super(UnetSkipConnectionBlock, self).__init__()
         self.outermost = outermost
-        kernel_size = 4
+        kernel_size = 3
         if type(norm_layer) == functools.partial:
             use_bias = norm_layer.func == nn.InstanceNorm2d
         else:

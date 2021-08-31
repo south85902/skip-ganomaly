@@ -58,6 +58,7 @@ class Skipganomaly(BaseModel):
                                        featmap_size=(self.opt.isize, self.opt.isize),
                                        device=self.device)
             self.extractor.to(self.device)
+            self.set_nc()
         # add CNN for DFR ===========================================================
 
         ##
@@ -74,7 +75,7 @@ class Skipganomaly(BaseModel):
         else:
             self.netg = define_G(self.opt, norm='batch', use_dropout=False, init_type='normal')
 
-        if self.opt.netg == 'Unet_DFR':
+        if self.opt.netg == 'Unet_DFR' or self.opt.netg == 'CAE':
             self.netd = define_D_DFR(self.opt, norm='batch', use_sigmoid=False, init_type='normal')
         else:
             self.netd = define_D(self.opt, norm='batch', use_sigmoid=False, init_type='normal')
@@ -697,3 +698,13 @@ class Skipganomaly(BaseModel):
         autoencoder = FeatCAE(in_channels=in_feat, latent_dim=self.n_dim, is_bn=True).to(self.device)
 
         return autoencoder
+
+    def set_nc(self):
+        for i, normal_img in enumerate(self.data.valid):
+            i += 1
+            if i > 1:
+                break
+            normal_img = normal_img[0].to(self.device)
+            feat = self.extractor.feat_vec(normal_img)
+        nc = feat.shape[1]
+        self.opt.nc = nc
