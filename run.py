@@ -74,19 +74,29 @@ import subprocess
 # return_code = subprocess.call("python test.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_DFR_Unet_DFR --isize 128 --niter 50 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l1 --load_weights --DFR --batchsize 4 --verbose --netg Unet_DFR", shell=True)
 # return_code = subprocess.call("python draw_distribute.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_DFR_Unet_DFR", shell=True)
 
-return_code = subprocess.call("python train.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_l1 --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase train --l_con l1 --batchsize 64 --verbose", shell=True)
-return_code = subprocess.call("python test.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_l1 --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l1 --load_weights --batchsize 64 --verbose", shell=True)
-return_code = subprocess.call("python draw_distribute.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_l1", shell=True)
+# return_code = subprocess.call("python train.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_l1 --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase train --l_con l1 --batchsize 64 --verbose", shell=True)
+# return_code = subprocess.call("python test.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_l1 --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l1 --load_weights --batchsize 64 --verbose", shell=True)
+# return_code = subprocess.call("python draw_distribute.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_l1", shell=True)
+#
+# return_code = subprocess.call("python train.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_l1_ngf32_ndf32 --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase train --l_con l1 --batchsize 64 --verbose --ngf 32 --ndf 32", shell=True)
+# return_code = subprocess.call("python test.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_l1_ngf32_ndf32 --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l1 --load_weights --batchsize 64 --verbose --ngf 32 --ndf 32", shell=True)
+# return_code = subprocess.call("python draw_distribute.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_l1_ngf32_ndf32", shell=True)
+#
+# return_code = subprocess.call("python train.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_l2 --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase train --l_con l2 --batchsize 64 --verbose", shell=True)
+# return_code = subprocess.call("python test.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_l2 --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --load_weights --batchsize 64 --verbose", shell=True)
+# return_code = subprocess.call("python draw_distribute.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_l2", shell=True)
+#
+# return_code = subprocess.call("python train.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_l2_ngf32_ndf32 --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase train --l_con l2 --batchsize 64 --verbose --ngf 32 --ndf 32", shell=True)
+# return_code = subprocess.call("python test.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_l2_ngf32_ndf32 --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --load_weights --batchsize 64 --verbose --ngf 32 --ndf 32", shell=True)
+# return_code = subprocess.call("python draw_distribute.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_l2_ngf32_ndf32", shell=True)
 
-return_code = subprocess.call("python train.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_l1_ngf32_ndf32 --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase train --l_con l1 --batchsize 64 --verbose --ngf 32 --ndf 32", shell=True)
-return_code = subprocess.call("python test.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_l1_ngf32_ndf32 --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l1 --load_weights --batchsize 64 --verbose --ngf 32 --ndf 32", shell=True)
-return_code = subprocess.call("python draw_distribute.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_l1_ngf32_ndf32", shell=True)
+return_code = subprocess.call("python train.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_l1_ngf16_ndf16 --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase train --l_con l1 --batchsize 64 --verbose --ngf 16 --ndf 16", shell=True)
+return_code = subprocess.call("python test.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_l1_ngf16_ndf16 --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l1 --load_weights --batchsize 64 --verbose --ngf 16 --ndf 16", shell=True)
+return_code = subprocess.call("python draw_distribute.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_l1_ngf16_ndf16 --phase val", shell=True)
 
-return_code = subprocess.call("python train.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_l2 --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase train --l_con l2 --batchsize 64 --verbose", shell=True)
-return_code = subprocess.call("python test.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_l2 --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --load_weights --batchsize 64 --verbose", shell=True)
-return_code = subprocess.call("python draw_distribute.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_l2", shell=True)
+return_code = subprocess.call("python train.py --dataset AnomalyDetectionData_train0.5 --name AnomalyDetectionData_train0.5_l1_ngf32_ndf32 --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase train --l_con l1 --batchsize 64 --verbose --ngf 32 --ndf 32", shell=True)
+return_code = subprocess.call("python test.py --dataset AnomalyDetectionData_train0.5 --name AnomalyDetectionData_train0.5_l1_ngf32_ndf32 --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l1 --load_weights --batchsize 64 --verbose --ngf 32 --ndf 32", shell=True)
+return_code = subprocess.call("python draw_distribute.py --dataset AnomalyDetectionData_train0.5 --name AnomalyDetectionData_train0.5_l1_ngf32_ndf32 --phase val", shell=True)
 
-return_code = subprocess.call("python train.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_l2_ngf32_ndf32 --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase train --l_con l2 --batchsize 64 --verbose --ngf 32 --ndf 32", shell=True)
-return_code = subprocess.call("python test.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_l2_ngf32_ndf32 --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --load_weights --batchsize 64 --verbose --ngf 32 --ndf 32", shell=True)
-return_code = subprocess.call("python draw_distribute.py --dataset AnomalyDetectionData_train0.1 --name AnomalyDetectionData_train0.1_l2_ngf32_ndf32", shell=True)
+
 print('done')
