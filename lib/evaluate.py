@@ -49,8 +49,11 @@ def get_precision(fpr, tpr, nor_num, abn_num):
     # normal_precision = []
     # abnormal_precision = []
     # for i in range(0, len(fpr)):
-    normal_precision = (nor_num * (1-fpr)) / ((nor_num * (1-fpr))+((abn_num * (1-tpr))))
-    abnormal_precision = (abn_num*tpr)/((nor_num*fpr)+(abn_num*tpr))
+    try:
+        normal_precision = (nor_num * (1-fpr)) / ((nor_num * (1-fpr))+((abn_num * (1-tpr))))
+        abnormal_precision = (abn_num*tpr)/((nor_num*fpr)+(abn_num*tpr))
+    except:
+        print('RuntimeWarning: invalid value encountered in true_divide')
     # normal_precision.append((nor_num * (1-fpr[i])) / ((nor_num * (1-fpr[i]))+((abn_num * (1-tpr[i])))))
     # abnormal_precision = (abn_num*tpr[i])/((nor_num*fpr[i])+(abn_num*tpr[i]))
     return normal_precision, abnormal_precision

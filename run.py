@@ -129,7 +129,10 @@ try:
     dataset = 'AnomalyDetectionData_train0.5'
     name = 'AnomalyDetectionData_train0.5'
     batchsize = 64
-    return_code = subprocess.call("python test.py --dataset %s --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --load_weights --batchsize %d --verbose" % (dataset, batchsize), shell=True)
+    try:
+        return_code = subprocess.call("python test.py --dataset %s --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --load_weights --batchsize %d --verbose" % (dataset, batchsize), shell=True)
+    except:
+        print('error devide zero')
     return_code = subprocess.call("python draw_distribute.py --dataset %s --phase val" % dataset, shell=True)
     return_code = subprocess.call("python eval.py --dataset %S --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights --l_con l2" % dataset, shell=True)
     return_code = subprocess.call("zip -r ./output/skipganomaly/%s/val/images_abn_error_train0.1.zip ./output/skipganomaly/%s/val/images_abn_error/" % name, shell=True)
@@ -143,7 +146,10 @@ try:
     dataset = 'AnomalyDetectionData_train0.1'
     name = 'AnomalyDetectionData_train0.1_ssim_k3'
     batchsize = 64
-    return_code = subprocess.call("python test.py --dataset %s --name %s --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --load_weights --batchsize %d --verbose" % (dataset, name, batchsize), shell=True)
+    try:
+        return_code = subprocess.call("python test.py --dataset %s --name %s --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --load_weights --batchsize %d --verbose" % (dataset, name, batchsize), shell=True)
+    except:
+        print('error devide zero')
     return_code = subprocess.call("python draw_distribute.py --dataset %s --name %s --phase val" % (dataset, name), shell=True)
     return_code = subprocess.call("python eval.py --dataset %S --name %s --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights --l_con l2" % (dataset, name), shell=True)
     return_code = subprocess.call("zip -r ./output/%s/val/images_abn_error_train0.1.zip ./output/%s/val/images_abn_error/" % name, shell=True)
@@ -162,7 +168,10 @@ try:
     discriminator = ''
     ndf = ''
     ngf = ''
-    return_code = subprocess.call("python test.py --dataset %s --name %s --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --load_weights --batchsize %d --verbose" % (dataset, name, batchsize), shell=True)
+    try:
+        return_code = subprocess.call("python test.py --dataset %s --name %s --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --load_weights --batchsize %d --verbose" % (dataset, name, batchsize), shell=True)
+    except:
+        print('error devide 0')
     return_code = subprocess.call("python draw_distribute.py --dataset %s --name %s --phase val" % (dataset, name), shell=True)
     return_code = subprocess.call("python eval.py --dataset %S --name %s --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights --l_con l2" % (dataset, name), shell=True)
     return_code = subprocess.call("zip -r ./output/%s/val/images_abn_error_train0.1.zip ./output/%s/val/images_abn_error/" % name, shell=True)
