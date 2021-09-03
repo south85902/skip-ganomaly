@@ -98,15 +98,15 @@ import subprocess
 # return_code = subprocess.call("python test.py --dataset AnomalyDetectionData_train0.5 --name AnomalyDetectionData_train0.5_l1_ngf32_ndf32 --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l1 --load_weights --batchsize 64 --verbose --ngf 32 --ndf 32", shell=True)
 # return_code = subprocess.call("python draw_distribute.py --dataset AnomalyDetectionData_train0.5 --name AnomalyDetectionData_train0.5_l1_ngf32_ndf32 --phase val", shell=True)
 
-def testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf):
+def testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks):
     return_code = subprocess.call(
-        "python test.py --dataset %s --name %s --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --load_weights --batchsize %d --verbose %s %s %s %s %s %s" % (
-        dataset, name, batchsize, dfr, netg, l_con, discriminator, ndf, ngf), shell=True)
+        "python test.py --dataset %s --name %s --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --load_weights --batchsize %d --verbose %s %s %s %s %s %s %s" % (
+        dataset, name, batchsize, dfr, netg, l_con, discriminator, ndf, ngf, ks), shell=True)
     return_code = subprocess.call("python draw_distribute.py --dataset %s --name %s --phase val" % (dataset, name),
                                   shell=True)
     return_code = subprocess.call(
-        "python eval.py --dataset %S --name %s --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights %s %s %s %s %s %s" % (
-        dataset, name, dfr, netg, l_con, discriminator, ndf, ngf), shell=True)
+        "python eval.py --dataset %S --name %s --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights %s %s %s %s %s %s %s" % (
+        dataset, name, dfr, netg, l_con, discriminator, ndf, ngf, ks), shell=True)
     return_code = subprocess.call(
         "zip -r ./output/%s/val/images_abn_error.zip ./output/%s/val/images_abn_error/" % name, shell=True)
     return_code = subprocess.call(
@@ -184,7 +184,7 @@ try:
     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
 except:
     from line_notify import sent_message
-    sent_message('error AnomalyDetectionData_train0.5_ssim_k3')
+    sent_message('error AnomalyDetectionData_train0.5_DFR')
 
 try:
     dataset = 'AnomalyDetectionData_train0.1'
@@ -234,21 +234,21 @@ except:
 
     sent_message('error AnomalyDetectionData_train0.1_DFR_Unet_noDis')
 
-try:
-    dataset = 'AnomalyDetectionData_train0.1'
-    name = 'AnomalyDetectionData_train0.1_DFR_Unet'
-    batchsize = 4
-    dfr = '--DFR'
-    netg = '--netg Unet'
-    l_con = '--l_con l2'
-    discriminator = ''
-    ndf = ''
-    ngf = ''
-    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
-except:
-    from line_notify import sent_message
-
-    sent_message('error AnomalyDetectionData_train0.1_DFR_Unet')
+# try:
+#     dataset = 'AnomalyDetectionData_train0.1'
+#     name = 'AnomalyDetectionData_train0.1_DFR_Unet'
+#     batchsize = 4
+#     dfr = '--DFR'
+#     netg = '--netg Unet'
+#     l_con = '--l_con l2'
+#     discriminator = ''
+#     ndf = ''
+#     ngf = ''
+#     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
+# except:
+#     from line_notify import sent_message
+#
+#     sent_message('error AnomalyDetectionData_train0.1_DFR_Unet')
 
 try:
     dataset = 'AnomalyDetectionData_train0.1'
@@ -260,11 +260,12 @@ try:
     discriminator = ''
     ndf = ''
     ngf = ''
+    ks = '--ks 3'
     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
 except:
     from line_notify import sent_message
 
-    sent_message('error AnomalyDetectionData_train0.1_DFR_Unet')
+    sent_message('error AnomalyDetectionData_train0.1_DFR_Unet_DFR')
 
 try:
     dataset = 'AnomalyDetectionData_train0.1'
@@ -276,6 +277,7 @@ try:
     discriminator = ''
     ndf = ''
     ngf = ''
+    ks = '--ks 3'
     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
 except:
     from line_notify import sent_message
@@ -292,6 +294,7 @@ try:
     discriminator = ''
     ndf = '--ndf 32'
     ngf = '--ngf 32'
+    ks = '--ks 3'
     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
 except:
     from line_notify import sent_message
@@ -308,6 +311,7 @@ try:
     discriminator = ''
     ndf = ''
     ngf = ''
+    ks = '--ks 3'
     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
 except:
     from line_notify import sent_message
@@ -324,6 +328,7 @@ try:
     discriminator = ''
     ndf = '--ndf 32'
     ngf = '--ngf 32'
+    ks = '--ks 3'
     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
 except:
     from line_notify import sent_message
@@ -340,6 +345,7 @@ try:
     discriminator = ''
     ndf = '--ndf 16'
     ngf = '--ngf 16'
+    ks = '--ks 3'
     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
 except:
     from line_notify import sent_message
@@ -356,6 +362,7 @@ try:
     discriminator = ''
     ndf = '--ndf 32'
     ngf = '--ngf 32'
+    ks = '--ks 3'
     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
 except:
     from line_notify import sent_message

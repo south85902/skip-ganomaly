@@ -145,7 +145,7 @@ class BasicDiscriminator(nn.Module):
     """
     def __init__(self, opt):
         super(BasicDiscriminator, self).__init__()
-        kernel_size = 4
+        kernel_size = opt.ks
         isize = opt.isize
         nz = opt.nz
         nc = opt.nc
@@ -214,7 +214,7 @@ class BasicDiscriminator_DFR(nn.Module):
     """
     def __init__(self, opt):
         super(BasicDiscriminator_DFR, self).__init__()
-        kernel_size = 4
+        kernel_size = opt.ks
         isize = opt.isize
         nz = opt.nz
         nc = opt.nc
@@ -384,7 +384,7 @@ def define_G(opt, norm='batch', use_dropout=False, init_type='normal'):
     netG = None
     norm_layer = get_norm_layer(norm_type=norm)
     num_layer = int(np.log2(opt.isize))
-    netG = UnetGenerator(opt.nc, opt.nc, num_layer, opt.ngf, norm_layer=norm_layer, use_dropout=use_dropout)
+    netG = UnetGenerator(opt.nc, opt.nc, num_layer, opt.ngf, norm_layer=norm_layer, use_dropout=use_dropout, opt=opt)
     return init_net(netG, init_type, opt.gpu_ids)
 
 ##
@@ -399,7 +399,7 @@ def define_G_DFR(opt, norm='batch', use_dropout=False, init_type='normal'):
     netG = None
     norm_layer = get_norm_layer(norm_type=norm)
     num_layer = int(np.log2(opt.isize))
-    netG = UnetGenerator_DFR(opt.nc, opt.nc, num_layer, opt.ngf, norm_layer=norm_layer, use_dropout=use_dropout)
+    netG = UnetGenerator_DFR(opt.nc, opt.nc, num_layer, opt.ngf, norm_layer=norm_layer, use_dropout=use_dropout, opt=opt)
     return init_net(netG, init_type, opt.gpu_ids)
 
 ##
@@ -541,17 +541,17 @@ class ResnetBlock(nn.Module):
 # at the bottleneck
 class UnetGenerator(nn.Module):
     def __init__(self, input_nc, output_nc, num_downs, ngf=64,
-                 norm_layer=nn.BatchNorm2d, use_dropout=False):
+                 norm_layer=nn.BatchNorm2d, use_dropout=False, opt=None):
         super(UnetGenerator, self).__init__()
 
         # construct unet structure
-        unet_block = UnetSkipConnectionBlock(ngf * 8, ngf * 8, input_nc=None, submodule=None, norm_layer=norm_layer, innermost=True)
+        unet_block = UnetSkipConnectionBlock(ngf * 8, ngf * 8, input_nc=None, submodule=None, norm_layer=norm_layer, innermost=True, opt=opt)
         for i in range(num_downs - 5):
-            unet_block = UnetSkipConnectionBlock(ngf * 8, ngf * 8, input_nc=None, submodule=unet_block, norm_layer=norm_layer, use_dropout=use_dropout)
-        unet_block = UnetSkipConnectionBlock(ngf * 4, ngf * 8, input_nc=None, submodule=unet_block, norm_layer=norm_layer)
-        unet_block = UnetSkipConnectionBlock(ngf * 2, ngf * 4, input_nc=None, submodule=unet_block, norm_layer=norm_layer)
-        unet_block = UnetSkipConnectionBlock(ngf, ngf * 2, input_nc=None, submodule=unet_block, norm_layer=norm_layer)
-        unet_block = UnetSkipConnectionBlock(output_nc, ngf, input_nc=input_nc, submodule=unet_block, outermost=True, norm_layer=norm_layer)
+            unet_block = UnetSkipConnectionBlock(ngf * 8, ngf * 8, input_nc=None, submodule=unet_block, norm_layer=norm_layer, use_dropout=use_dropout, opt=opt)
+        unet_block = UnetSkipConnectionBlock(ngf * 4, ngf * 8, input_nc=None, submodule=unet_block, norm_layer=norm_layer, opt=opt)
+        unet_block = UnetSkipConnectionBlock(ngf * 2, ngf * 4, input_nc=None, submodule=unet_block, norm_layer=norm_layer, opt=opt)
+        unet_block = UnetSkipConnectionBlock(ngf, ngf * 2, input_nc=None, submodule=unet_block, norm_layer=norm_layer, opt=opt)
+        unet_block = UnetSkipConnectionBlock(output_nc, ngf, input_nc=input_nc, submodule=unet_block, outermost=True, norm_layer=norm_layer, opt=opt)
 
         self.model = unet_block
 
@@ -560,17 +560,17 @@ class UnetGenerator(nn.Module):
 
 class UnetGenerator_DFR(nn.Module):
     def __init__(self, input_nc, output_nc, num_downs, ngf=64,
-                 norm_layer=nn.BatchNorm2d, use_dropout=False):
+                 norm_layer=nn.BatchNorm2d, use_dropout=False, opt=None):
         super(UnetGenerator_DFR, self).__init__()
         # construct unet structure
         first_nc = int(input_nc / 14)
-        unet_block = UnetSkipConnectionBlock(first_nc*8, first_nc*8, input_nc=None, submodule=None, norm_layer=norm_layer, innermost=True)
+        unet_block = UnetSkipConnectionBlock(first_nc*8, first_nc*8, input_nc=None, submodule=None, norm_layer=norm_layer, innermost=True, opt=opt)
         for i in range(num_downs - 5):
-            unet_block = UnetSkipConnectionBlock(first_nc*8, first_nc*8, input_nc=None, submodule=unet_block, norm_layer=norm_layer, use_dropout=use_dropout)
-        unet_block = UnetSkipConnectionBlock(first_nc*4, first_nc*8, input_nc=None, submodule=unet_block, norm_layer=norm_layer)
-        unet_block = UnetSkipConnectionBlock(first_nc*2, first_nc*4, input_nc=None, submodule=unet_block, norm_layer=norm_layer)
-        unet_block = UnetSkipConnectionBlock(first_nc, first_nc*2, input_nc=None, submodule=unet_block, norm_layer=norm_layer)
-        unet_block = UnetSkipConnectionBlock(output_nc, first_nc, input_nc=input_nc, submodule=unet_block, outermost=True, norm_layer=norm_layer)
+            unet_block = UnetSkipConnectionBlock(first_nc*8, first_nc*8, input_nc=None, submodule=unet_block, norm_layer=norm_layer, use_dropout=use_dropout, opt=opt)
+        unet_block = UnetSkipConnectionBlock(first_nc*4, first_nc*8, input_nc=None, submodule=unet_block, norm_layer=norm_layer, opt=opt)
+        unet_block = UnetSkipConnectionBlock(first_nc*2, first_nc*4, input_nc=None, submodule=unet_block, norm_layer=norm_layer, opt=opt)
+        unet_block = UnetSkipConnectionBlock(first_nc, first_nc*2, input_nc=None, submodule=unet_block, norm_layer=norm_layer, opt=opt)
+        unet_block = UnetSkipConnectionBlock(output_nc, first_nc, input_nc=input_nc, submodule=unet_block, outermost=True, norm_layer=norm_layer, opt=opt)
 
         self.model = unet_block
 
@@ -582,10 +582,10 @@ class UnetGenerator_DFR(nn.Module):
 #   |-- downsampling -- |submodule| -- upsampling --|
 class UnetSkipConnectionBlock(nn.Module):
     def __init__(self, outer_nc, inner_nc, input_nc=None,
-                 submodule=None, outermost=False, innermost=False, norm_layer=nn.BatchNorm2d, use_dropout=False):
+                 submodule=None, outermost=False, innermost=False, norm_layer=nn.BatchNorm2d, use_dropout=False, opt=None):
         super(UnetSkipConnectionBlock, self).__init__()
         self.outermost = outermost
-        kernel_size = 4
+        kernel_size = opt.ks
         if type(norm_layer) == functools.partial:
             use_bias = norm_layer.func == nn.InstanceNorm2d
         else:
