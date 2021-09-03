@@ -657,13 +657,13 @@ class Skipganomaly(BaseModel):
             self.an_scores = self.an_scores.float()
             self.gt_labels = self.gt_labels.float()
             for i in range(0, len(self.an_scores)):
-                print('score ', self.an_scores[i])
+                #print('score ', self.an_scores[i])
                 if (self.an_scores[i] >= threshold):
                     predict = 1.0
                 else:
                     predict = 0.0
-                print('predict ', predict)
-                print('gt ', self.gt_labels[i])
+                #print('predict ', predict)
+                #print('gt ', self.gt_labels[i])
                 if (self.gt_labels[i] == 0) and (predict == self.gt_labels[i]):
                     # tp+=1
                     pass
