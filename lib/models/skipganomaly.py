@@ -73,14 +73,14 @@ class Skipganomaly(BaseModel):
             # default latent_dim 200
             self.netg = FeatCAE(in_channels=self.opt.nc, latent_dim=200).to(self.device)
         elif self.opt.netg == 'Unet_DFR':
-            self.netg = define_G_DFR(self.opt, norm='batch', use_dropout=False, init_type='normal', opt=self.opt)
+            self.netg = define_G_DFR(self.opt, norm='batch', use_dropout=False, init_type='normal')
         else:
-            self.netg = define_G(self.opt, norm='batch', use_dropout=False, init_type='normal', opt=self.opt)
+            self.netg = define_G(self.opt, norm='batch', use_dropout=False, init_type='normal')
 
         if self.opt.netg == 'Unet_DFR':
-            self.netd = define_D_DFR(self.opt, norm='batch', use_sigmoid=False, init_type='normal', opt=self.opt)
+            self.netd = define_D_DFR(self.opt, norm='batch', use_sigmoid=False, init_type='normal')
         else:
-            self.netd = define_D(self.opt, norm='batch', use_sigmoid=False, init_type='normal', opt=self.opt)
+            self.netd = define_D(self.opt, norm='batch', use_sigmoid=False, init_type='normal')
 
         ##
         if self.opt.resume != '':
