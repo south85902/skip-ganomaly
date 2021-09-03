@@ -115,8 +115,8 @@ def testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, 
         "zip -r ./output/%s/val/images_all.zip ./output/%s/val/images_all/" % name, shell=True)
 
 try:
-    return_code = subprocess.call("python test.py --dataset AnomalyDetectionData_train0.1 --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --load_weights --batchsize 64 --verbose", shell=True)
-    return_code = subprocess.call("python draw_distribute.py --dataset AnomalyDetectionData_train0.1 --phase val", shell=True)
+    #return_code = subprocess.call("python test.py --dataset AnomalyDetectionData_train0.1 --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --load_weights --batchsize 64 --verbose", shell=True)
+    #return_code = subprocess.call("python draw_distribute.py --dataset AnomalyDetectionData_train0.1 --phase val", shell=True)
     return_code = subprocess.call("python eval.py --dataset AnomalyDetectionData_train0.1 --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --save_test_images --load_weights", shell=True)
     return_code = subprocess.call("zip -r ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_abn_error_train0.1.zip ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_abn_error/", shell=True)
     return_code = subprocess.call("zip -r ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_nor_error_train0.1.zip ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_nor_error/", shell=True)
