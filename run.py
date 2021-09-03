@@ -181,7 +181,8 @@ try:
     discriminator = ''
     ndf = ''
     ngf = ''
-    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
+    ks = ''
+    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
 except:
     from line_notify import sent_message
     sent_message('error AnomalyDetectionData_train0.5_DFR')
@@ -196,7 +197,8 @@ try:
     discriminator = '--no_discriminator'
     ndf = ''
     ngf = ''
-    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
+    ks = ''
+    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
 except:
     from line_notify import sent_message
 
@@ -212,7 +214,8 @@ try:
     discriminator = ''
     ndf = ''
     ngf = ''
-    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
+    ks = ''
+    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
 except:
     from line_notify import sent_message
 
@@ -228,7 +231,8 @@ try:
     discriminator = '--no_discriminator'
     ndf = ''
     ngf = ''
-    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
+    ks = ''
+    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, '')
 except:
     from line_notify import sent_message
 
@@ -261,7 +265,7 @@ try:
     ndf = ''
     ngf = ''
     ks = '--ks 3'
-    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
+    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
 except:
     from line_notify import sent_message
 
@@ -278,7 +282,7 @@ try:
     ndf = ''
     ngf = ''
     ks = '--ks 3'
-    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
+    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
 except:
     from line_notify import sent_message
 
@@ -295,7 +299,7 @@ try:
     ndf = '--ndf 32'
     ngf = '--ngf 32'
     ks = '--ks 3'
-    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
+    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
 except:
     from line_notify import sent_message
 
@@ -312,7 +316,7 @@ try:
     ndf = ''
     ngf = ''
     ks = '--ks 3'
-    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
+    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
 except:
     from line_notify import sent_message
 
@@ -329,7 +333,7 @@ try:
     ndf = '--ndf 32'
     ngf = '--ngf 32'
     ks = '--ks 3'
-    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
+    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
 except:
     from line_notify import sent_message
 
@@ -346,7 +350,7 @@ try:
     ndf = '--ndf 16'
     ngf = '--ngf 16'
     ks = '--ks 3'
-    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
+    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
 except:
     from line_notify import sent_message
 
@@ -363,7 +367,7 @@ try:
     ndf = '--ndf 32'
     ngf = '--ngf 32'
     ks = '--ks 3'
-    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
+    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
 except:
     from line_notify import sent_message
     sent_message('AnomalyDetectionData_train0.5_l1_ngf32_ndf32')
