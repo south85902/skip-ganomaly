@@ -118,7 +118,11 @@ try:
     return_code = subprocess.call("python eval.py --dataset AnomalyDetectionData_train0.1 --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights", shell=True)
     return_code = subprocess.call("zip -r ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_abn_error_train0.1.zip ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_abn_error/", shell=True)
     return_code = subprocess.call("zip -r ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_nor_error_train0.1.zip ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_nor_error/", shell=True)
+except:
+    from line_notify import sent_message
+    sent_message('error AnomalyDetectionData_train0.1')
 
+try:
     dataset = 'AnomalyDetectionData_train0.5'
     name = 'AnomalyDetectionData_train0.5'
     batchsize = 64
@@ -127,7 +131,11 @@ try:
     return_code = subprocess.call("python eval.py --dataset %S --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights" % dataset, shell=True)
     return_code = subprocess.call("zip -r ./output/skipganomaly/%s/val/images_abn_error_train0.1.zip ./output/skipganomaly/%s/val/images_abn_error/" % name, shell=True)
     return_code = subprocess.call("zip -r ./output/skipganomaly/%s/val/images_nor_error_train0.1.zip ./output/skipganomaly/%s/val/images_nor_error/" % name, shell=True)
+except:
+    from line_notify import sent_message
+    sent_message('error AnomalyDetectionData_train0.5')
 
+try:
     dataset = 'AnomalyDetectionData_train0.1'
     name = 'AnomalyDetectionData_train0.1_ssim_k3'
     batchsize = 64
@@ -136,7 +144,11 @@ try:
     return_code = subprocess.call("python eval.py --dataset %S --name %s --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights" % (dataset, name), shell=True)
     return_code = subprocess.call("zip -r ./output/%s/val/images_abn_error_train0.1.zip ./output/%s/val/images_abn_error/" % name, shell=True)
     return_code = subprocess.call("zip -r ./output/%s/val/images_nor_error_train0.1.zip ./output/%s/val/images_nor_error/" % name, shell=True)
+except:
+    from line_notify import sent_message
+    sent_message('error AnomalyDetectionData_train0.1_ssim_k3')
 
+try:
     dataset = 'AnomalyDetectionData_train0.5'
     name = 'AnomalyDetectionData_train0.5_ssim_k3'
     batchsize = 64
@@ -151,7 +163,11 @@ try:
     return_code = subprocess.call("python eval.py --dataset %S --name %s --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights" % (dataset, name), shell=True)
     return_code = subprocess.call("zip -r ./output/%s/val/images_abn_error_train0.1.zip ./output/%s/val/images_abn_error/" % name, shell=True)
     return_code = subprocess.call("zip -r ./output/%s/val/images_nor_error_train0.1.zip ./output/%s/val/images_nor_error/" % name, shell=True)
+except:
+    from line_notify import sent_message
+    sent_message('error AnomalyDetectionData_train0.5_ssim_k3')
 
+try:
     dataset = 'AnomalyDetectionData_train0.1'
     name = 'AnomalyDetectionData_train0.1_DFR'
     batchsize = 8
@@ -162,7 +178,11 @@ try:
     ndf = ''
     ngf = ''
     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
+except:
+    from line_notify import sent_message
+    sent_message('error AnomalyDetectionData_train0.5_ssim_k3')
 
+try:
     dataset = 'AnomalyDetectionData_train0.1'
     name = 'AnomalyDetectionData_train0.1_DFR_CAE_noDis'
     batchsize = 4
@@ -173,7 +193,12 @@ try:
     ndf = ''
     ngf = ''
     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
+except:
+    from line_notify import sent_message
 
+    sent_message('error AnomalyDetectionData_train0.1_DFR_CAE_noDis')
+
+try:
     dataset = 'AnomalyDetectionData_train0.1'
     name = 'AnomalyDetectionData_train0.1_DFR_CAE_lr0.00001'
     batchsize = 4
@@ -184,7 +209,12 @@ try:
     ndf = ''
     ngf = ''
     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
+except:
+    from line_notify import sent_message
 
+    sent_message('error AnomalyDetectionData_train0.1_DFR_CAE_lr0.00001')
+
+try:
     dataset = 'AnomalyDetectionData_train0.1'
     name = 'AnomalyDetectionData_train0.1_DFR_Unet_noDis'
     batchsize = 4
@@ -195,7 +225,12 @@ try:
     ndf = ''
     ngf = ''
     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
+except:
+    from line_notify import sent_message
 
+    sent_message('error AnomalyDetectionData_train0.1_DFR_Unet_noDis')
+
+try:
     dataset = 'AnomalyDetectionData_train0.1'
     name = 'AnomalyDetectionData_train0.1_DFR_Unet'
     batchsize = 4
@@ -206,7 +241,12 @@ try:
     ndf = ''
     ngf = ''
     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
+except:
+    from line_notify import sent_message
 
+    sent_message('error AnomalyDetectionData_train0.1_DFR_Unet')
+
+try:
     dataset = 'AnomalyDetectionData_train0.1'
     name = 'AnomalyDetectionData_train0.1_DFR_Unet_DFR'
     batchsize = 4
@@ -217,7 +257,12 @@ try:
     ndf = ''
     ngf = ''
     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
+except:
+    from line_notify import sent_message
 
+    sent_message('error AnomalyDetectionData_train0.1_DFR_Unet')
+
+try:
     dataset = 'AnomalyDetectionData_train0.1'
     name = 'AnomalyDetectionData_train0.1_l1'
     batchsize = 64
@@ -228,7 +273,12 @@ try:
     ndf = ''
     ngf = ''
     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
+except:
+    from line_notify import sent_message
 
+    sent_message('error AnomalyDetectionData_train0.1_l1')
+
+try:
     dataset = 'AnomalyDetectionData_train0.1'
     name = 'AnomalyDetectionData_train0.1_l1_ngf32_ndf32'
     batchsize = 64
@@ -239,7 +289,12 @@ try:
     ndf = '--ndf 32'
     ngf = '--ngf 32'
     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
+except:
+    from line_notify import sent_message
 
+    sent_message('error AnomalyDetectionData_train0.1_l1_ngf32_ndf32')
+
+try:
     dataset = 'AnomalyDetectionData_train0.1'
     name = 'AnomalyDetectionData_train0.1_l2'
     batchsize = 64
@@ -250,7 +305,12 @@ try:
     ndf = ''
     ngf = ''
     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
+except:
+    from line_notify import sent_message
 
+    sent_message('error AnomalyDetectionData_train0.1_l2')
+
+try:
     dataset = 'AnomalyDetectionData_train0.1'
     name = 'AnomalyDetectionData_train0.1_l2_ngf32_ndf32'
     batchsize = 64
@@ -261,7 +321,12 @@ try:
     ndf = '--ndf 32'
     ngf = '--ngf 32'
     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
+except:
+    from line_notify import sent_message
 
+    sent_message('error AnomalyDetectionData_train0.1_l2_ngf32_ndf32')
+
+try:
     dataset = 'AnomalyDetectionData_train0.1'
     name = 'AnomalyDetectionData_train0.1_l1_ngf16_ndf16'
     batchsize = 64
@@ -272,7 +337,12 @@ try:
     ndf = '--ndf 16'
     ngf = '--ngf 16'
     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
+except:
+    from line_notify import sent_message
 
+    sent_message('error AnomalyDetectionData_train0.1_l1_ngf16_ndf16')
+
+try:
     dataset = 'AnomalyDetectionData_train0.5'
     name = 'AnomalyDetectionData_train0.5_l1_ngf32_ndf32'
     batchsize = 64
@@ -285,8 +355,6 @@ try:
     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf)
 except:
     from line_notify import sent_message
-    sent_message('error')
-    sent_message('error')
-    sent_message('error')
+    sent_message('AnomalyDetectionData_train0.5_l1_ngf32_ndf32')
 
 print('done')
