@@ -117,7 +117,7 @@ def testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, 
 try:
     return_code = subprocess.call("python test.py --dataset AnomalyDetectionData_train0.1 --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --load_weights --batchsize 64 --verbose", shell=True)
     return_code = subprocess.call("python draw_distribute.py --dataset AnomalyDetectionData_train0.1 --phase val", shell=True)
-    return_code = subprocess.call("python eval.py --dataset AnomalyDetectionData_train0.1 --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights", shell=True)
+    return_code = subprocess.call("python eval.py --dataset AnomalyDetectionData_train0.1 --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --save_test_images --load_weights", shell=True)
     return_code = subprocess.call("zip -r ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_abn_error_train0.1.zip ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_abn_error/", shell=True)
     return_code = subprocess.call("zip -r ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_nor_error_train0.1.zip ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_nor_error/", shell=True)
     return_code = subprocess.call("zip -r ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_all.zip ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_all/", shell=True)
@@ -131,7 +131,7 @@ try:
     batchsize = 64
     return_code = subprocess.call("python test.py --dataset %s --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --load_weights --batchsize %d --verbose" % (dataset, batchsize), shell=True)
     return_code = subprocess.call("python draw_distribute.py --dataset %s --phase val" % dataset, shell=True)
-    return_code = subprocess.call("python eval.py --dataset %S --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights" % dataset, shell=True)
+    return_code = subprocess.call("python eval.py --dataset %S --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights --l_con l2" % dataset, shell=True)
     return_code = subprocess.call("zip -r ./output/skipganomaly/%s/val/images_abn_error_train0.1.zip ./output/skipganomaly/%s/val/images_abn_error/" % name, shell=True)
     return_code = subprocess.call("zip -r ./output/skipganomaly/%s/val/images_nor_error_train0.1.zip ./output/skipganomaly/%s/val/images_nor_error/" % name, shell=True)
     return_code = subprocess.call("zip -r ./output/skipganomaly/%s/val/images_all.zip ./output/skipganomaly/%s/val/images_all/" % name, shell=True)
@@ -145,7 +145,7 @@ try:
     batchsize = 64
     return_code = subprocess.call("python test.py --dataset %s --name %s --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --load_weights --batchsize %d --verbose" % (dataset, name, batchsize), shell=True)
     return_code = subprocess.call("python draw_distribute.py --dataset %s --name %s --phase val" % (dataset, name), shell=True)
-    return_code = subprocess.call("python eval.py --dataset %S --name %s --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights" % (dataset, name), shell=True)
+    return_code = subprocess.call("python eval.py --dataset %S --name %s --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights --l_con l2" % (dataset, name), shell=True)
     return_code = subprocess.call("zip -r ./output/%s/val/images_abn_error_train0.1.zip ./output/%s/val/images_abn_error/" % name, shell=True)
     return_code = subprocess.call("zip -r ./output/%s/val/images_nor_error_train0.1.zip ./output/%s/val/images_nor_error/" % name, shell=True)
 except:
@@ -164,7 +164,7 @@ try:
     ngf = ''
     return_code = subprocess.call("python test.py --dataset %s --name %s --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --load_weights --batchsize %d --verbose" % (dataset, name, batchsize), shell=True)
     return_code = subprocess.call("python draw_distribute.py --dataset %s --name %s --phase val" % (dataset, name), shell=True)
-    return_code = subprocess.call("python eval.py --dataset %S --name %s --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights" % (dataset, name), shell=True)
+    return_code = subprocess.call("python eval.py --dataset %S --name %s --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights --l_con l2" % (dataset, name), shell=True)
     return_code = subprocess.call("zip -r ./output/%s/val/images_abn_error_train0.1.zip ./output/%s/val/images_abn_error/" % name, shell=True)
     return_code = subprocess.call("zip -r ./output/%s/val/images_nor_error_train0.1.zip ./output/%s/val/images_nor_error/" % name, shell=True)
 except:
