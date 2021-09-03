@@ -28,6 +28,8 @@ from lib.DFR.feature import Extractor
 from lib.DFR.feat_cae import FeatCAE
 from sklearn.decomposition import PCA
 from shutil import copyfile
+import cv2
+import yaml
 
 class Skipganomaly(BaseModel):
     """GANomaly Class
@@ -367,7 +369,8 @@ class Skipganomaly(BaseModel):
             else:
                 shutil.rmtree(dst)
                 os.makedirs(dst)
-
+            self.pixel_max = 0
+            self.pixel_min = 1
             for i, data in enumerate(test_data, 0):
                 self.total_steps += self.opt.batchsize
                 epoch_iter += self.opt.batchsize
@@ -399,12 +402,25 @@ class Skipganomaly(BaseModel):
                     rec = torch.mean(torch.pow(rec, 2), dim=1)
                 elif self.opt.l_con == 'ssim':
                     pass
+
                 lat = torch.mean(torch.pow(lat, 2), dim=1)
 
                 if self.opt.no_discriminator:
                     error = rec
                 else:
                     error = 0.9 * rec + 0.1 * lat
+
+                # +++++++++++++++ heatmap #
+
+                h = torch.mean((self.input - self.fake) ** 2, dim=1)
+                temp_pixel_max = h.max().data
+                temp_pixel_min = h.min().data
+                if temp_pixel_max > self.pixel_max:
+                    self.pixel_max = temp_pixel_max
+                if temp_pixel_min < self.pixel_min:
+                    self.pixel_min = temp_pixel_min
+
+                # ++++++++++++++++++ heatmap #
 
                 time_o = time.time()
 
@@ -434,7 +450,7 @@ class Skipganomaly(BaseModel):
                 self.an_scores = (self.an_scores - torch.min(self.an_scores)) / \
                                  (torch.max(self.an_scores) - torch.min(self.an_scores))
             auc = roc(self.gt_labels, self.an_scores, saveto=os.path.join(self.opt.outf, self.opt.name, test_set))
-            performance = OrderedDict([('Avg Run Time (ms/batch)', self.times), ('AUC', auc), ('min', min), ('max', max)])
+            performance = OrderedDict([('Avg Run Time (ms/batch)', self.times), ('AUC', auc), ('min', min), ('max', max), ('pixel min', self.pixel_min), ('pixel max', self.pixel_max)])
 
             ##
             # PLOT HISTOGRAM
@@ -442,14 +458,20 @@ class Skipganomaly(BaseModel):
                 save_path = os.path.join(self.opt.outf, self.opt.name, test_set)
                 plt.ion()
                 # Create data frame for scores and labels.
-                scores['min'] = min.cpu()
-                scores['max'] = max.cpu()
+                scores['min'] = min.cpu().numpy()
+                scores['max'] = max.cpu().numpy()
+                scores['pixel_min'] = self.pixel_min.cpu().numpy()
+                scores['pixel_max'] = self.pixel_max.cpu().numpy()
                 scores['rec scores'] = self.rec_scores.cpu()
                 scores['lat scores'] = self.lat_scores.cpu()
                 scores['scores'] = self.an_scores.cpu()
                 scores['labels'] = self.gt_labels.cpu()
                 hist = pd.DataFrame.from_dict(scores)
                 hist.to_csv(os.path.join(save_path, 'histogram.csv'))
+
+                data = dict(min=float(min.cpu().numpy()), max=float(max.cpu().numpy()), pixel_min=float(self.pixel_min.cpu().numpy()), pixel_max=float(self.pixel_max.cpu().numpy()))
+                with open(os.path.join(save_path, 'value.yaml'), 'w') as outfile:
+                    yaml.dump(data, outfile, default_flow_style=False)
 
                 # Filter normal and abnormal scores.
                 #abn_scr = hist.loc[hist.labels == 1]['scores']
@@ -481,7 +503,7 @@ class Skipganomaly(BaseModel):
             # RETURN
             return performance
 
-    def eval(self, plot_hist=False, test_set='test', min=0.0, max=0.0, threshold=0.0):
+    def eval(self, plot_hist=False, test_set='test', min=0.0, max=0.0, pixel_min=0, pixel_max=1, threshold=0.0):
         """ Test GANomaly model.
 
                 Args:
@@ -598,10 +620,18 @@ class Skipganomaly(BaseModel):
                     #real, fake, _ = self.get_current_images()
                     # vutils.save_image(real, '%s/real_%03d.eps' % (dst, i+1), normalize=True)
                     # vutils.save_image(fake, '%s/fake_%03d.eps' % (dst, i+1), normalize=True)
+
+                    # heatmap++++++++++++++++++++++++++++
+                    h = torch.mean((self.input - self.fake) ** 2, dim=1)
+                    h = self.min_max_norm(h, pixel_min, pixel_max)
+                    # heatmap++++++++++++++++++++++++++++
                     for j in range(0, error.size(0)):
                         vutils.save_image(self.og_img[j].data, '%s/%03d_real.png' % (dst, i * self.opt.batchsize+j), normalize=True)
                         if not self.opt.DFR:
                             vutils.save_image(self.fake[j].data, '%s/%03d_fake.png' % (dst, i * self.opt.batchsize+j), normalize=True)
+
+                        heat = self.cvt2heatmap(h[j].cpu().numpy()*255)
+                        self.save_heatmap('%s/%03d_heat.png' % (dst, i * self.opt.batchsize+j), heat)
                     # vutils.save_image(real, '%s/real_%03d.png' % (dst, i + 1), normalize=True)
                     # vutils.save_image(fake, '%s/fake_%03d.png' % (dst, i + 1), normalize=True)
             # Measure inference time.
@@ -609,15 +639,12 @@ class Skipganomaly(BaseModel):
             self.times = np.mean(self.times[:100] * 1000)
 
             # Scale error vector between [0, 1]
-            print('min ', torch.min(self.an_scores))
-            print('max ', torch.max(self.an_scores))
             # self.an_scores = (self.an_scores - torch.min(self.an_scores)) / \
             #                  (torch.max(self.an_scores) - torch.min(self.an_scores))
             if self.opt.l_con == 'l1':
                 self.an_scores = (self.an_scores - torch.tensor(min, dtype=torch.float32, device=self.device)) / \
                                  (torch.tensor(max, dtype=torch.float32, device=self.device) - torch.tensor(min, dtype=torch.float32, device=self.device))
-            print('min ', torch.min(self.an_scores))
-            print('max ', torch.max(self.an_scores))
+
             #auc = roc(self.gt_labels, self.an_scores, saveto=os.path.join(self.opt.outf, self.opt.name, test_set))
             #performance = OrderedDict(
             #    [('Avg Run Time (ms/batch)', self.times), ('AUC', auc), ('min', torch.min(self.an_scores)),
@@ -650,10 +677,10 @@ class Skipganomaly(BaseModel):
                     # fp+=1
                     pass
 
-                # print('tp ', tp / 5)
-                # print('tn ', tn / len(self.an_scores))
-                # print('fp ', fp / 1000)
-                # print('fn', fn / len(self.an_scores))
+                print('tp ', tp / len(self.gt_labels == 1))
+                print('tn ', tn / len(self.an_scores))
+                print('fp ', fp / len(self.gt_labels == 0))
+                print('fn', fn / len(self.an_scores))
 
             ##
             # PLOT HISTOGRAM
@@ -716,3 +743,13 @@ class Skipganomaly(BaseModel):
             feat = self.extractor.feat_vec(normal_img)
         nc = feat.shape[1]
         self.opt.nc = nc
+
+    def min_max_norm(self, image, pixel_min, pixel_max):
+        return (image-pixel_min)/(pixel_max - pixel_min)
+
+    def cvt2heatmap(self, gray):
+        heatmap = cv2.applyColorMap(np.uint8(gray), cv2.COLORMAP_JET)
+        return heatmap
+
+    def save_heatmap(sefl, des, heatmap):
+        cv2.imwrite(des, heatmap)

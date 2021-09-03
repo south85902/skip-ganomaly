@@ -79,9 +79,12 @@ class Options():
         self.opt = None
         ##
         # eval
-        self.parser.add_argument('--min', type=float, default=0, help='initial learning rate for adam')
-        self.parser.add_argument('--max', type=float, default=0, help='initial learning rate for adam')
-        self.parser.add_argument('--threshold', type=float, default=0.5, help='initial learning rate for adam')
+        self.parser.add_argument('--min', type=float, default=0, help='min value')
+        self.parser.add_argument('--max', type=float, default=0, help='max value')
+        self.parser.add_argument('--pixel_min', type=float, default=0, help='pixel min value')
+        self.parser.add_argument('--pixel_max', type=float, default=1, help='pixel max value')
+        self.parser.add_argument('--threshold', type=float, default=0.5, help='threshold')
+        #self.parser.add_argument('--heatmap', action='store_true', help='heatmap.')
 
     def parse(self):
         """ Parse Arguments.
