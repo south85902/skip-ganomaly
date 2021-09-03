@@ -586,7 +586,7 @@ class Skipganomaly(BaseModel):
                 # Calculate the anomaly score.
                 si = self.input.size()
                 sz = self.feat_real.size()
-                if self.opt.l_con == 'l1':
+                if self.opt.l_con == 'l1' or self.opt.l_con == 'l2':
                     rec = (self.input - self.fake).view(si[0], si[1] * si[2] * si[3])
                 elif self.opt.l_con == 'ssim':
                     rec = ssim_score(self.input, self.fake)
