@@ -51,7 +51,7 @@ def main():
     test_set = opt.phase
 
     save_path = os.path.join(opt.outf, opt.name, test_set)
-
+    sent_message(opt.name)
     # get value.yaml
     with open(os.path.join(save_path, 'value.yaml'), 'r') as f:
         data = yaml.load(f, Loader=yaml.FullLoader)
@@ -61,6 +61,8 @@ def main():
     opt.pixel_min = float(data['pixel_min'])
     opt.pixel_max = float(data['pixel_max'])
     opt.threshold = get_threshold(opt)
+    sent_message(opt.threshold)
+
     model.eval(plot_hist=True, test_set=test_set, min=opt.min, max=opt.max, pixel_min=opt.pixel_min, pixel_max=opt.pixel_max, threshold=opt.threshold)
     sent_message('eval done')
 

@@ -677,10 +677,10 @@ class Skipganomaly(BaseModel):
                     # fp+=1
                     pass
 
-                print('tp ', tp / len(self.gt_labels == 1))
-                print('tn ', tn / len(self.an_scores))
-                print('fp ', fp / len(self.gt_labels == 0))
-                print('fn', fn / len(self.an_scores))
+                # print('tp ', tp / len(self.gt_labels == 1))
+                # print('tn ', tn / len(self.an_scores))
+                # print('fp ', fp / len(self.gt_labels == 0))
+                # print('fn', fn / len(self.an_scores))
 
             ##
             # PLOT HISTOGRAM
