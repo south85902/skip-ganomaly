@@ -622,15 +622,15 @@ class Skipganomaly(BaseModel):
                     # vutils.save_image(fake, '%s/fake_%03d.eps' % (dst, i+1), normalize=True)
 
                     # heatmap++++++++++++++++++++++++++++
-                    h = torch.mean((self.input - self.fake) ** 2, dim=1)
-                    h = self.min_max_norm(h, pixel_min, pixel_max)
+                    rec = torch.mean((self.input - self.fake) ** 2, dim=1)
+                    rec = self.min_max_norm(rec, pixel_min, pixel_max)
                     # heatmap++++++++++++++++++++++++++++
                     for j in range(0, error.size(0)):
                         vutils.save_image(self.og_img[j].data, '%s/%03d_real.png' % (dst, i * self.opt.batchsize+j), normalize=True)
                         if not self.opt.DFR:
                             vutils.save_image(self.fake[j].data, '%s/%03d_fake.png' % (dst, i * self.opt.batchsize+j), normalize=True)
 
-                        heat = self.cvt2heatmap(h[j].cpu().numpy()*255)
+                        heat = self.cvt2heatmap(rec[j].cpu().numpy()*255)
                         self.save_heatmap('%s/%03d_heat.png' % (dst, i * self.opt.batchsize+j), heat)
                     # vutils.save_image(real, '%s/real_%03d.png' % (dst, i + 1), normalize=True)
                     # vutils.save_image(fake, '%s/fake_%03d.png' % (dst, i + 1), normalize=True)
@@ -671,7 +671,7 @@ class Skipganomaly(BaseModel):
                     tp += 1
                 elif (self.gt_labels[i] == 0) and (predict != self.gt_labels[i]):
                     copyfile('%s/%03d_real.png' % (dst, i), '%s/%03d_real.png' % (nor_dst, i))
-                    copyfile('%s/%03d_real.png' % (dst, i), '%s/%03d_heat.png' % (nor_dst, i))
+                    copyfile('%s/%03d_heal.png' % (dst, i), '%s/%03d_heat.png' % (nor_dst, i))
                     fp += 1
                 elif (self.gt_labels[i] == 1) and (predict != self.gt_labels[i]):
                     copyfile('%s/%03d_real.png' % (dst, i), '%s/%03d_real.png' % (abn_dst, i))
