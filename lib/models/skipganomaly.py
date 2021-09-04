@@ -671,7 +671,7 @@ class Skipganomaly(BaseModel):
                     tp += 1
                 elif (self.gt_labels[i] == 0) and (predict != self.gt_labels[i]):
                     copyfile('%s/%03d_real.png' % (dst, i), '%s/%03d_real.png' % (nor_dst, i))
-                    copyfile('%s/%03d_heal.png' % (dst, i), '%s/%03d_heat.png' % (nor_dst, i))
+                    copyfile('%s/%03d_heat.png' % (dst, i), '%s/%03d_heat.png' % (nor_dst, i))
                     fp += 1
                 elif (self.gt_labels[i] == 1) and (predict != self.gt_labels[i]):
                     copyfile('%s/%03d_real.png' % (dst, i), '%s/%03d_real.png' % (abn_dst, i))
