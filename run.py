@@ -100,7 +100,7 @@ import subprocess
 
 def testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks):
     # return_code = subprocess.call(
-    #     "python test.py --dataset %s --name %s --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --load_weights --batchsize %d --verbose %s %s %s %s %s %s %s" % (
+    #     "python test.py --dataset %s --name %s --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --load_weights --batchsize %d --verbose %s %s %s %s %s %s %s" % (
     #     dataset, name, batchsize, dfr, netg, l_con, discriminator, ndf, ngf, ks), shell=True)
     # return_code = subprocess.call("python draw_distribute.py --dataset %s --name %s --phase val" % (dataset, name),
     #                               shell=True)
