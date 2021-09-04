@@ -641,7 +641,7 @@ class Skipganomaly(BaseModel):
             # Scale error vector between [0, 1]
             # self.an_scores = (self.an_scores - torch.min(self.an_scores)) / \
             #                  (torch.max(self.an_scores) - torch.min(self.an_scores))
-            if self.opt.l_con == 'l1':
+            if self.opt.l_con != 'ssim':
                 self.an_scores = (self.an_scores - torch.tensor(min, dtype=torch.float32, device=self.device)) / \
                                  (torch.tensor(max, dtype=torch.float32, device=self.device) - torch.tensor(min, dtype=torch.float32, device=self.device))
 
