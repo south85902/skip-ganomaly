@@ -118,8 +118,8 @@ try:
     #return_code = subprocess.call("python test.py --dataset AnomalyDetectionData_train0.1 --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --load_weights --batchsize 64 --verbose", shell=True)
     #return_code = subprocess.call("python draw_distribute.py --dataset AnomalyDetectionData_train0.1 --phase val", shell=True)
     return_code = subprocess.call("python eval.py --dataset AnomalyDetectionData_train0.1 --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --save_test_images --load_weights", shell=True)
-    return_code = subprocess.call("zip -r ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_abn_error_train0.1.zip ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_abn_error/", shell=True)
-    return_code = subprocess.call("zip -r ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_nor_error_train0.1.zip ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_nor_error/", shell=True)
+    return_code = subprocess.call("zip -r ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_abn_error.zip ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_abn_error/", shell=True)
+    return_code = subprocess.call("zip -r ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_nor_error.zip ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_nor_error/", shell=True)
     return_code = subprocess.call("zip -r ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_all.zip ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_all/", shell=True)
 except:
     from line_notify import sent_message
@@ -132,8 +132,8 @@ try:
     # return_code = subprocess.call("python test.py --dataset %s --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --load_weights --batchsize %d --verbose" % (dataset, batchsize), shell=True)
     # return_code = subprocess.call("python draw_distribute.py --dataset %s --phase val" % dataset, shell=True)
     return_code = subprocess.call("python eval.py --dataset %s --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights --l_con l2" % dataset, shell=True)
-    return_code = subprocess.call("zip -r ./output/skipganomaly/%s/val/images_abn_error_train0.1.zip ./output/skipganomaly/%s/val/images_abn_error/" % (name, name), shell=True)
-    return_code = subprocess.call("zip -r ./output/skipganomaly/%s/val/images_nor_error_train0.1.zip ./output/skipganomaly/%s/val/images_nor_error/" % (name, name), shell=True)
+    return_code = subprocess.call("zip -r ./output/skipganomaly/%s/val/images_abn_error.zip ./output/skipganomaly/%s/val/images_abn_error/" % (name, name), shell=True)
+    return_code = subprocess.call("zip -r ./output/skipganomaly/%s/val/images_nor_error.zip ./output/skipganomaly/%s/val/images_nor_error/" % (name, name), shell=True)
     return_code = subprocess.call("zip -r ./output/skipganomaly/%s/val/images_all.zip ./output/skipganomaly/%s/val/images_all/" % (name, name), shell=True)
 except:
     from line_notify import sent_message
@@ -146,8 +146,9 @@ try:
     # return_code = subprocess.call("python test.py --dataset %s --name %s --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --load_weights --batchsize %d --verbose" % (dataset, name, batchsize), shell=True)
     # return_code = subprocess.call("python draw_distribute.py --dataset %s --name %s --phase val" % (dataset, name), shell=True)
     return_code = subprocess.call("python eval.py --dataset %s --name %s --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights --l_con l2" % (dataset, name), shell=True)
-    return_code = subprocess.call("zip -r ./output/%s/val/images_abn_error_train0.1.zip ./output/%s/val/images_abn_error/" % (name, name), shell=True)
-    return_code = subprocess.call("zip -r ./output/%s/val/images_nor_error_train0.1.zip ./output/%s/val/images_nor_error/" % (name, name), shell=True)
+    return_code = subprocess.call("zip -r ./output/%s/val/images_abn_error.zip ./output/%s/val/images_abn_error/" % (name, name), shell=True)
+    return_code = subprocess.call("zip -r ./output/%s/val/images_nor_error.zip ./output/%s/val/images_nor_error/" % (name, name), shell=True)
+    return_code = subprocess.call("zip -r ./output/%s/val/images_all.zip ./output/%s/val/images_all/" % (name, name), shell=True)
 except:
     from line_notify import sent_message
     sent_message('error AnomalyDetectionData_train0.1_ssim_k3')
@@ -167,6 +168,7 @@ try:
     return_code = subprocess.call("python eval.py --dataset %s --name %s --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights --l_con l2" % (dataset, name), shell=True)
     return_code = subprocess.call("zip -r ./output/%s/val/images_abn_error_train0.1.zip ./output/%s/val/images_abn_error/" % (name, name), shell=True)
     return_code = subprocess.call("zip -r ./output/%s/val/images_nor_error_train0.1.zip ./output/%s/val/images_nor_error/" % (name, name), shell=True)
+    return_code = subprocess.call("zip -r ./output/%s/val/images_all.zip ./output/%s/val/images_all/" % (name, name), shell=True)
 except:
     from line_notify import sent_message
     sent_message('error AnomalyDetectionData_train0.5_ssim_k3')
