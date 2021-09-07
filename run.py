@@ -388,7 +388,7 @@ try:
     netg = '--netg CAE'
     l_con = '--l_con l1'
     discriminator = ''
-    ndf = '-- ndf 16'
+    ndf = '--ndf 16'
     ngf = ''
     ks = ''
     train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
