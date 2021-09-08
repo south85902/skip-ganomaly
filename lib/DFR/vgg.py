@@ -23,7 +23,7 @@ model_dirs = {
     'vgg11': '/home/jovyan/work/model-checkpoints/vgg11-bbd30ac9.pth',
     'vgg13': '/home/jovyan/work/model-checkpoints/vgg13-c768596a.pth',
     'vgg16': '/home/jovyan/work/model-checkpoints/vgg16-397923af.pth',
-    'vgg19': '/home/jovyan/work/model-checkpoints/vgg19-dcbb9e9d.pth',
+    'vgg19': '../vgg_weights/best.pth',
 }
 
 class VGG(nn.Module):
@@ -101,7 +101,7 @@ def _vgg(arch, cfg, batch_norm, pretrained, progress, **kwargs):
         # TODO
         state_dict = load_state_dict_from_url(model_urls[arch],
                                               progress=progress)
-        # state_dict = torch.load(model_dirs[arch])    # if we have the pretrained files
+        #state_dict = torch.load(model_dirs[arch])    # if we have the pretrained files
         model.load_state_dict(state_dict)
     return model
 
