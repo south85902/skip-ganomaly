@@ -208,7 +208,7 @@ class Skipganomaly(BaseModel):
         self.optimizer_d.zero_grad()
         self.backward_d()
         self.optimizer_d.step()
-        if self.err_d < 1e-5: self.reinit_d()
+        #if self.err_d < 1e-5: self.reinit_d()
     ##
     def optimize_params(self):
         """ Optimize netD and netG  networks.
