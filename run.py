@@ -428,7 +428,8 @@ try:
     ndf = '--ndf 8'
     ngf = ''
     ks = ''
-    train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
+    wgan = ''
+    train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan)
     l_con = '--l_con l2'
     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
 except:
