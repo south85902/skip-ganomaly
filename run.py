@@ -398,24 +398,42 @@ def train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, k
 #     from line_notify import sent_message
 #     sent_message('AnomalyDetectionData_train0.1_DFR_CAE_ndf16')
 
+# try:
+#     dataset = 'AnomalyDetectionData_train0.1'
+#     name = 'AnomalyDetectionData_train0.1_DFR_CAE_wgan'
+#     batchsize = 4
+#     dfr = '--DFR'
+#     netg = '--netg CAE'
+#     l_con = '--l_con l1'
+#     discriminator = ''
+#     ndf = ''
+#     ngf = ''
+#     ks = ''
+#     wgan = '--WGAN'
+#     train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan)
+#     l_con = '--l_con l2'
+#     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
+# except:
+#     from line_notify import sent_message
+#     sent_message('AnomalyDetectionData_train0.1_DFR_CAE_wgan')
+
 try:
     dataset = 'AnomalyDetectionData_train0.1'
-    name = 'AnomalyDetectionData_train0.1_DFR_CAE_wgan'
+    name = 'AnomalyDetectionData_train0.1_DFR_CAE_ndf8'
     batchsize = 4
     dfr = '--DFR'
     netg = '--netg CAE'
     l_con = '--l_con l1'
     discriminator = ''
-    ndf = ''
+    ndf = '--ndf 8'
     ngf = ''
     ks = ''
-    wgan = '--WGAN'
-    train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan)
+    train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
     l_con = '--l_con l2'
     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
 except:
     from line_notify import sent_message
-    sent_message('AnomalyDetectionData_train0.1_DFR_CAE_wgan')
+    sent_message('AnomalyDetectionData_train0.1_DFR_CAE_ndf8')
 
 try:
     dataset = 'AnomalyDetectionData_train0.1'
@@ -435,5 +453,24 @@ try:
 except:
     from line_notify import sent_message
     sent_message('AnomalyDetectionData_train0.1_DFR_CAE_ep50')
+
+try:
+    dataset = 'AnomalyDetectionData_train0.1'
+    name = 'AnomalyDetectionData_train0.1_DFR_Unet'
+    batchsize = 4
+    dfr = '--DFR'
+    netg = '--netg Unet'
+    l_con = '--l_con l1'
+    discriminator = ''
+    ndf = ''
+    ngf = ''
+    ks = ''
+    wgan = ''
+    train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan)
+    l_con = '--l_con l2'
+    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
+except:
+    from line_notify import sent_message
+    sent_message('AnomalyDetectionData_train0.1_DFR_Unet')
 
 print('done')

@@ -60,7 +60,8 @@ class Skipganomaly(BaseModel):
                                        kernel_size=(1, 1),
                                        stride=(1, 1),
                                        featmap_size=(self.opt.isize, self.opt.isize),
-                                       device=self.device)
+                                       device=self.device,
+                                       fine_tuned=self.opt.extractor_fine_tuned)
             self.extractor.to(self.device)
             self.set_nc()
         # add CNN for DFR ===========================================================

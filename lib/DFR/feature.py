@@ -52,11 +52,11 @@ class Extractor(nn.Module):
                  stride=(4, 4),
                  dilation=1,
                  featmap_size=(256, 256),
-                 device='cpu'):
+                 device='cpu', **kwargs):
 
         super(Extractor, self).__init__()
         self.device = torch.device(device)
-        self.feature = backbone_nets[backbone]()    # build backbone net
+        self.feature = backbone_nets[backbone](**kwargs)    # build backbone net
         self.feat_layers = cnn_layers
         self.is_agg = is_agg
         self.map_size = featmap_size

@@ -28,8 +28,10 @@ model_dirs = {
 
 class VGG(nn.Module):
 
-    def __init__(self, features, num_classes=1000, init_weights=True):
+    def __init__(self, features, num_classes=1000, init_weights=True, fine_tuned=False):
         super(VGG, self).__init__()
+        if fine_tuned:
+            num_classes = 2
         self.features = features
         self.avgpool = nn.AdaptiveAvgPool2d((7, 7))
         self.classifier = nn.Sequential(
@@ -99,9 +101,11 @@ def _vgg(arch, cfg, batch_norm, pretrained, progress, **kwargs):
     model = VGG(make_layers(cfgs[cfg], batch_norm=batch_norm), **kwargs)
     if pretrained:
         # TODO
-        state_dict = load_state_dict_from_url(model_urls[arch],
-                                              progress=progress)
-        #state_dict = torch.load(model_dirs[arch])    # if we have the pretrained files
+        if not kwargs['fine_tuned']:
+            state_dict = load_state_dict_from_url(model_urls[arch],
+                                                  progress=progress)
+        else:
+            state_dict = torch.load(model_dirs[arch])    # if we have the pretrained files
         model.load_state_dict(state_dict)
     return model
 

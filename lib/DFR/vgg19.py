@@ -9,9 +9,9 @@ class VGG19(torch.nn.Module):
     level1: 64*2=128; level2: 128*2=256; level3: 256*4=1024; level4: 512*4=2048; level5: 512*4=2048
     Total dimension: 128 + 256 + 1024 + 2048 + 2048 = 5504
     """
-    def __init__(self, gradient=False):
+    def __init__(self, gradient=False, **kwargs):
         super(VGG19, self).__init__()
-        features = vgg19(pretrained=True).features    # feature layers
+        features = vgg19(pretrained=True, **kwargs).features    # feature layers
         """ vgg.features
         Sequential(
           (0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
