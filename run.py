@@ -115,10 +115,10 @@ def testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, 
     return_code = subprocess.call(
         "zip -r ./output/%s/val/images_all.zip ./output/%s/val/images_all/" % (name, name), shell=True)
 
-def train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks):
+def train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks,wgan):
     return_code = subprocess.call(
-        "python train.py --dataset %s --name %s --isize 128 --niter 50 --display --save_image_freq 1 --print_freq 1 --phase train --batchsize %d --verbose %s %s %s %s %s %s %s" % (
-            dataset, name, batchsize, dfr, netg, l_con, discriminator, ndf, ngf, ks), shell=True)
+        "python train.py --dataset %s --name %s --isize 128 --niter 50 --display --save_image_freq 1 --print_freq 1 --phase train --batchsize %d --verbose %s %s %s %s %s %s %s %s" % (
+            dataset, name, batchsize, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan), shell=True)
 
 # try:
 #     #return_code = subprocess.call("python test.py --dataset AnomalyDetectionData_train0.1 --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --load_weights --batchsize 64 --verbose", shell=True)
@@ -391,10 +391,49 @@ try:
     ndf = '--ndf 16'
     ngf = ''
     ks = ''
-    train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
+    #train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
     l_con = '--l_con l2'
     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
 except:
     from line_notify import sent_message
+    sent_message('AnomalyDetectionData_train0.1_DFR_CAE_ndf16')
+
+try:
+    dataset = 'AnomalyDetectionData_train0.1'
+    name = 'AnomalyDetectionData_train0.1_DFR_CAE_wgan'
+    batchsize = 4
+    dfr = '--DFR'
+    netg = '--netg CAE'
+    l_con = '--l_con l1'
+    discriminator = ''
+    ndf = ''
+    ngf = ''
+    ks = ''
+    wgan = '--WGAN'
+    train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan)
+    l_con = '--l_con l2'
+    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
+except:
+    from line_notify import sent_message
+    sent_message('AnomalyDetectionData_train0.1_DFR_CAE_wgan')
+
+try:
+    dataset = 'AnomalyDetectionData_train0.1'
+    name = 'AnomalyDetectionData_train0.1_DFR_CAE_ep50'
+    batchsize = 4
+    dfr = '--DFR'
+    netg = '--netg CAE'
+    l_con = '--l_con l1'
+    discriminator = ''
+    ndf = ''
+    ngf = ''
+    ks = ''
+    wgan = ''
+    train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan)
+    l_con = '--l_con l2'
+    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
+except:
+    from line_notify import sent_message
+    sent_message('AnomalyDetectionData_train0.1_DFR_CAE_ep50')
 
 print('done')

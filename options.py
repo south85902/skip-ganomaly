@@ -57,6 +57,7 @@ class Options():
         self.parser.add_argument('--netg', type=str, default='Unet', help='Unet, CAE, Unet_DFR etc')
         self.parser.add_argument('--no_discriminator', action='store_true', help='not use the discriminator loss.')
         self.parser.add_argument('--ks', default=4, type=int, help='kernel size')
+        self.parser.add_argument('--WGAN', action='store_true', help='WGAN.')
         ##
         # Train
         self.parser.add_argument('--print_freq', type=int, default=100, help='frequency of showing training results on console')

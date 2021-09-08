@@ -47,6 +47,8 @@ class Skipganomaly(BaseModel):
         self.times = []
         self.total_steps = 0
 
+        self.check_cuda(True)
+
         # add CNN for DFR ===========================================================
         if self.opt.DFR:
             print('++++++++++++++DFR+++++++++++++++++++++')
@@ -112,7 +114,7 @@ class Skipganomaly(BaseModel):
         self.label = torch.empty(size=(self.opt.batchsize,), dtype=torch.float32, device=self.device)
         self.gt = torch.empty(size=(opt.batchsize,), dtype=torch.long, device=self.device)
         self.fixed_input = torch.empty(size=(self.opt.batchsize, 3, self.opt.isize, self.opt.isize), dtype=torch.float32, device=self.device)
-        self.real_label = torch.ones (size=(self.opt.batchsize,), dtype=torch.float32, device=self.device)
+        self.real_label = torch.ones(size=(self.opt.batchsize,), dtype=torch.float32, device=self.device)
         self.fake_label = torch.zeros(size=(self.opt.batchsize,), dtype=torch.float32, device=self.device)
 
         ##
@@ -151,7 +153,11 @@ class Skipganomaly(BaseModel):
     def backward_g(self):
         """ Backpropagate netg
         """
-        self.err_g_adv = self.opt.w_adv * self.l_adv(self.pred_fake, self.real_label)
+        if not self.opt.WGAN:
+            self.err_g_adv = self.opt.w_adv * self.l_adv(self.pred_fake, self.real_label)
+        else:
+            self.err_g_adv = -1*(self.opt.w_adv * self.pred_fake.mean())
+
         self.err_g_con = self.opt.w_con * self.l_con(self.fake, self.input)
         self.err_g_lat = self.opt.w_lat * self.l_lat(self.feat_fake, self.feat_real)
 
@@ -162,17 +168,32 @@ class Skipganomaly(BaseModel):
         self.err_g.backward(retain_graph=True)
 
     def backward_d(self):
-        # Fake
-        pred_fake, _ = self.netd(self.fake.detach())
-        self.err_d_fake = self.l_adv(pred_fake, self.fake_label)
+        if not self.opt.WGAN:
+            # Fake
+            pred_fake, _ = self.netd(self.fake.detach())
+            self.err_d_fake = self.l_adv(pred_fake, self.fake_label)
 
-        # Real
-        # pred_real, feat_real = self.netd(self.input)
-        self.err_d_real = self.l_adv(self.pred_real, self.real_label)
+            # Real
+            # pred_real, feat_real = self.netd(self.input)
+            self.err_d_real = self.l_adv(self.pred_real, self.real_label)
 
-        # Combine losses.
-        self.err_d = self.err_d_real + self.err_d_fake + self.err_g_lat
-        self.err_d.backward(retain_graph=True)
+            # Combine losses.
+            self.err_d = self.err_d_real + self.err_d_fake + self.err_g_lat
+            self.err_d.backward(retain_graph=True)
+        else:
+            # Fake
+            self.err_d_fake, _ = self.netd(self.fake.detach())
+            self.err_d_fake = self.err_d_fake.mean()
+
+            # Real
+            # pred_real, feat_real = self.netd(self.input)
+            self.err_d_real = self.pred_real.mean()
+
+            gradient_penalty = self.calculate_gradient_penalty(self.input.data, self.fake.data)
+
+            self.err_d = self.err_d_fake - self.err_d_real + gradient_penalty + self.err_g_lat
+            self.err_d.backward(retain_graph=True)
+
 
     def update_netg(self):
         """ Update Generator Network.
@@ -755,3 +776,43 @@ class Skipganomaly(BaseModel):
 
     def save_heatmap(sefl, des, heatmap):
         cv2.imwrite(des, heatmap)
+
+    def check_cuda(self, cuda_flag=False):
+        print(cuda_flag)
+        if cuda_flag:
+            self.cuda_index = 0
+            self.cuda = True
+            print("Cuda enabled flag: {}".format(self.cuda))
+        else:
+            self.cuda = False
+
+    def calculate_gradient_penalty(self, real_images, fake_images):
+        eta = torch.FloatTensor(self.opt.batchsize, 1, 1, 1).uniform_(0, 1)
+        eta = eta.expand(self.opt.batchsize, real_images.size(1), real_images.size(2), real_images.size(3))
+        if self.cuda:
+            eta = eta.cuda(self.cuda_index)
+        else:
+            eta = eta
+
+        interpolated = eta * real_images + ((1 - eta) * fake_images)
+
+        if self.cuda:
+            interpolated = interpolated.cuda(self.cuda_index)
+        else:
+            interpolated = interpolated
+
+        # define it to calculate gradient
+        interpolated = torch.autograd.Variable(interpolated, requires_grad=True)
+
+        # calculate probability of interpolated examples
+        prob_interpolated, _ = self.netd(interpolated)
+
+        # calculate gradients of probabilities with respect to examples
+        gradients = torch.autograd.grad(outputs=prob_interpolated, inputs=interpolated,
+                                  grad_outputs=torch.ones(
+                                      prob_interpolated.size()).cuda(self.cuda_index) if self.cuda else torch.ones(
+                                      prob_interpolated.size()),
+                                  create_graph=True, retain_graph=True)[0]
+
+        grad_penalty = ((gradients.norm(2, dim=1) - 1) ** 2).mean() * 10
+        return grad_penalty
