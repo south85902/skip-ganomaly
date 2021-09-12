@@ -136,99 +136,81 @@ def train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, k
         "python train.py --dataset %s --name %s --isize 128 --niter 50 --display --save_image_freq 1 --print_freq 1 --phase train --batchsize %d --verbose %s %s %s %s %s %s %s %s" % (
             dataset, name, batchsize, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan), shell=True)
 
+def testAndeval_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, extractor_fine_tuned):
+    return_code = subprocess.call(
+        "python test.py --dataset %s --name %s --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --load_weights --batchsize %d --verbose %s %s %s %s %s %s %s %s" % (
+        dataset, name, batchsize, dfr, netg, l_con, discriminator, ndf, ngf, ks, extractor_fine_tuned), shell=True)
+    return_code = subprocess.call("python draw_distribute.py --dataset %s --name %s --phase val" % (dataset, name),
+                                  shell=True)
+    return_code = subprocess.call(
+        "python eval.py --dataset %s --name %s --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights --batchsize %d %s %s %s %s %s %s %s" % (
+        dataset, name, batchsize, dfr, netg, l_con, discriminator, ndf, ngf, ks), shell=True)
+    return_code = subprocess.call(
+        "zip -r ./output/%s/val/images_abn_error.zip ./output/%s/val/images_abn_error/" % (name, name), shell=True)
+    return_code = subprocess.call(
+        "zip -r ./output/%s/val/images_nor_error.zip ./output/%s/val/images_nor_error/" % (name, name), shell=True)
+    return_code = subprocess.call(
+        "zip -r ./output/%s/val/images_all.zip ./output/%s/val/images_all/" % (name, name), shell=True)
+
+def train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned):
+    return_code = subprocess.call(
+        "python train.py --dataset %s --name %s --isize 128 --niter 50 --display --save_image_freq 1 --print_freq 1 --phase train --batchsize %d --verbose %s %s %s %s %s %s %s %s %s" % (
+            dataset, name, batchsize, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned), shell=True)
+
 # try:
-#     #return_code = subprocess.call("python test.py --dataset AnomalyDetectionData_train0.1 --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --load_weights --batchsize 64 --verbose", shell=True)
-#     #return_code = subprocess.call("python draw_distribute.py --dataset AnomalyDetectionData_train0.1 --phase val", shell=True)
-#     return_code = subprocess.call("python eval.py --dataset AnomalyDetectionData_train0.1 --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --save_test_images --load_weights", shell=True)
-#     return_code = subprocess.call("zip -r ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_abn_error.zip ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_abn_error/", shell=True)
-#     return_code = subprocess.call("zip -r ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_nor_error.zip ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_nor_error/", shell=True)
-#     return_code = subprocess.call("zip -r ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_all.zip ./output/skipganomaly/AnomalyDetectionData_train0.1/val/images_all/", shell=True)
+#     dataset = 'AnomalyDetectionData_train0.1'
+#     name = ''
+#     batchsize = 64
+#     dfr = ''
+#     netg = ''
+#     l_con = '--l_con l2'
+#     discriminator = ''
+#     ndf = ''
+#     ngf = ''
+#     ks = ''
+#     wgan = ''
+#     #train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan)
+#     testAndeval_tempfornoname(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
 # except:
 #     from line_notify import sent_message
-#     sent_message('error AnomalyDetectionData_train0.1')
-#
+#     sent_message('AnomalyDetectionData_train0.1')
 
-try:
-    dataset = 'AnomalyDetectionData_train0.1'
-    name = ''
-    batchsize = 64
-    dfr = ''
-    netg = ''
-    l_con = '--l_con l2'
-    discriminator = ''
-    ndf = ''
-    ngf = ''
-    ks = ''
-    wgan = ''
-    #train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan)
-    testAndeval_tempfornoname(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
-except:
-    from line_notify import sent_message
-    sent_message('AnomalyDetectionData_train0.1')
 
 # try:
 #     dataset = 'AnomalyDetectionData_train0.5'
-#     name = 'AnomalyDetectionData_train0.5'
+#     name = ''
 #     batchsize = 64
-#     # return_code = subprocess.call("python test.py --dataset %s --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con l2 --load_weights --batchsize %d --verbose" % (dataset, batchsize), shell=True)
-#     # return_code = subprocess.call("python draw_distribute.py --dataset %s --phase val" % dataset, shell=True)
-#     return_code = subprocess.call("python eval.py --dataset %s --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights --l_con l2" % dataset, shell=True)
-#     return_code = subprocess.call("zip -r ./output/skipganomaly/%s/val/images_abn_error.zip ./output/skipganomaly/%s/val/images_abn_error/" % (name, name), shell=True)
-#     return_code = subprocess.call("zip -r ./output/skipganomaly/%s/val/images_nor_error.zip ./output/skipganomaly/%s/val/images_nor_error/" % (name, name), shell=True)
-#     return_code = subprocess.call("zip -r ./output/skipganomaly/%s/val/images_all.zip ./output/skipganomaly/%s/val/images_all/" % (name, name), shell=True)
+#     dfr = ''
+#     netg = ''
+#     l_con = '--l_con l2'
+#     discriminator = ''
+#     ndf = ''
+#     ngf = ''
+#     ks = ''
+#     wgan = ''
+#     #train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan)
+#     testAndeval_tempfornoname(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
 # except:
 #     from line_notify import sent_message
-#     sent_message('error AnomalyDetectionData_train0.5')
-#
-try:
-    dataset = 'AnomalyDetectionData_train0.5'
-    name = ''
-    batchsize = 64
-    dfr = ''
-    netg = ''
-    l_con = '--l_con l2'
-    discriminator = ''
-    ndf = ''
-    ngf = ''
-    ks = ''
-    wgan = ''
-    #train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan)
-    testAndeval_tempfornoname(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
-except:
-    from line_notify import sent_message
-    sent_message('AnomalyDetectionData_train0.5')
+#     sent_message('AnomalyDetectionData_train0.5')
 
 # try:
 #     dataset = 'AnomalyDetectionData_train0.1'
 #     name = 'AnomalyDetectionData_train0.1_ssim_k3'
 #     batchsize = 64
-#     return_code = subprocess.call("python test.py --dataset %s --name %s --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con ssim --load_weights --batchsize %d --verbose" % (dataset, name, batchsize), shell=True)
-#     return_code = subprocess.call("python draw_distribute.py --dataset %s --name %s --phase val" % (dataset, name), shell=True)
-#     return_code = subprocess.call("python eval.py --dataset %s --name %s --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights --l_con ssim" % (dataset, name), shell=True)
-#     return_code = subprocess.call("zip -r ./output/%s/val/images_abn_error.zip ./output/%s/val/images_abn_error/" % (name, name), shell=True)
-#     return_code = subprocess.call("zip -r ./output/%s/val/images_nor_error.zip ./output/%s/val/images_nor_error/" % (name, name), shell=True)
-#     return_code = subprocess.call("zip -r ./output/%s/val/images_all.zip ./output/%s/val/images_all/" % (name, name), shell=True)
+#     dfr = ''
+#     netg = ''
+#     l_con = '--l_con ssim'
+#     discriminator = ''
+#     ndf = ''
+#     ngf = ''
+#     ks = ''
+#     wgan = ''
+#     #train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan)
+#     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
 # except:
 #     from line_notify import sent_message
-#     sent_message('error AnomalyDetectionData_train0.1_ssim_k3')
-#
-try:
-    dataset = 'AnomalyDetectionData_train0.1'
-    name = 'AnomalyDetectionData_train0.1_ssim_k3'
-    batchsize = 64
-    dfr = ''
-    netg = ''
-    l_con = '--l_con ssim'
-    discriminator = ''
-    ndf = ''
-    ngf = ''
-    ks = ''
-    wgan = ''
-    #train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan)
-    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
-except:
-    from line_notify import sent_message
-    sent_message('AnomalyDetectionData_train0.1_ssim_k3')
+#     sent_message('AnomalyDetectionData_train0.1_ssim_k3')
 
 # try:
 #     dataset = 'AnomalyDetectionData_train0.5'
@@ -240,33 +222,13 @@ except:
 #     discriminator = ''
 #     ndf = ''
 #     ngf = ''
-#     return_code = subprocess.call("python test.py --dataset %s --name %s --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --l_con ssim --load_weights --batchsize %d --verbose" % (dataset, name, batchsize), shell=True)
-#     return_code = subprocess.call("python draw_distribute.py --dataset %s --name %s --phase val" % (dataset, name), shell=True)
-#     return_code = subprocess.call("python eval.py --dataset %s --name %s --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights --l_con ssim" % (dataset, name), shell=True)
-#     return_code = subprocess.call("zip -r ./output/%s/val/images_abn_error_train0.1.zip ./output/%s/val/images_abn_error/" % (name, name), shell=True)
-#     return_code = subprocess.call("zip -r ./output/%s/val/images_nor_error_train0.1.zip ./output/%s/val/images_nor_error/" % (name, name), shell=True)
-#     return_code = subprocess.call("zip -r ./output/%s/val/images_all.zip ./output/%s/val/images_all/" % (name, name), shell=True)
+#     ks = ''
+#     wgan = ''
+#     #train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan)
+#     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
 # except:
 #     from line_notify import sent_message
-#     sent_message('error AnomalyDetectionData_train0.5_ssim_k3')
-#
-try:
-    dataset = 'AnomalyDetectionData_train0.5'
-    name = 'AnomalyDetectionData_train0.5_ssim_k3'
-    batchsize = 64
-    dfr = ''
-    netg = ''
-    l_con = '--l_con ssim'
-    discriminator = ''
-    ndf = ''
-    ngf = ''
-    ks = ''
-    wgan = ''
-    #train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan)
-    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
-except:
-    from line_notify import sent_message
-    sent_message('AnomalyDetectionData_train0.5_ssim_k3')
+#     sent_message('AnomalyDetectionData_train0.5_ssim_k3')
 
 # try:
 #     dataset = 'AnomalyDetectionData_train0.1'
@@ -562,5 +524,25 @@ except:
 # except:
 #     from line_notify import sent_message
 #     sent_message('AnomalyDetectionData_train0.1_DFR_Unet')
+
+try:
+    dataset = 'AnomalyDetectionData_train0.1'
+    name = 'AnomalyDetectionData_train0.1_DFR_CAE_noDis_eft'
+    batchsize = 4
+    dfr = '--DFR'
+    netg = '--netg CAE'
+    l_con = '--l_con l1'
+    discriminator = '--no_discriminator'
+    ndf = ''
+    ngf = ''
+    ks = ''
+    wgan = ''
+    extractor_fine_tuned = '--extractor_fine_tuned'
+    train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned)
+    l_con = '--l_con l2'
+    testAndeval_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, extractor_fine_tuned)
+except:
+    from line_notify import sent_message
+    sent_message('AnomalyDetectionData_train0.1_DFR_CAE_noDis_eft')
 
 print('done')
