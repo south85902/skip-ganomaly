@@ -125,11 +125,11 @@ def testAndeval_tempfornoname(dataset, batchsize, name, dfr, netg, l_con, discri
         "python eval.py --dataset %s %s --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights --batchsize %d %s %s %s %s %s %s %s" % (
         dataset, name, batchsize, dfr, netg, l_con, discriminator, ndf, ngf, ks), shell=True)
     return_code = subprocess.call(
-        "zip -r ./output/%s/val/images_abn_error.zip ./output/%s/val/images_abn_error/" % (dataset, dataset), shell=True)
+        "zip -r ./output/skipganomaly/%s/val/images_abn_error.zip ./output/skipganomaly/%s/val/images_abn_error/" % (dataset, dataset), shell=True)
     return_code = subprocess.call(
-        "zip -r ./output/%s/val/images_nor_error.zip ./output/%s/val/images_nor_error/" % (dataset, dataset), shell=True)
+        "zip -r ./output/skipganomaly/%s/val/images_nor_error.zip ./output/skipganomaly/%s/val/images_nor_error/" % (dataset, dataset), shell=True)
     return_code = subprocess.call(
-        "zip -r ./output/%s/val/images_all.zip ./output/%s/val/images_all/" % (dataset, dataset), shell=True)
+        "zip -r ./output/skipganomaly/%s/val/images_all.zip ./output/skipganomaly/%s/val/images_all/" % (dataset, dataset), shell=True)
 
 def train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks,wgan):
     return_code = subprocess.call(
