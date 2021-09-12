@@ -526,7 +526,7 @@ def train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ng
 #     sent_message('AnomalyDetectionData_train0.1_DFR_Unet')
 
 try:
-    dataset = 'AnomalyDetectionData_train0.1'
+    dataset = 'AnomalyDetectionData_train0.1_vgg'
     name = 'AnomalyDetectionData_train0.1_DFR_CAE_noDis_eft'
     batchsize = 4
     dfr = '--DFR'
