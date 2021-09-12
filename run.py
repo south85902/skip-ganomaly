@@ -131,6 +131,25 @@ def train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, k
 #     from line_notify import sent_message
 #     sent_message('error AnomalyDetectionData_train0.1')
 #
+
+try:
+    dataset = 'AnomalyDetectionData_train0.1'
+    name = ''
+    batchsize = 64
+    dfr = ''
+    netg = ''
+    l_con = '--l_con l2'
+    discriminator = ''
+    ndf = ''
+    ngf = ''
+    ks = ''
+    wgan = ''
+    #train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan)
+    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
+except:
+    from line_notify import sent_message
+    sent_message('AnomalyDetectionData_train0.1')
+
 # try:
 #     dataset = 'AnomalyDetectionData_train0.5'
 #     name = 'AnomalyDetectionData_train0.5'
@@ -145,6 +164,24 @@ def train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, k
 #     from line_notify import sent_message
 #     sent_message('error AnomalyDetectionData_train0.5')
 #
+try:
+    dataset = 'AnomalyDetectionData_train0.5'
+    name = ''
+    batchsize = 64
+    dfr = ''
+    netg = ''
+    l_con = '--l_con l2'
+    discriminator = ''
+    ndf = ''
+    ngf = ''
+    ks = ''
+    wgan = ''
+    #train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan)
+    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
+except:
+    from line_notify import sent_message
+    sent_message('AnomalyDetectionData_train0.5')
+
 # try:
 #     dataset = 'AnomalyDetectionData_train0.1'
 #     name = 'AnomalyDetectionData_train0.1_ssim_k3'
@@ -159,6 +196,24 @@ def train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, k
 #     from line_notify import sent_message
 #     sent_message('error AnomalyDetectionData_train0.1_ssim_k3')
 #
+try:
+    dataset = 'AnomalyDetectionData_train0.1'
+    name = 'AnomalyDetectionData_train0.1_ssim_k3'
+    batchsize = 64
+    dfr = ''
+    netg = ''
+    l_con = '--l_con ssim'
+    discriminator = ''
+    ndf = ''
+    ngf = ''
+    ks = ''
+    wgan = ''
+    #train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan)
+    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
+except:
+    from line_notify import sent_message
+    sent_message('AnomalyDetectionData_train0.1_ssim_k3')
+
 # try:
 #     dataset = 'AnomalyDetectionData_train0.5'
 #     name = 'AnomalyDetectionData_train0.5_ssim_k3'
@@ -179,6 +234,24 @@ def train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, k
 #     from line_notify import sent_message
 #     sent_message('error AnomalyDetectionData_train0.5_ssim_k3')
 #
+try:
+    dataset = 'AnomalyDetectionData_train0.5'
+    name = 'AnomalyDetectionData_train0.5_ssim_k3'
+    batchsize = 64
+    dfr = ''
+    netg = ''
+    l_con = '--l_con ssim'
+    discriminator = ''
+    ndf = ''
+    ngf = ''
+    ks = ''
+    wgan = ''
+    #train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan)
+    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
+except:
+    from line_notify import sent_message
+    sent_message('AnomalyDetectionData_train0.5_ssim_k3')
+
 # try:
 #     dataset = 'AnomalyDetectionData_train0.1'
 #     name = 'AnomalyDetectionData_train0.1_DFR'
@@ -417,61 +490,61 @@ def train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, k
 #     from line_notify import sent_message
 #     sent_message('AnomalyDetectionData_train0.1_DFR_CAE_wgan')
 
-try:
-    dataset = 'AnomalyDetectionData_train0.1'
-    name = 'AnomalyDetectionData_train0.1_DFR_CAE_ndf8'
-    batchsize = 4
-    dfr = '--DFR'
-    netg = '--netg CAE'
-    l_con = '--l_con l1'
-    discriminator = ''
-    ndf = '--ndf 8'
-    ngf = ''
-    ks = ''
-    wgan = ''
-    train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan)
-    l_con = '--l_con l2'
-    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
-except:
-    from line_notify import sent_message
-    sent_message('AnomalyDetectionData_train0.1_DFR_CAE_ndf8')
-
-try:
-    dataset = 'AnomalyDetectionData_train0.1'
-    name = 'AnomalyDetectionData_train0.1_DFR_CAE_ep50'
-    batchsize = 4
-    dfr = '--DFR'
-    netg = '--netg CAE'
-    l_con = '--l_con l1'
-    discriminator = ''
-    ndf = ''
-    ngf = ''
-    ks = ''
-    wgan = ''
-    train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan)
-    l_con = '--l_con l2'
-    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
-except:
-    from line_notify import sent_message
-    sent_message('AnomalyDetectionData_train0.1_DFR_CAE_ep50')
-
-try:
-    dataset = 'AnomalyDetectionData_train0.1'
-    name = 'AnomalyDetectionData_train0.1_DFR_Unet'
-    batchsize = 4
-    dfr = '--DFR'
-    netg = '--netg Unet'
-    l_con = '--l_con l1'
-    discriminator = ''
-    ndf = ''
-    ngf = ''
-    ks = ''
-    wgan = ''
-    train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan)
-    l_con = '--l_con l2'
-    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
-except:
-    from line_notify import sent_message
-    sent_message('AnomalyDetectionData_train0.1_DFR_Unet')
+# try:
+#     dataset = 'AnomalyDetectionData_train0.1'
+#     name = 'AnomalyDetectionData_train0.1_DFR_CAE_ndf8'
+#     batchsize = 4
+#     dfr = '--DFR'
+#     netg = '--netg CAE'
+#     l_con = '--l_con l1'
+#     discriminator = ''
+#     ndf = '--ndf 8'
+#     ngf = ''
+#     ks = ''
+#     wgan = ''
+#     train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan)
+#     l_con = '--l_con l2'
+#     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
+# except:
+#     from line_notify import sent_message
+#     sent_message('AnomalyDetectionData_train0.1_DFR_CAE_ndf8')
+#
+# try:
+#     dataset = 'AnomalyDetectionData_train0.1'
+#     name = 'AnomalyDetectionData_train0.1_DFR_CAE_ep50'
+#     batchsize = 4
+#     dfr = '--DFR'
+#     netg = '--netg CAE'
+#     l_con = '--l_con l1'
+#     discriminator = ''
+#     ndf = ''
+#     ngf = ''
+#     ks = ''
+#     wgan = ''
+#     train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan)
+#     l_con = '--l_con l2'
+#     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
+# except:
+#     from line_notify import sent_message
+#     sent_message('AnomalyDetectionData_train0.1_DFR_CAE_ep50')
+#
+# try:
+#     dataset = 'AnomalyDetectionData_train0.1'
+#     name = 'AnomalyDetectionData_train0.1_DFR_Unet'
+#     batchsize = 4
+#     dfr = '--DFR'
+#     netg = '--netg Unet'
+#     l_con = '--l_con l1'
+#     discriminator = ''
+#     ndf = ''
+#     ngf = ''
+#     ks = ''
+#     wgan = ''
+#     train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan)
+#     l_con = '--l_con l2'
+#     testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
+# except:
+#     from line_notify import sent_message
+#     sent_message('AnomalyDetectionData_train0.1_DFR_Unet')
 
 print('done')
