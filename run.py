@@ -115,6 +115,22 @@ def testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, 
     return_code = subprocess.call(
         "zip -r ./output/%s/val/images_all.zip ./output/%s/val/images_all/" % (name, name), shell=True)
 
+def testAndeval_tempfornoname(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks):
+    return_code = subprocess.call(
+        "python test.py --dataset %s %s --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --load_weights --batchsize %d --verbose %s %s %s %s %s %s %s" % (
+        dataset, name, batchsize, dfr, netg, l_con, discriminator, ndf, ngf, ks), shell=True)
+    return_code = subprocess.call("python draw_distribute.py --dataset %s %s --phase val" % (dataset, name),
+                                  shell=True)
+    return_code = subprocess.call(
+        "python eval.py --dataset %s %s --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights --batchsize %d %s %s %s %s %s %s %s" % (
+        dataset, name, batchsize, dfr, netg, l_con, discriminator, ndf, ngf, ks), shell=True)
+    return_code = subprocess.call(
+        "zip -r ./output/%s/val/images_abn_error.zip ./output/%s/val/images_abn_error/" % (name, name), shell=True)
+    return_code = subprocess.call(
+        "zip -r ./output/%s/val/images_nor_error.zip ./output/%s/val/images_nor_error/" % (name, name), shell=True)
+    return_code = subprocess.call(
+        "zip -r ./output/%s/val/images_all.zip ./output/%s/val/images_all/" % (name, name), shell=True)
+
 def train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks,wgan):
     return_code = subprocess.call(
         "python train.py --dataset %s --name %s --isize 128 --niter 50 --display --save_image_freq 1 --print_freq 1 --phase train --batchsize %d --verbose %s %s %s %s %s %s %s %s" % (
@@ -145,7 +161,7 @@ try:
     ks = ''
     wgan = ''
     #train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan)
-    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
+    testAndeval_tempfornoname(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
 except:
     from line_notify import sent_message
     sent_message('AnomalyDetectionData_train0.1')
@@ -177,7 +193,7 @@ try:
     ks = ''
     wgan = ''
     #train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan)
-    testAndeval(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
+    testAndeval_tempfornoname(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks)
 except:
     from line_notify import sent_message
     sent_message('AnomalyDetectionData_train0.5')
