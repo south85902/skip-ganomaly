@@ -143,8 +143,8 @@ def testAndeval_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, n
     return_code = subprocess.call("python draw_distribute.py --dataset %s --name %s --phase val" % (dataset, name),
                                   shell=True)
     return_code = subprocess.call(
-        "python eval.py --dataset %s --name %s --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights --batchsize %d %s %s %s %s %s %s %s" % (
-        dataset, name, batchsize, dfr, netg, l_con, discriminator, ndf, ngf, ks), shell=True)
+        "python eval.py --dataset %s --name %s --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights --batchsize %d %s %s %s %s %s %s %s %s" % (
+        dataset, name, batchsize, dfr, netg, l_con, discriminator, ndf, ngf, ks, extractor_fine_tuned), shell=True)
     return_code = subprocess.call(
         "zip -r ./output/%s/val/images_abn_error.zip ./output/%s/val/images_abn_error/" % (name, name), shell=True)
     return_code = subprocess.call(
