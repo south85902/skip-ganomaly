@@ -152,10 +152,10 @@ def testAndeval_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, n
     return_code = subprocess.call(
         "zip -r ./output/%s/val/images_all.zip ./output/%s/val/images_all/" % (name, name), shell=True)
 
-def train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned):
+def train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned, niter):
     return_code = subprocess.call(
-        "python train.py --dataset %s --name %s --isize 128 --niter 50 --display --save_image_freq 1 --print_freq 1 --phase train --batchsize %d --verbose %s %s %s %s %s %s %s %s %s" % (
-            dataset, name, batchsize, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned), shell=True)
+        "python train.py --dataset %s --name %s --isize 128 %s --display --save_image_freq 1 --print_freq 1 --phase train --batchsize %d --verbose %s %s %s %s %s %s %s %s %s" % (
+            dataset, name, niter, batchsize, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned), shell=True)
 
 # try:
 #     dataset = 'AnomalyDetectionData_train0.1'
@@ -546,7 +546,7 @@ def train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ng
 #     sent_message('AnomalyDetectionData_train0.1_DFR_CAE_noDis_eft')
 
 try:
-    dataset = 'AnomalyDetectionData_newdata_train0.1'
+    dataset = 'AnomalyDetectionData_newdata_train0.1_vgg'
     name = 'AnomalyDetectionData_newdata_train0.1'
     batchsize = 64
     dfr = ''
@@ -558,16 +558,38 @@ try:
     ks = ''
     wgan = ''
     extractor_fine_tuned = ''
-    train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned)
+    niter = '--niter 300'
+    train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned, niter)
     l_con = '--l_con l2'
     testAndeval_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, extractor_fine_tuned)
 except:
     from line_notify import sent_message
     sent_message('AnomalyDetectionData_newdata_train0.1')
 
+# try:
+#     dataset = 'AnomalyDetectionData_newdata_train0.1'
+#     name = 'AnomalyDetectionData_newdata_train0.1_DFR_CAE'
+#     batchsize = 4
+#     dfr = '--DFR'
+#     netg = '--netg CAE'
+#     l_con = '--l_con l1'
+#     discriminator = '--no_discriminator'
+#     ndf = ''
+#     ngf = ''
+#     ks = ''
+#     wgan = ''
+#     extractor_fine_tuned = ''
+#     niter = '--niter 300'
+#     train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned, niter)
+#     l_con = '--l_con l2'
+#     testAndeval_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, extractor_fine_tuned)
+# except:
+#     from line_notify import sent_message
+#     sent_message('AnomalyDetectionData_newdata_train0.1_DFR_CAE')
+
 try:
-    dataset = 'AnomalyDetectionData_newdata_train0.1'
-    name = 'AnomalyDetectionData_newdata_train0.1_DFR_CAE'
+    dataset = 'AnomalyDetectionData_newdata_train0.1_vgg'
+    name = 'AnomalyDetectionData_newdata_train0.1_DFR_CAE_noDis_eft'
     batchsize = 4
     dfr = '--DFR'
     netg = '--netg CAE'
@@ -577,12 +599,13 @@ try:
     ngf = ''
     ks = ''
     wgan = ''
-    extractor_fine_tuned = ''
-    train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned)
+    extractor_fine_tuned = '--extractor_fine_tuned'
+    niter = '--niter 300'
+    train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned, niter)
     l_con = '--l_con l2'
     testAndeval_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, extractor_fine_tuned)
 except:
     from line_notify import sent_message
-    sent_message('AnomalyDetectionData_newdata_train0.1_DFR_CAE')
+    sent_message('AnomalyDetectionData_newdata_train0.1_DFR_CAE_noDis_eft')
 
 print('done')
