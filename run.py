@@ -525,9 +525,49 @@ def train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ng
 #     from line_notify import sent_message
 #     sent_message('AnomalyDetectionData_train0.1_DFR_Unet')
 
+# try:
+#     dataset = 'AnomalyDetectionData_train0.1_vgg'
+#     name = 'AnomalyDetectionData_train0.1_DFR_CAE_noDis_eft'
+#     batchsize = 4
+#     dfr = '--DFR'
+#     netg = '--netg CAE'
+#     l_con = '--l_con l1'
+#     discriminator = '--no_discriminator'
+#     ndf = ''
+#     ngf = ''
+#     ks = ''
+#     wgan = ''
+#     extractor_fine_tuned = '--extractor_fine_tuned'
+#     #train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned)
+#     l_con = '--l_con l2'
+#     testAndeval_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, extractor_fine_tuned)
+# except:
+#     from line_notify import sent_message
+#     sent_message('AnomalyDetectionData_train0.1_DFR_CAE_noDis_eft')
+
 try:
-    dataset = 'AnomalyDetectionData_train0.1_vgg'
-    name = 'AnomalyDetectionData_train0.1_DFR_CAE_noDis_eft'
+    dataset = 'AnomalyDetectionData_newdata_train0.1'
+    name = 'AnomalyDetectionData_newdata_train0.1'
+    batchsize = 64
+    dfr = ''
+    netg = ''
+    l_con = '--l_con l1'
+    discriminator = ''
+    ndf = ''
+    ngf = ''
+    ks = ''
+    wgan = ''
+    extractor_fine_tuned = ''
+    train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned)
+    l_con = '--l_con l2'
+    testAndeval_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, extractor_fine_tuned)
+except:
+    from line_notify import sent_message
+    sent_message('AnomalyDetectionData_newdata_train0.1')
+
+try:
+    dataset = 'AnomalyDetectionData_newdata_train0.1'
+    name = 'AnomalyDetectionData_newdata_train0.1_DFR_CAE'
     batchsize = 4
     dfr = '--DFR'
     netg = '--netg CAE'
@@ -537,12 +577,12 @@ try:
     ngf = ''
     ks = ''
     wgan = ''
-    extractor_fine_tuned = '--extractor_fine_tuned'
-    #train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned)
+    extractor_fine_tuned = ''
+    train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned)
     l_con = '--l_con l2'
     testAndeval_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, extractor_fine_tuned)
 except:
     from line_notify import sent_message
-    sent_message('AnomalyDetectionData_train0.1_DFR_CAE_noDis_eft')
+    sent_message('AnomalyDetectionData_newdata_train0.1_DFR_CAE')
 
 print('done')

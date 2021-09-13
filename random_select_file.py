@@ -15,7 +15,7 @@ def copyFile(fileDir):
     # 1
     pathDir = os.listdir(fileDir)
 
-    n = int(4790)
+    n = int(42)
     # 2
     sample = random.sample(pathDir, n)
 
@@ -31,7 +31,7 @@ def copyFile(fileDir):
 
 
 if __name__ == '__main__':
-    fileDir = "D:/Temp/AnomalyDetectionData_train0.1/train/0.normal/"
-    tarDir_first = 'D:/Temp/AnomalyDetectionData_train0.1_vgg/train/0.normal/'
-    tarDir_less = 'D:/Temp/AnomalyDetectionData_train0.1_vgg/train/0.normal/'
+    fileDir = "D:/Temp/AnomalyDetectionData_newdata_train0.1/test/1.abnormal/"
+    tarDir_first = 'D:/Temp/AnomalyDetectionData_newdata_train0.1/val/1.abnormal/'
+    tarDir_less = 'D:/Temp/AnomalyDetectionData_newdata_train0.1/val/1.abnormal/'
     copyFile(fileDir)
