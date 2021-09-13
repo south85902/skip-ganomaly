@@ -545,26 +545,26 @@ def train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ng
 #     from line_notify import sent_message
 #     sent_message('AnomalyDetectionData_train0.1_DFR_CAE_noDis_eft')
 
-try:
-    dataset = 'AnomalyDetectionData_newdata_train0.1_vgg'
-    name = 'AnomalyDetectionData_newdata_train0.1'
-    batchsize = 64
-    dfr = ''
-    netg = ''
-    l_con = '--l_con l1'
-    discriminator = ''
-    ndf = ''
-    ngf = ''
-    ks = ''
-    wgan = ''
-    extractor_fine_tuned = ''
-    niter = '--niter 300'
-    train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned, niter)
-    l_con = '--l_con l2'
-    testAndeval_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, extractor_fine_tuned)
-except:
-    from line_notify import sent_message
-    sent_message('AnomalyDetectionData_newdata_train0.1')
+# try:
+#     dataset = 'AnomalyDetectionData_newdata_train0.1_vgg'
+#     name = 'AnomalyDetectionData_newdata_train0.1'
+#     batchsize = 64
+#     dfr = ''
+#     netg = ''
+#     l_con = '--l_con l1'
+#     discriminator = ''
+#     ndf = ''
+#     ngf = ''
+#     ks = ''
+#     wgan = ''
+#     extractor_fine_tuned = ''
+#     niter = '--niter 300'
+#     train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned, niter)
+#     l_con = '--l_con l2'
+#     testAndeval_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, extractor_fine_tuned)
+# except:
+#     from line_notify import sent_message
+#     sent_message('AnomalyDetectionData_newdata_train0.1')
 
 # try:
 #     dataset = 'AnomalyDetectionData_newdata_train0.1'
@@ -587,9 +587,51 @@ except:
 #     from line_notify import sent_message
 #     sent_message('AnomalyDetectionData_newdata_train0.1_DFR_CAE')
 
+# try:
+#     dataset = 'AnomalyDetectionData_newdata_train0.1_vgg'
+#     name = 'AnomalyDetectionData_newdata_train0.1_DFR_CAE_noDis_eft'
+#     batchsize = 4
+#     dfr = '--DFR'
+#     netg = '--netg CAE'
+#     l_con = '--l_con l1'
+#     discriminator = '--no_discriminator'
+#     ndf = ''
+#     ngf = ''
+#     ks = ''
+#     wgan = ''
+#     extractor_fine_tuned = '--extractor_fine_tuned'
+#     niter = '--niter 300'
+#     train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned, niter)
+#     l_con = '--l_con l2'
+#     testAndeval_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, extractor_fine_tuned)
+# except:
+#     from line_notify import sent_message
+#     sent_message('AnomalyDetectionData_newdata_train0.1_DFR_CAE_noDis_eft')
+
 try:
-    dataset = 'AnomalyDetectionData_newdata_train0.1_vgg'
-    name = 'AnomalyDetectionData_newdata_train0.1_DFR_CAE_noDis_eft'
+    dataset = 'AnomalyDetectionData_newdata_train0.5'
+    name = 'AnomalyDetectionData_newdata_train0.5'
+    batchsize = 64
+    dfr = ''
+    netg = ''
+    l_con = '--l_con l1'
+    discriminator = ''
+    ndf = ''
+    ngf = ''
+    ks = ''
+    wgan = ''
+    extractor_fine_tuned = ''
+    niter = '--niter 300'
+    train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned, niter)
+    l_con = '--l_con l2'
+    testAndeval_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, extractor_fine_tuned)
+except:
+    from line_notify import sent_message
+    sent_message('AnomalyDetectionData_newdata_train0.5')
+
+try:
+    dataset = 'AnomalyDetectionData_newdata_train0.5'
+    name = 'AnomalyDetectionData_newdata_train0.5_DFR_CAE_noDis'
     batchsize = 4
     dfr = '--DFR'
     netg = '--netg CAE'
@@ -606,6 +648,6 @@ try:
     testAndeval_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, extractor_fine_tuned)
 except:
     from line_notify import sent_message
-    sent_message('AnomalyDetectionData_newdata_train0.1_DFR_CAE_noDis_eft')
+    sent_message('AnomalyDetectionData_newdata_train0.5_DFR_CAE_noDis')
 
 print('done')

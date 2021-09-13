@@ -119,7 +119,7 @@ class BaseModel():
         return reals, fakes, fixed
 
     ##
-    def save_weights(self, epoch:int, is_best:bool=False):
+    def save_weights(self, epoch:int, is_best:bool=False, is_last:bool=False):
         """Save netG and netD weights for the current epoch.
 
         Args:
@@ -134,6 +134,9 @@ class BaseModel():
         if is_best:
             torch.save({'epoch': epoch, 'state_dict': self.netg.state_dict()}, f'{weight_dir}/netG_best.pth')
             torch.save({'epoch': epoch, 'state_dict': self.netd.state_dict()}, f'{weight_dir}/netD_best.pth')
+        elif is_last:
+            torch.save({'epoch': epoch, 'state_dict': self.netg.state_dict()}, f'{weight_dir}/netG_last.pth')
+            torch.save({'epoch': epoch, 'state_dict': self.netd.state_dict()}, f'{weight_dir}/netD_last.pth')
         else:
             torch.save({'epoch': epoch, 'state_dict': self.netd.state_dict()}, f"{weight_dir}/netD_{epoch}.pth")
             torch.save({'epoch': epoch, 'state_dict': self.netg.state_dict()}, f"{weight_dir}/netG_{epoch}.pth")
@@ -237,7 +240,8 @@ class BaseModel():
             if res['AUC'] > best_auc:
                 best_auc = res['AUC']
                 self.save_weights(self.epoch)
-                self.save_weights(self.epoch, True) # save best weights
+                self.save_weights(self.epoch, is_best=True) # save best weights
+            self.save_weights(self.epoch, is_last=True)  # save best weights
             self.visualizer.print_current_performance(res, best_auc)
         print(">> Training model %s.[Done]" % self.name)
 
