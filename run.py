@@ -538,7 +538,7 @@ try:
     ks = ''
     wgan = ''
     extractor_fine_tuned = '--extractor_fine_tuned'
-    train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned)
+    #train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned)
     l_con = '--l_con l2'
     testAndeval_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, extractor_fine_tuned)
 except:
