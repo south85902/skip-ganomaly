@@ -154,8 +154,8 @@ class BaseModel():
             IOError -- [description]
         """
 
-        if epoch is None and is_best is False:
-            raise Exception('Please provide epoch to be loaded or choose the best epoch.')
+        # if epoch is None and is_best is False:
+        #     raise Exception('Please provide epoch to be loaded or choose the best epoch.')
 
         if is_best:
             fname_g = f"netG_best.pth"
