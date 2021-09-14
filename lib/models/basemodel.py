@@ -141,7 +141,7 @@ class BaseModel():
             torch.save({'epoch': epoch, 'state_dict': self.netd.state_dict()}, f"{weight_dir}/netD_{epoch}.pth")
             torch.save({'epoch': epoch, 'state_dict': self.netg.state_dict()}, f"{weight_dir}/netG_{epoch}.pth")
 
-    def load_weights(self, epoch=None, is_best:bool=False, path=None):
+    def load_weights(self, epoch=None, is_best:bool=False, is_last:bool=False, path=None):
         """ Load pre-trained weights of NetG and NetD
 
         Keyword Arguments:
@@ -160,6 +160,9 @@ class BaseModel():
         if is_best:
             fname_g = f"netG_best.pth"
             fname_d = f"netD_best.pth"
+        elif is_last:
+            fname_g = f"netG_last.pth"
+            fname_d = f"netD_last.pth"
         else:
             fname_g = f"netG_{epoch}.pth"
             fname_d = f"netD_{epoch}.pth"
