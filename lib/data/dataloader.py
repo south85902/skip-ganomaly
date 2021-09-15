@@ -83,8 +83,7 @@ def load_data(opt):
         #                                 transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)), ])
 
         if opt.no_padding:
-            transform = transforms.Compose([transforms.Resize(opt.isize),
-                                            transforms.CenterCrop(opt.isize),
+            transform = transforms.Compose([transforms.Resize([opt.isize, opt.isize]),
                                             transforms.ToTensor(),
                                             transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)), ])
         else:
