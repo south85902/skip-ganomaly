@@ -159,12 +159,12 @@ def train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, k
 
 def testAndeval_eft(cmds):
     return_code = subprocess.call(
-        "python test.py %s %s %s --display --save_image_freq 1 --print_freq 1 --load_weights %s --verbose %s %s %s %s %s %s %s %s" % (
+        "python test.py %s %s %s %s --display --save_image_freq 1 --print_freq 1 --load_weights %s --verbose %s %s %s %s %s %s %s %s %s" % (
         cmds['dataset'], cmds['name'], cmds['isize'], cmds['phase'], cmds['batchsize'], cmds['dfr'], cmds['netg'], cmds['l_con'], cmds['discriminator'], cmds['ndf'], cmds['ngf'], cmds['ks'], cmds['extractor_fine_tuned'], cmds['no_padding']), shell=True)
     return_code = subprocess.call("python draw_distribute.py %s %s %s" % (cmds['dataset'], cmds['name'], cmds['phase']),
                                   shell=True)
     return_code = subprocess.call(
-        "python eval.py %s %s %s --niter 1 --display --save_image_freq 1 --print_freq 1 %s --save_test_images --load_weights %s %s %s %s %s %s %s %s %s" % (
+        "python eval.py %s %s %s --niter 1 --display --save_image_freq 1 --print_freq 1 %s --save_test_images --load_weights %s %s %s %s %s %s %s %s %s %s" % (
         cmds['dataset'], cmds['name'], cmds['isize'], cmds['phase'], cmds['batchsize'], cmds['dfr'], cmds['netg'], cmds['l_con'], cmds['discriminator'], cmds['ndf'], cmds['ngf'], cmds['ks'], cmds['extractor_fine_tuned'], cmds['no_padding']), shell=True)
     return_code = subprocess.call(
         "zip -r ./output/%s/val/images_abn_error.zip ./output/%s/val/images_abn_error/" % (cmds['name'], cmds['name']), shell=True)
@@ -175,7 +175,7 @@ def testAndeval_eft(cmds):
 
 def train_eft(cmds):
     return_code = subprocess.call(
-        "python train.py %s %s %s %s --display --save_image_freq 1 --print_freq 1 --phase train %s --verbose %s %s %s %s %s %s %s %s %s" % (
+        "python train.py %s %s %s %s --display --save_image_freq 1 --print_freq 1 --phase train %s --verbose %s %s %s %s %s %s %s %s %s %s %s" % (
             cmds['dataset'], cmds['name'], cmds['isize'], cmds['niter'], cmds['phase'], cmds['batchsize'], cmds['dfr'], cmds['netg'], cmds['l_con'], cmds['discriminator'], cmds['ndf'], cmds['ngf'], cmds['ks'], cmds['wgan'], cmds['extractor_fine_tuned'], cmds['no_padding']), shell=True)
 # try:
 #     dataset = 'AnomalyDetectionData_train0.1'
