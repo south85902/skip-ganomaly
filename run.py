@@ -608,26 +608,26 @@ def train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ng
 #     from line_notify import sent_message
 #     sent_message('AnomalyDetectionData_newdata_train0.1_DFR_CAE_noDis_eft')
 
-try:
-    dataset = 'AnomalyDetectionData_newdata_train0.5'
-    name = 'AnomalyDetectionData_newdata_train0.5'
-    batchsize = 64
-    dfr = ''
-    netg = ''
-    l_con = '--l_con l1'
-    discriminator = ''
-    ndf = ''
-    ngf = ''
-    ks = ''
-    wgan = ''
-    extractor_fine_tuned = ''
-    niter = '--niter 300'
-    # train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned, niter)
-    l_con = '--l_con l2'
-    testAndeval_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, extractor_fine_tuned)
-except:
-    from line_notify import sent_message
-    sent_message('AnomalyDetectionData_newdata_train0.5')
+# try:
+#     dataset = 'AnomalyDetectionData_newdata_train0.5'
+#     name = 'AnomalyDetectionData_newdata_train0.5'
+#     batchsize = 64
+#     dfr = ''
+#     netg = ''
+#     l_con = '--l_con l1'
+#     discriminator = ''
+#     ndf = ''
+#     ngf = ''
+#     ks = ''
+#     wgan = ''
+#     extractor_fine_tuned = ''
+#     niter = '--niter 300'
+#     # train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned, niter)
+#     l_con = '--l_con l2'
+#     testAndeval_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, extractor_fine_tuned)
+# except:
+#     from line_notify import sent_message
+#     sent_message('AnomalyDetectionData_newdata_train0.5')
 
 # try:
 #     dataset = 'AnomalyDetectionData_newdata_train0.5'
@@ -649,5 +649,26 @@ except:
 # except:
 #     from line_notify import sent_message
 #     sent_message('AnomalyDetectionData_newdata_train0.5_DFR_CAE_noDis')
+
+try:
+    dataset = 'AnomalyDetectionData_train0.1'
+    name = 'AnomalyDetectionData_train0.1_Unet_noSkipConnection'
+    batchsize = 64
+    dfr = ''
+    netg = '--netg Unet_noSkipConnection'
+    l_con = '--l_con l1'
+    discriminator = ''
+    ndf = ''
+    ngf = ''
+    ks = ''
+    wgan = ''
+    extractor_fine_tuned = ''
+    niter = '--niter 100'
+    train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned, niter)
+    l_con = '--l_con l2'
+    testAndeval_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, extractor_fine_tuned)
+except:
+    from line_notify import sent_message
+    sent_message('AnomalyDetectionData_train0.1_Unet_noSkipConnection')
 
 print('done')
