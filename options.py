@@ -59,6 +59,7 @@ class Options():
         self.parser.add_argument('--ks', default=4, type=int, help='kernel size')
         self.parser.add_argument('--WGAN', action='store_true', help='WGAN.')
         self.parser.add_argument('--extractor_fine_tuned', action='store_true', help='extractor fine tuned.')
+        self.parser.add_argument('--no_padding', action='store_true', help='data no padding.')
         ##
         # Train
         self.parser.add_argument('--print_freq', type=int, default=100, help='frequency of showing training results on console')

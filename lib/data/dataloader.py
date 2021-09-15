@@ -82,12 +82,19 @@ def load_data(opt):
         #                                 transforms.ToTensor(),
         #                                 transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)), ])
 
-        # add padding
-        transform = transforms.Compose([SquarePad(),
-                                        transforms.Resize(opt.isize),
-                                        transforms.CenterCrop(opt.isize),
-                                        transforms.ToTensor(),
-                                        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)), ])
+        if opt.no_padding:
+            transform = transforms.Compose([transforms.Resize(opt.isize),
+                                            transforms.CenterCrop(opt.isize),
+                                            transforms.ToTensor(),
+                                            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)), ])
+        else:
+            # add padding
+            transform = transforms.Compose([SquarePad(),
+                                            transforms.Resize(opt.isize),
+                                            transforms.CenterCrop(opt.isize),
+                                            transforms.ToTensor(),
+                                            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)), ])
+
         train_ds = ImageFolder(os.path.join(opt.dataroot, 'train'), transform)
         valid_ds = ImageFolder(os.path.join(opt.dataroot, 'val'), transform)
         test_ds = ImageFolder(os.path.join(opt.dataroot, 'test'), transform)

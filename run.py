@@ -136,27 +136,47 @@ def train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, k
         "python train.py --dataset %s --name %s --isize 128 --niter 50 --display --save_image_freq 1 --print_freq 1 --phase train --batchsize %d --verbose %s %s %s %s %s %s %s %s" % (
             dataset, name, batchsize, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan), shell=True)
 
-def testAndeval_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, extractor_fine_tuned):
+# def testAndeval_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, extractor_fine_tuned):
+#     return_code = subprocess.call(
+#         "python test.py --dataset %s --name %s --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --load_weights --batchsize %d --verbose %s %s %s %s %s %s %s %s" % (
+#         dataset, name, batchsize, dfr, netg, l_con, discriminator, ndf, ngf, ks, extractor_fine_tuned), shell=True)
+#     return_code = subprocess.call("python draw_distribute.py --dataset %s --name %s --phase val" % (dataset, name),
+#                                   shell=True)
+#     return_code = subprocess.call(
+#         "python eval.py --dataset %s --name %s --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights --batchsize %d %s %s %s %s %s %s %s %s" % (
+#         dataset, name, batchsize, dfr, netg, l_con, discriminator, ndf, ngf, ks, extractor_fine_tuned), shell=True)
+#     return_code = subprocess.call(
+#         "zip -r ./output/%s/val/images_abn_error.zip ./output/%s/val/images_abn_error/" % (name, name), shell=True)
+#     return_code = subprocess.call(
+#         "zip -r ./output/%s/val/images_nor_error.zip ./output/%s/val/images_nor_error/" % (name, name), shell=True)
+#     return_code = subprocess.call(
+#         "zip -r ./output/%s/val/images_all.zip ./output/%s/val/images_all/" % (name, name), shell=True)
+#
+# def train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned, niter):
+#     return_code = subprocess.call(
+#         "python train.py --dataset %s --name %s --isize 128 %s --display --save_image_freq 1 --print_freq 1 --phase train --batchsize %d --verbose %s %s %s %s %s %s %s %s %s" % (
+#             dataset, name, niter, batchsize, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned), shell=True)
+
+def testAndeval_eft(cmds):
     return_code = subprocess.call(
-        "python test.py --dataset %s --name %s --isize 128 --niter 100 --display --save_image_freq 1 --print_freq 1 --phase val --load_weights --batchsize %d --verbose %s %s %s %s %s %s %s %s" % (
-        dataset, name, batchsize, dfr, netg, l_con, discriminator, ndf, ngf, ks, extractor_fine_tuned), shell=True)
-    return_code = subprocess.call("python draw_distribute.py --dataset %s --name %s --phase val" % (dataset, name),
+        "python test.py %s %s %s --display --save_image_freq 1 --print_freq 1 --load_weights %s --verbose %s %s %s %s %s %s %s %s" % (
+        cmds['dataset'], cmds['name'], cmds['isize'], cmds['phase'], cmds['batchsize'], cmds['dfr'], cmds['netg'], cmds['l_con'], cmds['discriminator'], cmds['ndf'], cmds['ngf'], cmds['ks'], cmds['extractor_fine_tuned'], cmds['no_padding']), shell=True)
+    return_code = subprocess.call("python draw_distribute.py %s %s %s" % (cmds['dataset'], cmds['name'], cmds['phase']),
                                   shell=True)
     return_code = subprocess.call(
-        "python eval.py --dataset %s --name %s --isize 128 --niter 1 --display --save_image_freq 1 --print_freq 1 --phase val --save_test_images --load_weights --batchsize %d %s %s %s %s %s %s %s %s" % (
-        dataset, name, batchsize, dfr, netg, l_con, discriminator, ndf, ngf, ks, extractor_fine_tuned), shell=True)
+        "python eval.py %s %s %s --niter 1 --display --save_image_freq 1 --print_freq 1 %s --save_test_images --load_weights %s %s %s %s %s %s %s %s %s" % (
+        cmds['dataset'], cmds['name'], cmds['isize'], cmds['phase'], cmds['batchsize'], cmds['dfr'], cmds['netg'], cmds['l_con'], cmds['discriminator'], cmds['ndf'], cmds['ngf'], cmds['ks'], cmds['extractor_fine_tuned'], cmds['no_padding']), shell=True)
     return_code = subprocess.call(
-        "zip -r ./output/%s/val/images_abn_error.zip ./output/%s/val/images_abn_error/" % (name, name), shell=True)
+        "zip -r ./output/%s/val/images_abn_error.zip ./output/%s/val/images_abn_error/" % (cmds['name'], cmds['name']), shell=True)
     return_code = subprocess.call(
-        "zip -r ./output/%s/val/images_nor_error.zip ./output/%s/val/images_nor_error/" % (name, name), shell=True)
+        "zip -r ./output/%s/val/images_nor_error.zip ./output/%s/val/images_nor_error/" % (cmds['name'], cmds['name']), shell=True)
     return_code = subprocess.call(
-        "zip -r ./output/%s/val/images_all.zip ./output/%s/val/images_all/" % (name, name), shell=True)
+        "zip -r ./output/%s/val/images_all.zip ./output/%s/val/images_all/" % (cmds['name'], cmds['name']), shell=True)
 
-def train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned, niter):
+def train_eft(cmds):
     return_code = subprocess.call(
-        "python train.py --dataset %s --name %s --isize 128 %s --display --save_image_freq 1 --print_freq 1 --phase train --batchsize %d --verbose %s %s %s %s %s %s %s %s %s" % (
-            dataset, name, niter, batchsize, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned), shell=True)
-
+        "python train.py %s %s %s %s --display --save_image_freq 1 --print_freq 1 --phase train %s --verbose %s %s %s %s %s %s %s %s %s" % (
+            cmds['dataset'], cmds['name'], cmds['isize'], cmds['niter'], cmds['phase'], cmds['batchsize'], cmds['dfr'], cmds['netg'], cmds['l_con'], cmds['discriminator'], cmds['ndf'], cmds['ngf'], cmds['ks'], cmds['wgan'], cmds['extractor_fine_tuned'], cmds['no_padding']), shell=True)
 # try:
 #     dataset = 'AnomalyDetectionData_train0.1'
 #     name = ''
@@ -650,25 +670,111 @@ def train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ng
 #     from line_notify import sent_message
 #     sent_message('AnomalyDetectionData_newdata_train0.5_DFR_CAE_noDis')
 
+
+# try:
+#     dataset = 'AnomalyDetectionData_train0.1'
+#     name = 'AnomalyDetectionData_train0.1_Unet_noSkipConnection'
+#     batchsize = 64
+#     dfr = ''
+#     netg = '--netg Unet_noSkipConnection'
+#     l_con = '--l_con l1'
+#     discriminator = ''
+#     ndf = ''
+#     ngf = ''
+#     ks = ''
+#     wgan = ''
+#     extractor_fine_tuned = ''
+#     niter = '--niter 100'
+#     train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned, niter)
+#     l_con = '--l_con l2'
+#     testAndeval_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, extractor_fine_tuned)
+# except:
+#     from line_notify import sent_message
+#     sent_message('AnomalyDetectionData_train0.1_Unet_noSkipConnection')
+
+# cmds['dataset'], cmds['name'], cmds['isize'], cmds['niter'], cmds['phase'], cmds['batchsize'], cmds['dfr'], cmds['netg'], cmds['l_con'],
+#  cmds['discriminator'], cmds['ndf'], cmds['ngf'], cmds['ks'], cmds['wgan'], cmds['extractor_fine_tuned']
+
 try:
-    dataset = 'AnomalyDetectionData_train0.1'
-    name = 'AnomalyDetectionData_train0.1_Unet_noSkipConnection'
-    batchsize = 64
-    dfr = ''
-    netg = '--netg Unet_noSkipConnection'
-    l_con = '--l_con l1'
-    discriminator = ''
-    ndf = ''
-    ngf = ''
-    ks = ''
-    wgan = ''
-    extractor_fine_tuned = ''
-    niter = '--niter 100'
-    train_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned, niter)
+    cmd = {}
+    cmd.dataset = '--dataset AnomalyDetectionData_train0.1'
+    cmd.name = '--name AnomalyDetectionData_train0.1_Unet_noSkipConnection_noPadding'
+    cmd.isize = '--isize 128'
+    cmd.niter = '--niter 100'
+    cmd.phase = '--phase train'
+    cmd.batchsize = '--batchsize 64'
+    cmd.dfr = ''
+    cmd.netg = '--netg Unet_noSkipConnection'
+    cmd.l_con = '--l_con l1'
+    cmd.discriminator = ''
+    cmd.ndf = ''
+    cmd.ngf = ''
+    cmd.ks = ''
+    cmd.wgan = ''
+    cmd.extractor_fine_tuned = ''
+    cmd.no_padding = '--no_padding'
+    train_eft(cmd)
     l_con = '--l_con l2'
-    testAndeval_eft(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, ks, extractor_fine_tuned)
+    cmd.phase = '--phase val'
+    testAndeval_eft(cmd)
 except:
     from line_notify import sent_message
-    sent_message('AnomalyDetectionData_train0.1_Unet_noSkipConnection')
+    sent_message('AnomalyDetectionData_train0.1_Unet_noSkipConnection_no_padding')
+
+
+try:
+    cmd = {}
+    cmd.dataset = '--dataset AnomalyDetectionData_train0.5'
+    cmd.name = '--name AnomalyDetectionData_train0.5_Unet_noSkipConnection'
+    cmd.isize = '--isize 128'
+    cmd.niter = '--niter 100'
+    cmd.phase = '--phase train'
+    cmd.batchsize = '--batchsize 64'
+    cmd.dfr = ''
+    cmd.netg = '--netg Unet_noSkipConnection'
+    cmd.l_con = '--l_con l1'
+    cmd.discriminator = ''
+    cmd.ndf = ''
+    cmd.ngf = ''
+    cmd.ks = ''
+    cmd.wgan = ''
+    cmd.extractor_fine_tuned = ''
+    cmd.no_padding = ''
+    train_eft(cmd)
+
+    l_con = '--l_con l2'
+    cmd.phase = '--phase val'
+    testAndeval_eft(cmd)
+except:
+    from line_notify import sent_message
+    sent_message('AnomalyDetectionData_train0.5_Unet_noSkipConnection')
+
+try:
+    cmd = {}
+    cmd.dataset = '--dataset AnomalyDetectionData_newdata_train0.5'
+    cmd.name = '--name AnomalyDetectionData_newdata_train0.5_Unet_noSkipConnection'
+    cmd.isize = '--isize 128'
+    cmd.niter = '--niter 100'
+    cmd.phase = '--phase train'
+    cmd.batchsize = '--batchsize 64'
+    cmd.dfr = ''
+    cmd.netg = '--netg Unet_noSkipConnection'
+    cmd.l_con = '--l_con l1'
+    cmd.discriminator = ''
+    cmd.ndf = ''
+    cmd.ngf = ''
+    cmd.ks = ''
+    cmd.wgan = ''
+    cmd.extractor_fine_tuned = ''
+    cmd.no_padding = ''
+    train_eft(cmd)
+
+    l_con = '--l_con l2'
+    cmd.phase = '--phase val'
+    testAndeval_eft(cmd)
+except:
+    from line_notify import sent_message
+
+    sent_message('AnomalyDetectionData_newdata_train0.5_Unet_noSkipConnection')
 
 print('done')
