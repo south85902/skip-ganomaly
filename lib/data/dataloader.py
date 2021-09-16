@@ -24,7 +24,7 @@ class SquarePad:
 		hp = int((max_wh - w) / 2)
 		vp = int((max_wh - h) / 2)
 		padding = (hp, vp, hp, vp)
-		return pad(image, padding, 128, 'constant')
+		return pad(image, padding, (128, 128, 128), 'constant')
 # add padding ===================
 
 class Data:
