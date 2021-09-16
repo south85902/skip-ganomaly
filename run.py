@@ -166,12 +166,16 @@ def testAndeval_eft(cmds):
     return_code = subprocess.call(
         "python eval.py %s %s %s --niter 1 --display --save_image_freq 1 --print_freq 1 %s --save_test_images --load_weights %s %s %s %s %s %s %s %s %s %s" % (
         cmds['dataset'], cmds['name'], cmds['isize'], cmds['phase'], cmds['batchsize'], cmds['dfr'], cmds['netg'], cmds['l_con'], cmds['discriminator'], cmds['ndf'], cmds['ngf'], cmds['ks'], cmds['extractor_fine_tuned'], cmds['no_padding']), shell=True)
+
+    name = cmds['name']
+    name = name.split(' ', 1)
+    name = name[1]
     return_code = subprocess.call(
-        "zip -r ./output/%s/val/images_abn_error.zip ./output/%s/val/images_abn_error/" % (cmds['name'], cmds['name']), shell=True)
+        "zip -r ./output/%s/val/images_abn_error.zip ./output/%s/val/images_abn_error/" % (name, name), shell=True)
     return_code = subprocess.call(
-        "zip -r ./output/%s/val/images_nor_error.zip ./output/%s/val/images_nor_error/" % (cmds['name'], cmds['name']), shell=True)
+        "zip -r ./output/%s/val/images_nor_error.zip ./output/%s/val/images_nor_error/" % (name, name), shell=True)
     return_code = subprocess.call(
-        "zip -r ./output/%s/val/images_all.zip ./output/%s/val/images_all/" % (cmds['name'], cmds['name']), shell=True)
+        "zip -r ./output/%s/val/images_all.zip ./output/%s/val/images_all/" % (name, name), shell=True)
 
 def train_eft(cmds):
     return_code = subprocess.call(
