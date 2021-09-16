@@ -715,7 +715,7 @@ try:
     cmd['no_padding'] = '--no_padding'
     train_eft(cmd)
     l_con = '--l_con l2'
-    cmdphase = '--phase val'
+    cmd['phase'] = '--phase val'
     testAndeval_eft(cmd)
 except:
     from line_notify import sent_message
@@ -743,7 +743,7 @@ try:
     train_eft(cmd)
 
     l_con = '--l_con l2'
-    cmdphase = '--phase val'
+    cmd['phase'] = '--phase val'
     testAndeval_eft(cmd)
 except:
     from line_notify import sent_message
@@ -770,7 +770,7 @@ try:
     train_eft(cmd)
 
     l_con = '--l_con l2'
-    cmdphase = '--phase val'
+    cmd['phase'] = '--phase val'
     testAndeval_eft(cmd)
 except:
     from line_notify import sent_message
