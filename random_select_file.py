@@ -32,6 +32,6 @@ def copyFile(fileDir):
 
 if __name__ == '__main__':
     fileDir = "D:/Temp/AnomalyDetectionData_newdata_train0.1/test/1.abnormal/"
-    tarDir_first = 'D:/Temp/AnomalyDetectionData_newdata_train0.5/val/1.abnormal/'
-    tarDir_less = 'D:/Temp/AnomalyDetectionData_newdata_train0.5/val/1.abnormal/'
+    tarDir_first = 'D:/Temp/AnomalyDetectionData_newdata_train0.9/val/1.abnormal/'
+    tarDir_less = 'D:/Temp/AnomalyDetectionData_newdata_train0.9/val/1.abnormal/'
     copyFile(fileDir)

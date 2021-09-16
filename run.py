@@ -699,37 +699,92 @@ def train_eft(cmds):
 # cmds['dataset'], cmds['name'], cmds['isize'], cmds['niter'], cmds['phase'], cmds['batchsize'], cmds['dfr'], cmds['netg'], cmds['l_con'],
 #  cmds['discriminator'], cmds['ndf'], cmds['ngf'], cmds['ks'], cmds['wgan'], cmds['extractor_fine_tuned']
 
+# try:
+#     cmd = {}
+#     cmd['dataset'] = '--dataset AnomalyDetectionData_train0.1'
+#     cmd['name'] = '--name AnomalyDetectionData_train0.1_Unet_noSkipConnection_noPadding'
+#     cmd['isize'] = '--isize 128'
+#     cmd['niter'] = '--niter 100'
+#     cmd['phase'] = '--phase train'
+#     cmd['batchsize'] = '--batchsize 64'
+#     cmd['dfr'] = ''
+#     cmd['netg'] = '--netg Unet_noSkipConnection'
+#     cmd['l_con'] = '--l_con l1'
+#     cmd['discriminator'] = ''
+#     cmd['ndf'] = ''
+#     cmd['ngf'] = ''
+#     cmd['ks'] = ''
+#     cmd['wgan'] = ''
+#     cmd['extractor_fine_tuned'] = ''
+#     cmd['no_padding'] = '--no_padding'
+#     # train_eft(cmd)
+#     l_con = '--l_con l2'
+#     cmd['phase'] = '--phase val'
+#     testAndeval_eft(cmd)
+# except:
+#     from line_notify import sent_message
+#     sent_message('AnomalyDetectionData_train0.1_Unet_noSkipConnection_no_padding')
+#
+#
+# try:
+#     cmd = {}
+#     cmd['dataset'] = '--dataset AnomalyDetectionData_train0.5'
+#     cmd['name'] = '--name AnomalyDetectionData_train0.5_Unet_noSkipConnection'
+#     cmd['isize'] = '--isize 128'
+#     cmd['niter'] = '--niter 100'
+#     cmd['phase'] = '--phase train'
+#     cmd['batchsize'] = '--batchsize 64'
+#     cmd['dfr'] = ''
+#     cmd['netg'] = '--netg Unet_noSkipConnection'
+#     cmd['l_con'] = '--l_con l1'
+#     cmd['discriminator'] = ''
+#     cmd['ndf'] = ''
+#     cmd['ngf'] = ''
+#     cmd['ks'] = ''
+#     cmd['wgan'] = ''
+#     cmd['extractor_fine_tuned'] = ''
+#     cmd['no_padding'] = ''
+#     # train_eft(cmd)
+#
+#     l_con = '--l_con l2'
+#     cmd['phase'] = '--phase val'
+#     testAndeval_eft(cmd)
+# except:
+#     from line_notify import sent_message
+#     sent_message('AnomalyDetectionData_train0.5_Unet_noSkipConnection')
+#
+# try:
+#     cmd = {}
+#     cmd['dataset'] = '--dataset AnomalyDetectionData_newdata_train0.5'
+#     cmd['name'] = '--name AnomalyDetectionData_newdata_train0.5_Unet_noSkipConnection'
+#     cmd['isize'] = '--isize 128'
+#     cmd['niter'] = '--niter 100'
+#     cmd['phase'] = '--phase train'
+#     cmd['batchsize'] = '--batchsize 64'
+#     cmd['dfr'] = ''
+#     cmd['netg'] = '--netg Unet_noSkipConnection'
+#     cmd['l_con'] = '--l_con l1'
+#     cmd['discriminator'] = ''
+#     cmd['ndf'] = ''
+#     cmd['ngf'] = ''
+#     cmd['ks'] = ''
+#     cmd['wgan'] = ''
+#     cmd['extractor_fine_tuned'] = ''
+#     cmd['no_padding'] = ''
+#     # train_eft(cmd)
+#
+#     l_con = '--l_con l2'
+#     cmd['phase'] = '--phase val'
+#     testAndeval_eft(cmd)
+# except:
+#     from line_notify import sent_message
+#
+#     sent_message('AnomalyDetectionData_newdata_train0.5_Unet_noSkipConnection')
+
 try:
     cmd = {}
     cmd['dataset'] = '--dataset AnomalyDetectionData_train0.1'
-    cmd['name'] = '--name AnomalyDetectionData_train0.1_Unet_noSkipConnection_noPadding'
-    cmd['isize'] = '--isize 128'
-    cmd['niter'] = '--niter 100'
-    cmd['phase'] = '--phase train'
-    cmd['batchsize'] = '--batchsize 64'
-    cmd['dfr'] = ''
-    cmd['netg'] = '--netg Unet_noSkipConnection'
-    cmd['l_con'] = '--l_con l1'
-    cmd['discriminator'] = ''
-    cmd['ndf'] = ''
-    cmd['ngf'] = ''
-    cmd['ks'] = ''
-    cmd['wgan'] = ''
-    cmd['extractor_fine_tuned'] = ''
-    cmd['no_padding'] = '--no_padding'
-    # train_eft(cmd)
-    l_con = '--l_con l2'
-    cmd['phase'] = '--phase val'
-    testAndeval_eft(cmd)
-except:
-    from line_notify import sent_message
-    sent_message('AnomalyDetectionData_train0.1_Unet_noSkipConnection_no_padding')
-
-
-try:
-    cmd = {}
-    cmd['dataset'] = '--dataset AnomalyDetectionData_train0.5'
-    cmd['name'] = '--name AnomalyDetectionData_train0.5_Unet_noSkipConnection'
+    cmd['name'] = '--name AnomalyDetectionData_train0.1_Unet_noSkipConnection_pad128'
     cmd['isize'] = '--isize 128'
     cmd['niter'] = '--niter 100'
     cmd['phase'] = '--phase train'
@@ -745,20 +800,19 @@ try:
     cmd['extractor_fine_tuned'] = ''
     cmd['no_padding'] = ''
     # train_eft(cmd)
-
     l_con = '--l_con l2'
     cmd['phase'] = '--phase val'
     testAndeval_eft(cmd)
 except:
     from line_notify import sent_message
-    sent_message('AnomalyDetectionData_train0.5_Unet_noSkipConnection')
+    sent_message('AnomalyDetectionData_train0.1_Unet_noSkipConnection_pad128')
 
 try:
     cmd = {}
-    cmd['dataset'] = '--dataset AnomalyDetectionData_newdata_train0.5'
-    cmd['name'] = '--name AnomalyDetectionData_newdata_train0.5_Unet_noSkipConnection'
+    cmd['dataset'] = '--dataset AnomalyDetectionData_newdata_train0.9'
+    cmd['name'] = '--name AnomalyDetectionData_newdata_train0.9_Unet_noSkipConnection_pad128'
     cmd['isize'] = '--isize 128'
-    cmd['niter'] = '--niter 100'
+    cmd['niter'] = '--niter 300'
     cmd['phase'] = '--phase train'
     cmd['batchsize'] = '--batchsize 64'
     cmd['dfr'] = ''
@@ -779,6 +833,6 @@ try:
 except:
     from line_notify import sent_message
 
-    sent_message('AnomalyDetectionData_newdata_train0.5_Unet_noSkipConnection')
+    sent_message('AnomalyDetectionData_newdata_train0.5_Unet_noSkipConnection_pad128')
 
 print('done')
