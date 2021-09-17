@@ -799,10 +799,10 @@ try:
     cmd['wgan'] = ''
     cmd['extractor_fine_tuned'] = ''
     cmd['no_padding'] = ''
-    train_eft(cmd)
+    #train_eft(cmd)
     l_con = '--l_con l2'
     cmd['phase'] = '--phase val'
-    testAndeval_eft(cmd)
+    #testAndeval_eft(cmd)
 except:
     from line_notify import sent_message
     sent_message('AnomalyDetectionData_train0.1_Unet_noSkipConnection_pad128')
@@ -810,7 +810,7 @@ except:
 try:
     cmd = {}
     cmd['dataset'] = '--dataset AnomalyDetectionData_newdata_train0.9'
-    cmd['name'] = '--name AnomalyDetectionData_newdata_train0.9_Unet_noSkipConnection_pad128'
+    cmd['name'] = '--name AnomalyDetectionData_newdata_train0.9_Unet_noSkipConnection'
     cmd['isize'] = '--isize 128'
     cmd['niter'] = '--niter 300'
     cmd['phase'] = '--phase train'
@@ -833,6 +833,6 @@ try:
 except:
     from line_notify import sent_message
 
-    sent_message('AnomalyDetectionData_newdata_train0.5_Unet_noSkipConnection_pad128')
+    sent_message('AnomalyDetectionData_newdata_train0.5_Unet_noSkipConnection')
 
 print('done')
