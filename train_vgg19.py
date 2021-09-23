@@ -264,7 +264,7 @@ def train_model(opt, model, dataloaders, criterion, optimizer, num_epochs=25, is
 
             # deep copy the model
             model_wts = copy.deepcopy(model.state_dict())
-            torch.save(model_wts, opt.outf + '/%s.pth' % epoch)
+            torch.save(model_wts, opt.outf + '/vgg_weights/%s.pth' % epoch)
             if phase == 'val' and epoch_acc > best_acc:
                 best_acc = epoch_acc
                 best_model_wts = copy.deepcopy(model.state_dict())
