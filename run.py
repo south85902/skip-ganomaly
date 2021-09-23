@@ -1016,7 +1016,7 @@ def train_vgg19(cmds):
 
 try:
     cmd = {}
-    cmd['dataroot'] = '--dataroot AnomalyDetectionData_train0.1_vgg/train_vgg_au'
+    cmd['dataroot'] = '--dataroot ../dataSet/AnomalyDetectionData_train0.1_vgg/train_vgg_au'
     cmd['name'] = '--name vgg_weights'
     cmd['isize'] = '--isize 128'
     cmd['niter'] = '--niter 50'
