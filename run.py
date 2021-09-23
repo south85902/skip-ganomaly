@@ -185,7 +185,7 @@ def train_eft(cmds):
 def train_vgg19(cmds):
     return_code = subprocess.call(
         "python train_vgg19.py %s %s %s %s %s %s --verbose %s %s %s" % (
-            cmds.dataroot, cmds.name, cmds.isize, cmds.niter, cmds.lr, cmds.model_name, cmds.device, cmds.outf, cmds.batchsize), shell=True)
+            cmds['dataroot'], cmds.name, cmds.isize, cmds.niter, cmds.lr, cmds.model_name, cmds.device, cmds.outf, cmds.batchsize), shell=True)
 
 # try:
 #     dataset = 'AnomalyDetectionData_train0.1'
