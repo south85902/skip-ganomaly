@@ -32,6 +32,7 @@ import copy
 # print("PyTorch Version: ",torch.__version__)
 # print("Torchvision Version: ",torchvision.__version__)
 import argparse
+from tensorboardX import SummaryWriter
 
 class Options():
     """Options class
@@ -189,7 +190,7 @@ class SquarePad:
 		hp = int((max_wh - w) / 2)
 		vp = int((max_wh - h) / 2)
 		padding = (hp, vp, hp, vp)
-		return pad(image, padding, 0, 'constant')
+		return pad(image, padding, (0,0,0), 'constant')
 
 def save_weights(model, PATH):
     torch.save({
@@ -203,7 +204,7 @@ def train_model(opt, model, dataloaders, criterion, optimizer, num_epochs=25, is
 
     best_model_wts = copy.deepcopy(model.state_dict())
     best_acc = 0.0
-
+    writer = SummaryWriter(comment='_vgg')
     for epoch in range(num_epochs):
         print('Epoch {}/{}'.format(epoch, num_epochs - 1))
         print('-' * 10)
@@ -258,8 +259,12 @@ def train_model(opt, model, dataloaders, criterion, optimizer, num_epochs=25, is
             epoch_acc = running_corrects.double() / len(dataloaders[phase].dataset)
 
             print('{} Loss: {:.4f} Acc: {:.4f}'.format(phase, epoch_loss, epoch_acc))
+            writer.add_scalar('loss', epoch_loss, epoch)
+            writer.add_scalar('acc', epoch_acc, epoch)
 
             # deep copy the model
+            model_wts = copy.deepcopy(model.state_dict())
+            torch.save(model_wts, opt.outf + '/%s.pth' % epoch)
             if phase == 'val' and epoch_acc > best_acc:
                 best_acc = epoch_acc
                 best_model_wts = copy.deepcopy(model.state_dict())
