@@ -1031,6 +1031,18 @@ except:
 
     sent_message('train vgg19 error')
 
+cmd = {}
+cmd['dataroot'] = '--dataroot AnomalyDetectionData_train0.1_vgg/train_vgg_au'
+cmd['name'] = '--name vgg_weights'
+cmd['isize'] = '--isize 128'
+cmd['niter'] = '--niter 50'
+cmd['lr'] = '--lr 0.0001'
+cmd['model_name'] = '--model_name vgg'
+cmd['device'] = ''
+cmd['outf'] = '--outf ../vgg_weights'
+cmd['batchsize'] = '--batchsize 16'
+train_vgg19(cmd)
+
 # try:
 #     cmd = {}
 #     cmd['dataset'] = '--dataset AnomalyDetectionData_train0.1_vgg'
