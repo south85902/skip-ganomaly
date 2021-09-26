@@ -618,7 +618,7 @@ class Skipganomaly(BaseModel):
                 sz = self.feat_real.size()
                 if self.opt.l_con == 'l1' or self.opt.l_con == 'l2':
                     rec = (self.input - self.fake).view(si[0], si[1] * si[2] * si[3])
-                elif self.opt.l_con == 'ssim':
+                elif self.opt.l_con == 'ssim' or self.opt.l_con == 'ssiml1':
                     rec = ssim_score(self.input, self.fake)
                 lat = (self.feat_real - self.feat_fake).view(sz[0], sz[1] * sz[2] * sz[3])
 
@@ -626,7 +626,7 @@ class Skipganomaly(BaseModel):
                     rec = torch.mean(torch.abs(rec), dim=1)
                 elif self.opt.l_con == 'l2':
                     rec = torch.mean(torch.pow(rec, 2), dim=1)
-                elif self.opt.l_con == 'ssim':
+                elif self.opt.l_con == 'ssim' or self.opt.l_con == 'ssim':
                     pass
                 lat = torch.mean(torch.pow(lat, 2), dim=1)
 
