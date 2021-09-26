@@ -1201,22 +1201,22 @@ def train_vgg19(cmds):
 #
 #     sent_message('AnomalyDetectionData_train0.1_DFR_Unet_noDis_eft_au error')
 
-try:
-    cmd = {}
-    cmd['dataroot'] = '--dataroot ../dataSet/AnomalyDetectionData_newdata_train0.5_vgg/train_vgg_au'
-    cmd['name'] = '--name vgg_weights_newData'
-    cmd['isize'] = '--isize 128'
-    cmd['niter'] = '--niter 50'
-    cmd['lr'] = '--lr 0.0001'
-    cmd['model_name'] = '--model_name vgg'
-    cmd['device'] = ''
-    cmd['outf'] = '--outf ../vgg_weights'
-    cmd['batchsize'] = '--batchsize 16'
-    train_vgg19(cmd)
-except:
-    from line_notify import sent_message
-
-    sent_message('train vgg19 error')
+# try:
+#     cmd = {}
+#     cmd['dataroot'] = '--dataroot ../dataSet/AnomalyDetectionData_newdata_train0.5_vgg/train_vgg_au'
+#     cmd['name'] = '--name vgg_weights_newData'
+#     cmd['isize'] = '--isize 128'
+#     cmd['niter'] = '--niter 50'
+#     cmd['lr'] = '--lr 0.0001'
+#     cmd['model_name'] = '--model_name vgg'
+#     cmd['device'] = ''
+#     cmd['outf'] = '--outf ../vgg_weights'
+#     cmd['batchsize'] = '--batchsize 16'
+#     train_vgg19(cmd)
+# except:
+#     from line_notify import sent_message
+#
+#     sent_message('train vgg19 error')
 
 try:
     cmd = {}
