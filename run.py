@@ -1201,105 +1201,105 @@ except:
 
     sent_message('AnomalyDetectionData_train0.1_DFR_Unet_noDis_eft_au error')
 
-try:
-    cmd = {}
-    cmd['dataroot'] = '--dataroot ../dataSet/AnomalyDetectionData_newdata_train0.5_vgg/train_vgg_au'
-    cmd['name'] = '--name vgg_weights'
-    cmd['isize'] = '--isize 128'
-    cmd['niter'] = '--niter 50'
-    cmd['lr'] = '--lr 0.0001'
-    cmd['model_name'] = '--model_name vgg'
-    cmd['device'] = ''
-    cmd['outf'] = '--outf ../vgg_weights'
-    cmd['batchsize'] = '--batchsize 16'
-    train_vgg19(cmd)
-except:
-    from line_notify import sent_message
-
-    sent_message('train vgg19 error')
-
-try:
-    cmd = {}
-    cmd['dataset'] = '--dataset AnomalyDetectionData_newdata_train0.5_vgg'
-    cmd['name'] = '--name AnomalyDetectionData_newdata_train0.5_DFR_CAE_noDis_eft_au'
-    cmd['isize'] = '--isize 128'
-    cmd['niter'] = '--niter 70'
-    cmd['phase'] = '--phase train'
-    cmd['batchsize'] = '--batchsize 4'
-    cmd['dfr'] = '--DFR'
-    cmd['netg'] = '--netg CAE'
-    cmd['l_con'] = '--l_con l1'
-    cmd['discriminator'] = '--no_discriminator'
-    cmd['ndf'] = ''
-    cmd['ngf'] = ''
-    cmd['ks'] = ''
-    cmd['wgan'] = ''
-    cmd['extractor_fine_tuned'] = '--extractor_fine_tuned'
-    cmd['no_padding'] = ''
-    train_eft(cmd)
-
-    l_con = '--l_con l2'
-    cmd['phase'] = '--phase val'
-    testAndeval_eft(cmd)
-except:
-    from line_notify import sent_message
-
-    sent_message('AnomalyDetectionData_newdata_train0.5_DFR_CAE_noDis_eft_au error')
-
-try:
-    cmd = {}
-    cmd['dataset'] = '--dataset AnomalyDetectionData_newdata_train0.5'
-    cmd['name'] = '--name AnomalyDetectionData_newdata_train0.5_Unet_fewSkipConnection'
-    cmd['isize'] = '--isize 128'
-    cmd['niter'] = '--niter 300'
-    cmd['phase'] = '--phase train'
-    cmd['batchsize'] = '--batchsize 64'
-    cmd['dfr'] = ''
-    cmd['netg'] = '--netg Unet_fewSkipConnection'
-    cmd['l_con'] = '--l_con l1'
-    cmd['discriminator'] = ''
-    cmd['ndf'] = ''
-    cmd['ngf'] = ''
-    cmd['ks'] = ''
-    cmd['wgan'] = ''
-    cmd['extractor_fine_tuned'] = ''
-    cmd['no_padding'] = ''
-    train_eft(cmd)
-
-    l_con = '--l_con l2'
-    cmd['phase'] = '--phase val'
-    testAndeval_eft(cmd)
-except:
-    from line_notify import sent_message
-
-    sent_message('AnomalyDetectionData_newdata_train0.5_Unet_fewSkipConnection error')
-
-try:
-    cmd = {}
-    cmd['dataset'] = '--dataset AnomalyDetectionData_newdata_train0.9'
-    cmd['name'] = '--name AnomalyDetectionData_newdata_train0.9_Unet_fewSkipConnection'
-    cmd['isize'] = '--isize 128'
-    cmd['niter'] = '--niter 300'
-    cmd['phase'] = '--phase train'
-    cmd['batchsize'] = '--batchsize 64'
-    cmd['dfr'] = ''
-    cmd['netg'] = '--netg Unet_fewSkipConnection'
-    cmd['l_con'] = '--l_con l1'
-    cmd['discriminator'] = ''
-    cmd['ndf'] = ''
-    cmd['ngf'] = ''
-    cmd['ks'] = ''
-    cmd['wgan'] = ''
-    cmd['extractor_fine_tuned'] = ''
-    cmd['no_padding'] = ''
-    train_eft(cmd)
-
-    l_con = '--l_con l2'
-    cmd['phase'] = '--phase val'
-    testAndeval_eft(cmd)
-except:
-    from line_notify import sent_message
-
-    sent_message('AnomalyDetectionData_newdata_train0.9_Unet_fewSkipConnection error')
+# try:
+#     cmd = {}
+#     cmd['dataroot'] = '--dataroot ../dataSet/AnomalyDetectionData_newdata_train0.5_vgg/train_vgg_au'
+#     cmd['name'] = '--name vgg_weights'
+#     cmd['isize'] = '--isize 128'
+#     cmd['niter'] = '--niter 50'
+#     cmd['lr'] = '--lr 0.0001'
+#     cmd['model_name'] = '--model_name vgg'
+#     cmd['device'] = ''
+#     cmd['outf'] = '--outf ../vgg_weights'
+#     cmd['batchsize'] = '--batchsize 16'
+#     train_vgg19(cmd)
+# except:
+#     from line_notify import sent_message
+#
+#     sent_message('train vgg19 error')
+#
+# try:
+#     cmd = {}
+#     cmd['dataset'] = '--dataset AnomalyDetectionData_newdata_train0.5_vgg'
+#     cmd['name'] = '--name AnomalyDetectionData_newdata_train0.5_DFR_CAE_noDis_eft_au'
+#     cmd['isize'] = '--isize 128'
+#     cmd['niter'] = '--niter 70'
+#     cmd['phase'] = '--phase train'
+#     cmd['batchsize'] = '--batchsize 4'
+#     cmd['dfr'] = '--DFR'
+#     cmd['netg'] = '--netg CAE'
+#     cmd['l_con'] = '--l_con l1'
+#     cmd['discriminator'] = '--no_discriminator'
+#     cmd['ndf'] = ''
+#     cmd['ngf'] = ''
+#     cmd['ks'] = ''
+#     cmd['wgan'] = ''
+#     cmd['extractor_fine_tuned'] = '--extractor_fine_tuned'
+#     cmd['no_padding'] = ''
+#     train_eft(cmd)
+#
+#     l_con = '--l_con l2'
+#     cmd['phase'] = '--phase val'
+#     testAndeval_eft(cmd)
+# except:
+#     from line_notify import sent_message
+#
+#     sent_message('AnomalyDetectionData_newdata_train0.5_DFR_CAE_noDis_eft_au error')
+#
+# try:
+#     cmd = {}
+#     cmd['dataset'] = '--dataset AnomalyDetectionData_newdata_train0.5'
+#     cmd['name'] = '--name AnomalyDetectionData_newdata_train0.5_Unet_fewSkipConnection'
+#     cmd['isize'] = '--isize 128'
+#     cmd['niter'] = '--niter 300'
+#     cmd['phase'] = '--phase train'
+#     cmd['batchsize'] = '--batchsize 64'
+#     cmd['dfr'] = ''
+#     cmd['netg'] = '--netg Unet_fewSkipConnection'
+#     cmd['l_con'] = '--l_con l1'
+#     cmd['discriminator'] = ''
+#     cmd['ndf'] = ''
+#     cmd['ngf'] = ''
+#     cmd['ks'] = ''
+#     cmd['wgan'] = ''
+#     cmd['extractor_fine_tuned'] = ''
+#     cmd['no_padding'] = ''
+#     train_eft(cmd)
+#
+#     l_con = '--l_con l2'
+#     cmd['phase'] = '--phase val'
+#     testAndeval_eft(cmd)
+# except:
+#     from line_notify import sent_message
+#
+#     sent_message('AnomalyDetectionData_newdata_train0.5_Unet_fewSkipConnection error')
+#
+# try:
+#     cmd = {}
+#     cmd['dataset'] = '--dataset AnomalyDetectionData_newdata_train0.9'
+#     cmd['name'] = '--name AnomalyDetectionData_newdata_train0.9_Unet_fewSkipConnection'
+#     cmd['isize'] = '--isize 128'
+#     cmd['niter'] = '--niter 300'
+#     cmd['phase'] = '--phase train'
+#     cmd['batchsize'] = '--batchsize 64'
+#     cmd['dfr'] = ''
+#     cmd['netg'] = '--netg Unet_fewSkipConnection'
+#     cmd['l_con'] = '--l_con l1'
+#     cmd['discriminator'] = ''
+#     cmd['ndf'] = ''
+#     cmd['ngf'] = ''
+#     cmd['ks'] = ''
+#     cmd['wgan'] = ''
+#     cmd['extractor_fine_tuned'] = ''
+#     cmd['no_padding'] = ''
+#     train_eft(cmd)
+#
+#     l_con = '--l_con l2'
+#     cmd['phase'] = '--phase val'
+#     testAndeval_eft(cmd)
+# except:
+#     from line_notify import sent_message
+#
+#     sent_message('AnomalyDetectionData_newdata_train0.9_Unet_fewSkipConnection error')
 
 print('done')
