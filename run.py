@@ -1249,7 +1249,7 @@ def train_vgg19(cmds):
 try:
     cmd = {}
     cmd['dataset'] = '--dataset AnomalyDetectionData_newdata_train0.5'
-    cmd['name'] = '--name AnomalyDetectionData_newdata_train0.5_Unet_fewSkipConnection'
+    cmd['name'] = '--name AnomalyDetectionData_newdata_train0.5_Unet_fewSkipConnection_2'
     cmd['isize'] = '--isize 128'
     cmd['niter'] = '--niter 300'
     cmd['phase'] = '--phase train'
@@ -1264,7 +1264,7 @@ try:
     cmd['wgan'] = ''
     cmd['extractor_fine_tuned'] = ''
     cmd['no_padding'] = ''
-    #train_eft(cmd)
+    train_eft(cmd)
 
     l_con = '--l_con l2'
     cmd['phase'] = '--phase val'
@@ -1277,7 +1277,7 @@ except:
 try:
     cmd = {}
     cmd['dataset'] = '--dataset AnomalyDetectionData_newdata_train0.9'
-    cmd['name'] = '--name AnomalyDetectionData_newdata_train0.9_Unet_fewSkipConnection'
+    cmd['name'] = '--name AnomalyDetectionData_newdata_train0.9_Unet_fewSkipConnection_2'
     cmd['isize'] = '--isize 128'
     cmd['niter'] = '--niter 300'
     cmd['phase'] = '--phase train'
@@ -1292,7 +1292,7 @@ try:
     cmd['wgan'] = ''
     cmd['extractor_fine_tuned'] = ''
     cmd['no_padding'] = ''
-    #train_eft(cmd)
+    train_eft(cmd)
 
     l_con = '--l_con l2'
     cmd['phase'] = '--phase val'
