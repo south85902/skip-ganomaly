@@ -43,7 +43,8 @@ def ssim_loss(input, target):
     return -ssim_loss(input, target)
 
 def ssiml1_loss(input, target):
-    s = pytorch_ssim.SSIM(window_size=11)
+    ssim_loss = pytorch_ssim.SSIM(window_size=11)
+    s = -ssim_loss(input, target)
     l = torch.mean(torch.abs(input - target))
     t = s+l
     return t
