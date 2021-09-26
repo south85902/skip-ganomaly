@@ -359,8 +359,8 @@ class Skipganomaly(BaseModel):
         with torch.no_grad():
             # Load the weights of netg and netd.
             if self.opt.load_weights:
-                #self.load_weights(is_best=True)
-                self.load_weights(is_last=True)
+                self.load_weights(is_best=True)
+                #self.load_weights(is_last=True)
 
             self.opt.phase = 'test'
 
