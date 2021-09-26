@@ -18,7 +18,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-from lib.models.networks import NetD, weights_init, define_G, define_D, get_scheduler, define_G_DFR, define_D_DFR, define_G_noSkipConnection
+from lib.models.networks import NetD, weights_init, define_G, define_D, get_scheduler, define_G_DFR, define_D_DFR, define_G_noSkipConnection, define_G_fewSkipConnection
 from lib.visualizer import Visualizer
 from lib.loss import l2_loss, ssim_loss
 from lib.evaluate import roc, ssim_score
@@ -79,6 +79,8 @@ class Skipganomaly(BaseModel):
             self.netg = define_G_DFR(self.opt, norm='batch', use_dropout=False, init_type='normal')
         elif self.opt.netg == 'Unet_noSkipConnection':
             self.netg = define_G_noSkipConnection(self.opt, norm='batch', use_dropout=False, init_type='normal')
+        elif self.opt.netg == 'Unet_fewSkipConnection':
+            self.netg = define_G_fewSkipConnection(self.opt, norm='batch', use_dropout=False, init_type='normal')
         else:
             self.netg = define_G(self.opt, norm='batch', use_dropout=False, init_type='normal')
 
