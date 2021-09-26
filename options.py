@@ -52,7 +52,7 @@ class Options():
         self.parser.add_argument('--manualseed', default=-1, type=int, help='manual seed')
         self.parser.add_argument('--abnormal_class', default='automobile', help='Anomaly class idx for mnist and cifar datasets')
         self.parser.add_argument('--metric', type=str, default='roc', help='Evaluation metric.')
-        self.parser.add_argument('--l_con', type=str, default='l1', help='l1, l2, ssim, etc')
+        self.parser.add_argument('--l_con', type=str, default='l1', help='l1, l2, ssim, ssiml1 etc')
         self.parser.add_argument('--DFR', action='store_true', help='DFR.')
         self.parser.add_argument('--netg', type=str, default='Unet', help='Unet, CAE, Unet_DFR, Unet_noSkipConnection, Unet_fewSkipConnection etc')
         self.parser.add_argument('--no_discriminator', action='store_true', help='not use the discriminator loss.')

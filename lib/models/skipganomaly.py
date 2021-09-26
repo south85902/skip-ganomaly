@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 
 from lib.models.networks import NetD, weights_init, define_G, define_D, get_scheduler, define_G_DFR, define_D_DFR, define_G_noSkipConnection, define_G_fewSkipConnection
 from lib.visualizer import Visualizer
-from lib.loss import l2_loss, ssim_loss
+from lib.loss import l2_loss, ssim_loss, ssiml1_loss
 from lib.evaluate import roc, ssim_score
 from lib.models.basemodel import BaseModel
 import shutil
@@ -110,6 +110,8 @@ class Skipganomaly(BaseModel):
             self.l_con = l2_loss
         elif self.opt.l_con == 'ssim':
             self.l_con = ssim_loss
+        elif self.opt.l_con == 'ssiml1':
+            self.l_con = ssiml1_loss
         self.l_lat = l2_loss
 
         ##
