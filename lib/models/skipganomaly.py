@@ -669,11 +669,11 @@ class Skipganomaly(BaseModel):
             self.times = np.mean(self.times[:100] * 1000)
 
             # Scale error vector between [0, 1]
-            # self.an_scores = (self.an_scores - torch.min(self.an_scores)) / \
-            #                  (torch.max(self.an_scores) - torch.min(self.an_scores))
-            if self.opt.l_con != 'ssim':
-                self.an_scores = (self.an_scores - torch.tensor(min, dtype=torch.float32, device=self.device)) / \
-                                 (torch.tensor(max, dtype=torch.float32, device=self.device) - torch.tensor(min, dtype=torch.float32, device=self.device))
+            self.an_scores = (self.an_scores - torch.min(self.an_scores)) / \
+                             (torch.max(self.an_scores) - torch.min(self.an_scores))
+            # if self.opt.l_con != 'ssim':
+            #     self.an_scores = (self.an_scores - torch.tensor(min, dtype=torch.float32, device=self.device)) / \
+            #                      (torch.tensor(max, dtype=torch.float32, device=self.device) - torch.tensor(min, dtype=torch.float32, device=self.device))
 
             #auc = roc(self.gt_labels, self.an_scores, saveto=os.path.join(self.opt.outf, self.opt.name, test_set))
             #performance = OrderedDict(
