@@ -669,6 +669,8 @@ class Skipganomaly(BaseModel):
             self.times = np.mean(self.times[:100] * 1000)
 
             # Scale error vector between [0, 1]
+            min = torch.min(self.an_scores)
+            max = torch.max(self.an_scores)
             self.an_scores = (self.an_scores - torch.min(self.an_scores)) / \
                              (torch.max(self.an_scores) - torch.min(self.an_scores))
             # if self.opt.l_con != 'ssim':
@@ -725,15 +727,26 @@ class Skipganomaly(BaseModel):
                 plt.ion()
                 # Create data frame for scores and labels.
 
-                scores['min'] = torch.min(self.an_scores).cpu()
-                scores['max'] = torch.max(self.an_scores).cpu()
-                scores['score - min'] = ((self.an_scores - torch.min(self.an_scores))).cpu()
-                scores['max - min'] = (torch.max(self.an_scores) - torch.min(self.an_scores)).cpu()
-                scores['og'] = self.an_scores.cpu()
+                scores['min'] = min.cpu().numpy()
+                scores['max'] = max.cpu().numpy()
+                scores['pixel_min'] = pixel_min
+                scores['pixel_max'] = pixel_max
+                scores['rec scores'] = self.rec_scores.cpu()
+                scores['lat scores'] = self.lat_scores.cpu()
                 scores['scores'] = self.an_scores.cpu()
                 scores['labels'] = self.gt_labels.cpu()
                 hist = pd.DataFrame.from_dict(scores)
                 hist.to_csv(os.path.join(save_path, 'eval_histogram.csv'))
+
+                # scores['min'] = torch.min(self.an_scores).cpu()
+                # scores['max'] = torch.max(self.an_scores).cpu()
+                # scores['score - min'] = ((self.an_scores - torch.min(self.an_scores))).cpu()
+                # scores['max - min'] = (torch.max(self.an_scores) - torch.min(self.an_scores)).cpu()
+                # scores['og'] = self.an_scores.cpu()
+                # scores['scores'] = self.an_scores.cpu()
+                # scores['labels'] = self.gt_labels.cpu()
+                # hist = pd.DataFrame.from_dict(scores)
+                # hist.to_csv(os.path.join(save_path, 'eval_histogram.csv'))
 
     def build_classifier(self):
         # self.load_dim(self.model_path)
