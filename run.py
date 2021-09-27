@@ -1513,7 +1513,7 @@ try:
     cmd['wgan'] = ''
     cmd['extractor_fine_tuned'] = ''
     cmd['no_padding'] = ''
-    train_eft(cmd)
+    #train_eft(cmd)
 
     l_con = '--l_con l2'
     cmd['phase'] = '--phase val'
