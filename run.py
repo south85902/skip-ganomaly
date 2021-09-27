@@ -1526,13 +1526,13 @@ def train_vgg19(cmds):
 try:
     cmd = {}
     cmd['dataset'] = '--dataset AnomalyDetectionData_newdata_train0.5'
-    cmd['name'] = '--name AnomalyDetectionData_newdata_train0.5'
+    cmd['name'] = '--name AnomalyDetectionData_newdata_train0.5_Unet_noSkipConnection'
     cmd['isize'] = '--isize 128'
     cmd['niter'] = '--niter 300'
     cmd['phase'] = '--phase train'
     cmd['batchsize'] = '--batchsize 64'
     cmd['dfr'] = ''
-    cmd['netg'] = '--netg Unet'
+    cmd['netg'] = '--netg Unet_noSkipConnection'
     cmd['l_con'] = '--l_con l1'
     cmd['discriminator'] = ''
     cmd['ndf'] = ''
@@ -1548,7 +1548,7 @@ try:
     testAndeval_eft(cmd)
 except:
     from line_notify import sent_message
-    sent_message('AnomalyDetectionData_newdata_train0.5 error')
+    sent_message('AnomalyDetectionData_newdata_train0.5_Unet_noSkipConnection error')
 
 # try:
 #     cmd = {}
