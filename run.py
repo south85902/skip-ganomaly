@@ -813,33 +813,33 @@ def train_vgg19(cmds):
 #     from line_notify import sent_message
 #     sent_message('AnomalyDetectionData_train0.1_Unet_noSkipConnection_pad128')
 
-try:
-    cmd = {}
-    cmd['dataset'] = '--dataset AnomalyDetectionData_newdata_train0.9'
-    cmd['name'] = '--name AnomalyDetectionData_newdata_train0.9_Unet_noSkipConnection'
-    cmd['isize'] = '--isize 128'
-    cmd['niter'] = '--niter 300'
-    cmd['phase'] = '--phase train'
-    cmd['batchsize'] = '--batchsize 64'
-    cmd['dfr'] = ''
-    cmd['netg'] = '--netg Unet_noSkipConnection'
-    cmd['l_con'] = '--l_con l1'
-    cmd['discriminator'] = ''
-    cmd['ndf'] = ''
-    cmd['ngf'] = ''
-    cmd['ks'] = ''
-    cmd['wgan'] = ''
-    cmd['extractor_fine_tuned'] = ''
-    cmd['no_padding'] = ''
-    #train_eft(cmd)
-
-    l_con = '--l_con l2'
-    cmd['phase'] = '--phase val'
-    testAndeval_eft(cmd)
-except:
-    from line_notify import sent_message
-
-    sent_message('AnomalyDetectionData_newdata_train0.9_Unet_noSkipConnection')
+# try:
+#     cmd = {}
+#     cmd['dataset'] = '--dataset AnomalyDetectionData_newdata_train0.9'
+#     cmd['name'] = '--name AnomalyDetectionData_newdata_train0.9_Unet_noSkipConnection'
+#     cmd['isize'] = '--isize 128'
+#     cmd['niter'] = '--niter 300'
+#     cmd['phase'] = '--phase train'
+#     cmd['batchsize'] = '--batchsize 64'
+#     cmd['dfr'] = ''
+#     cmd['netg'] = '--netg Unet_noSkipConnection'
+#     cmd['l_con'] = '--l_con l1'
+#     cmd['discriminator'] = ''
+#     cmd['ndf'] = ''
+#     cmd['ngf'] = ''
+#     cmd['ks'] = ''
+#     cmd['wgan'] = ''
+#     cmd['extractor_fine_tuned'] = ''
+#     cmd['no_padding'] = ''
+#     #train_eft(cmd)
+#
+#     l_con = '--l_con l2'
+#     cmd['phase'] = '--phase val'
+#     testAndeval_eft(cmd)
+# except:
+#     from line_notify import sent_message
+#
+#     sent_message('AnomalyDetectionData_newdata_train0.9_Unet_noSkipConnection')
 
     
 # try:
@@ -1658,6 +1658,32 @@ except:
 #     from line_notify import sent_message
 #     sent_message('AnomalyDetectionData_train0.5 error')
 
+try:
+    cmd = {}
+    cmd['dataset'] = '--dataset AnomalyDetectionData_newdata_train0.5'
+    cmd['name'] = '--name AnomalyDetectionData_newdata_train0.5_Unet_fewSkipConnection'
+    cmd['isize'] = '--isize 128'
+    cmd['niter'] = '--niter 300'
+    cmd['phase'] = '--phase train'
+    cmd['batchsize'] = '--batchsize 64'
+    cmd['dfr'] = ''
+    cmd['netg'] = '--netg Unet_fewSkipConnection'
+    cmd['l_con'] = '--l_con l1'
+    cmd['discriminator'] = ''
+    cmd['ndf'] = ''
+    cmd['ngf'] = ''
+    cmd['ks'] = ''
+    cmd['wgan'] = ''
+    cmd['extractor_fine_tuned'] = ''
+    cmd['no_padding'] = ''
+    #train_eft(cmd)
 
+    l_con = '--l_con l2'
+    cmd['phase'] = '--phase val'
+    testAndeval_eft(cmd)
+except:
+    from line_notify import sent_message
+
+    sent_message('AnomalyDetectionData_newdata_train0.5_Unet_fewSkipConnection')
 
 print('done')
