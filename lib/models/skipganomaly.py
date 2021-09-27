@@ -731,8 +731,8 @@ class Skipganomaly(BaseModel):
                 scores['max'] = max.cpu().numpy()
                 scores['pixel_min'] = pixel_min
                 scores['pixel_max'] = pixel_max
-                scores['rec scores'] = self.rec_scores.cpu()
-                scores['lat scores'] = self.lat_scores.cpu()
+                # scores['rec scores'] = self.rec_scores.cpu()
+                # scores['lat scores'] = self.lat_scores.cpu()
                 scores['scores'] = self.an_scores.cpu()
                 scores['labels'] = self.gt_labels.cpu()
                 hist = pd.DataFrame.from_dict(scores)
