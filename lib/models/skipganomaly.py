@@ -544,8 +544,8 @@ class Skipganomaly(BaseModel):
         with torch.no_grad():
             # Load the weights of netg and netd.
             if self.opt.load_weights:
-                # self.load_weights(is_best=True)
-                self.load_weights(is_last=True)
+                self.load_weights(is_best=True)
+                #self.load_weights(is_last=True)
 
             self.opt.phase = 'test'
 
@@ -671,11 +671,11 @@ class Skipganomaly(BaseModel):
             # Scale error vector between [0, 1]
             min = torch.min(self.an_scores)
             max = torch.max(self.an_scores)
-            self.an_scores = (self.an_scores - torch.min(self.an_scores)) / \
-                             (torch.max(self.an_scores) - torch.min(self.an_scores))
-            # if self.opt.l_con != 'ssim':
-            #     self.an_scores = (self.an_scores - torch.tensor(min, dtype=torch.float32, device=self.device)) / \
-            #                      (torch.tensor(max, dtype=torch.float32, device=self.device) - torch.tensor(min, dtype=torch.float32, device=self.device))
+            # self.an_scores = (self.an_scores - torch.min(self.an_scores)) / \
+            #                  (torch.max(self.an_scores) - torch.min(self.an_scores))
+            if self.opt.l_con != 'ssim':
+                self.an_scores = (self.an_scores - torch.tensor(min, dtype=torch.float32, device=self.device)) / \
+                                 (torch.tensor(max, dtype=torch.float32, device=self.device) - torch.tensor(min, dtype=torch.float32, device=self.device))
 
             #auc = roc(self.gt_labels, self.an_scores, saveto=os.path.join(self.opt.outf, self.opt.name, test_set))
             #performance = OrderedDict(
