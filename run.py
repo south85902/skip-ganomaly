@@ -1515,7 +1515,7 @@ try:
     cmd['no_padding'] = ''
     #train_eft(cmd)
 
-    l_con = '--l_con l1'
+    l_con = '--l_con l2'
     cmd['phase'] = '--phase val'
     testAndeval_eft(cmd)
 except:
