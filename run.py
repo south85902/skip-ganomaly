@@ -1660,8 +1660,8 @@ def train_vgg19(cmds):
 
 try:
     cmd = {}
-    cmd['dataset'] = '--dataset AnomalyDetectionData_newdata_train0.5'
-    cmd['name'] = '--name AnomalyDetectionData_newdata_train0.5_Unet_fewSkipConnection'
+    cmd['dataset'] = '--dataset AnomalyDetectionData_newdata_train0.9'
+    cmd['name'] = '--name AnomalyDetectionData_newdata_train0.9_Unet_fewSkipConnection'
     cmd['isize'] = '--isize 128'
     cmd['niter'] = '--niter 300'
     cmd['phase'] = '--phase train'
@@ -1684,6 +1684,6 @@ try:
 except:
     from line_notify import sent_message
 
-    sent_message('AnomalyDetectionData_newdata_train0.5_Unet_fewSkipConnection')
+    sent_message('AnomalyDetectionData_newdata_train0.9_Unet_fewSkipConnection')
 
 print('done')

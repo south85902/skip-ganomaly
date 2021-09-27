@@ -693,10 +693,10 @@ class UnetGenerator_fewSkipConnection(nn.Module):
         super(UnetGenerator_fewSkipConnection, self).__init__()
 
         # construct unet structure
-        unet_block = UnetSkipConnectionBlock_mid(ngf * 8, ngf * 8, input_nc=None, submodule=None, norm_layer=norm_layer, innermost=True, opt=opt)
+        unet_block = UnetSkipConnectionBlock(ngf * 8, ngf * 8, input_nc=None, submodule=None, norm_layer=norm_layer, innermost=True, opt=opt)
         for i in range(num_downs - 5):
-            unet_block = UnetSkipConnectionBlock_mid(ngf * 8, ngf * 8, input_nc=None, submodule=unet_block, norm_layer=norm_layer, use_dropout=use_dropout, opt=opt)
-        unet_block = UnetSkipConnectionBlock_noSkipConnection(ngf * 4, ngf * 8, input_nc=None, submodule=unet_block, norm_layer=norm_layer, opt=opt)
+            unet_block = UnetSkipConnectionBlock(ngf * 8, ngf * 8, input_nc=None, submodule=unet_block, norm_layer=norm_layer, use_dropout=use_dropout, opt=opt)
+        unet_block = UnetSkipConnectionBlock_mid(ngf * 4, ngf * 8, input_nc=None, submodule=unet_block, norm_layer=norm_layer, opt=opt)
         unet_block = UnetSkipConnectionBlock_noSkipConnection(ngf * 2, ngf * 4, input_nc=None, submodule=unet_block, norm_layer=norm_layer, opt=opt)
         unet_block = UnetSkipConnectionBlock_noSkipConnection(ngf, ngf * 2, input_nc=None, submodule=unet_block, norm_layer=norm_layer, opt=opt)
         unet_block = UnetSkipConnectionBlock_noSkipConnection(output_nc, ngf, input_nc=input_nc, submodule=unet_block, outermost=True, norm_layer=norm_layer, opt=opt)
@@ -789,7 +789,7 @@ class UnetSkipConnectionBlock_mid(nn.Module):
             up = [uprelu, upconv, nn.Tanh()]
             model = down + [submodule] + up
         elif innermost:
-            upconv = nn.ConvTranspose2d(inner_nc, outer_nc*2,
+            upconv = nn.ConvTranspose2d(inner_nc, outer_nc,
                                         kernel_size=4, stride=2,
                                         padding=1, bias=use_bias)
             down = [downrelu, downconv]
