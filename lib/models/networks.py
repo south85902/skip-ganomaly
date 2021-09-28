@@ -193,6 +193,9 @@ class BasicDiscriminator(nn.Module):
         if not opt.netg == 'Unet_noSkipConnection_res':
             feat.add_module('final-{0}-{1}-conv'.format(cndf, 1),
                                 nn.Conv2d(cndf, nz, 4, 1, 0, bias=False))
+        else:
+            feat.add_module('final-{0}-{1}-conv'.format(cndf, 1),
+                                nn.Conv2d(cndf, nz, 3, 1, 1, bias=False))
 
         clas.add_module('classifier', nn.Conv2d(nz, 1, 3, 1, 1, bias=False))
         if not opt.WGAN:
