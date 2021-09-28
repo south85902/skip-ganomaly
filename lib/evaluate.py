@@ -115,3 +115,6 @@ def auprc(labels, scores):
 
 def ssim_score(input, target):
     return 1-pytorch_ssim.ssim(input, target, window_size=11, size_average=False)
+
+def ssim_heatmap(input, target):
+    return 1-pytorch_ssim.ssim_heatmap(input, target, window_size=11)

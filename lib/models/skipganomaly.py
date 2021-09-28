@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 from lib.models.networks import NetD, weights_init, define_G, define_D, get_scheduler, define_G_DFR, define_D_DFR, define_G_noSkipConnection, define_G_fewSkipConnection
 from lib.visualizer import Visualizer
 from lib.loss import l2_loss, ssim_loss, ssiml1_loss
-from lib.evaluate import roc, ssim_score
+from lib.evaluate import roc, ssim_score, ssim_heatmap
 from lib.models.basemodel import BaseModel
 import shutil
 from lib.DFR.feature import Extractor
@@ -440,8 +440,11 @@ class Skipganomaly(BaseModel):
                     error = 0.9 * rec + 0.1 * lat
 
                 # +++++++++++++++ heatmap #
+                if self.l_con != 'ssim':
+                    h = torch.mean((self.input - self.fake) ** 2, dim=1)
+                elif self.l_con == 'ssim':
+                    h = ssim_heatmap(self.input, self.fake)
 
-                h = torch.mean((self.input - self.fake) ** 2, dim=1)
                 temp_pixel_max = h.max().data
                 temp_pixel_min = h.min().data
                 if temp_pixel_max > self.pixel_max:
@@ -652,8 +655,15 @@ class Skipganomaly(BaseModel):
                     # vutils.save_image(fake, '%s/fake_%03d.eps' % (dst, i+1), normalize=True)
 
                     # heatmap++++++++++++++++++++++++++++
-                    h = torch.mean((self.input - self.fake) ** 2, dim=1)
-                    h = self.min_max_norm(h, pixel_min, pixel_max)
+
+                    if self.opt.l_con != 'ssim':
+                        h = torch.mean((self.input - self.fake) ** 2, dim=1)
+                        h = self.min_max_norm(h, pixel_min, pixel_max)
+                    elif self.opt.l_con == 'ssim':
+                        h = ssim_heatmap(self.input, self.fake)
+
+                    #h = torch.mean((self.input - self.fake) ** 2, dim=1)
+                    #h = self.min_max_norm(h, pixel_min, pixel_max)
                     # heatmap++++++++++++++++++++++++++++
                     for j in range(0, error.size(0)):
                         vutils.save_image(self.og_img[j].data, '%s/%03d_real.png' % (dst, i * self.opt.batchsize+j), normalize=True)
@@ -669,8 +679,8 @@ class Skipganomaly(BaseModel):
             self.times = np.mean(self.times[:100] * 1000)
 
             # Scale error vector between [0, 1]
-            min = torch.min(self.an_scores)
-            max = torch.max(self.an_scores)
+            # min = torch.min(self.an_scores)
+            # max = torch.max(self.an_scores)
             # self.an_scores = (self.an_scores - torch.min(self.an_scores)) / \
             #                  (torch.max(self.an_scores) - torch.min(self.an_scores))
             if self.opt.l_con != 'ssim':
