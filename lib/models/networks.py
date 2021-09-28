@@ -188,8 +188,12 @@ class BasicDiscriminator(nn.Module):
         # state size. K x 4 x 4
         # main.add_module('final-{0}-{1}-conv'.format(cndf, 1),
         #                     nn.Conv2d(cndf, nz, 4, 1, 0, bias=False))
-        feat.add_module('final-{0}-{1}-conv'.format(cndf, 1),
-                            nn.Conv2d(cndf, nz, 4, 1, 0, bias=False))
+
+        # for res
+        if not opt.netg == 'Unet_noSkipConnection_res':
+            feat.add_module('final-{0}-{1}-conv'.format(cndf, 1),
+                                nn.Conv2d(cndf, nz, 4, 1, 0, bias=False))
+
         clas.add_module('classifier', nn.Conv2d(nz, 1, 3, 1, 1, bias=False))
         if not opt.WGAN:
             clas.add_module('Sigmoid', nn.Sigmoid())
@@ -917,6 +921,32 @@ class ResidualConv(nn.Module):
     def forward(self, x):
         return self.conv_block(x) + self.conv_skip(x)
 
+class up_ResidualConv(nn.Module):
+    def __init__(self, input_dim, output_dim, stride, kernel_size, padding):
+        super(up_ResidualConv, self).__init__()
+        self.conv_upsample = nn.Sequential(
+            nn.ConvTranspose2d(input_dim, input_dim, kernel_size=kernel_size, stride=stride, padding=padding),
+            nn.BatchNorm2d(input_dim),
+        )
+        self.conv_block = nn.Sequential(
+            nn.BatchNorm2d(input_dim),
+            nn.ReLU(),
+            nn.Conv2d(
+                input_dim, output_dim, kernel_size=kernel_size, stride=stride, padding=padding
+            ),
+            nn.BatchNorm2d(output_dim),
+            nn.ReLU(),
+            nn.Conv2d(output_dim, output_dim, kernel_size=kernel_size, padding=1),
+        )
+        self.conv_skip = nn.Sequential(
+            nn.Conv2d(input_dim, output_dim, kernel_size=kernel_size, stride=stride, padding=1),
+            nn.BatchNorm2d(output_dim),
+        )
+
+    def forward(self, x):
+        x = self.conv_upsample(x)
+        return self.conv_block(x) + self.conv_skip(x)
+
 class UnetSkipConnectionBlock_noSkipConnection_res(nn.Module):
     def __init__(self, outer_nc, inner_nc, input_nc=None,
                  submodule=None, outermost=False, innermost=False, norm_layer=nn.BatchNorm2d, use_dropout=False, opt=None):
@@ -938,27 +968,33 @@ class UnetSkipConnectionBlock_noSkipConnection_res(nn.Module):
         upnorm = norm_layer(outer_nc)
 
         if outermost:
-            upconv = nn.ConvTranspose2d(inner_nc, outer_nc,
-                                        kernel_size=4, stride=2,
-                                        padding=1)
+            # upconv = nn.ConvTranspose2d(inner_nc, outer_nc,
+            #                             kernel_size=4, stride=2,
+            #                             padding=1)
+            upconv = up_ResidualConv(inner_nc, outer_nc, stride=2, kernel_size=kernel_size, padding=1)
             down = [downconv]
-            up = [uprelu, upconv, nn.Tanh()]
+            #up = [uprelu, upconv, nn.Tanh()]
+            up = [upconv, nn.Tanh()]
             model = down + [submodule] + up
         elif innermost:
-            upconv = nn.ConvTranspose2d(inner_nc, outer_nc,
-                                        kernel_size=4, stride=2,
-                                        padding=1, bias=use_bias)
+            # upconv = nn.ConvTranspose2d(inner_nc, outer_nc,
+            #                             kernel_size=4, stride=2,
+            #                             padding=1, bias=use_bias)
+            upconv = up_ResidualConv(inner_nc, outer_nc, stride=2, kernel_size=kernel_size, padding=1)
             #down = [downrelu, downconv]
             down = [downconv]
-            up = [uprelu, upconv, upnorm]
+            #up = [uprelu, upconv, upnorm]
+            up = [upconv, upnorm]
             model = down + up
         else:
-            upconv = nn.ConvTranspose2d(inner_nc, outer_nc,
-                                        kernel_size=4, stride=2,
-                                        padding=1, bias=use_bias)
+            # upconv = nn.ConvTranspose2d(inner_nc, outer_nc,
+            #                             kernel_size=4, stride=2,
+            #                             padding=1, bias=use_bias)
+            upconv = up_ResidualConv(inner_nc, outer_nc, stride=2, kernel_size=kernel_size, padding=1)
             #down = [downrelu, downconv, downnorm]
             down = [downconv]
-            up = [uprelu, upconv, upnorm]
+            #up = [uprelu, upconv, upnorm]
+            up = [upconv]
 
             if use_dropout:
                 model = down + [submodule] + up + [nn.Dropout(0.5)]
