@@ -1801,14 +1801,14 @@ def train_vgg19(cmds):
 
 try:
     cmd = {}
-    cmd['dataset'] = '--dataset AnomalyDetectionData_newdata_train0.9'
+    cmd['dataset'] = '--dataset AnomalyDetectionData_newdata_train0.5'
     cmd['name'] = '--name del'
     cmd['isize'] = '--isize 128'
     cmd['niter'] = '--niter 3'
     cmd['phase'] = '--phase train'
     cmd['batchsize'] = '--batchsize 64'
     cmd['dfr'] = ''
-    cmd['netg'] = '--netg Unet_noSkipConnection'
+    cmd['netg'] = '--netg Unet_noSkipConnection_res'
     cmd['l_con'] = '--l_con l1'
     cmd['discriminator'] = ''
     cmd['ndf'] = ''
