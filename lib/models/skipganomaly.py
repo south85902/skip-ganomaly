@@ -661,6 +661,7 @@ class Skipganomaly(BaseModel):
                         h = self.min_max_norm(h, pixel_min, pixel_max)
                     elif self.opt.l_con == 'ssim':
                         h = ssim_heatmap(self.input, self.fake)
+                        #h = self.min_max_norm(h, pixel_min, pixel_max)
 
                     #h = torch.mean((self.input - self.fake) ** 2, dim=1)
                     #h = self.min_max_norm(h, pixel_min, pixel_max)
@@ -737,8 +738,8 @@ class Skipganomaly(BaseModel):
                 plt.ion()
                 # Create data frame for scores and labels.
 
-                scores['min'] = min.cpu().numpy()
-                scores['max'] = max.cpu().numpy()
+                # scores['min'] = min.cpu().numpy()
+                # scores['max'] = max.cpu().numpy()
                 scores['pixel_min'] = pixel_min
                 scores['pixel_max'] = pixel_max
                 # scores['rec scores'] = self.rec_scores.cpu()
