@@ -1686,23 +1686,51 @@ def train_vgg19(cmds):
 #
 #     sent_message('AnomalyDetectionData_newdata_train0.9_Unet_fewSkipConnection')
 
+# try:
+#     cmd = {}
+#     cmd['dataset'] = '--dataset AnomalyDetectionData_newdata_train0.5_vgg'
+#     cmd['name'] = '--name AnomalyDetectionData_newdata_train0.5_DFR_CAE_noDis_eft_au'
+#     cmd['isize'] = '--isize 128'
+#     cmd['niter'] = '--niter 300'
+#     cmd['phase'] = '--phase train'
+#     cmd['batchsize'] = '--batchsize 4'
+#     cmd['dfr'] = '--DFR'
+#     cmd['netg'] = '--netg CAE'
+#     cmd['l_con'] = '--l_con l1'
+#     cmd['discriminator'] = '--no_discriminator'
+#     cmd['ndf'] = ''
+#     cmd['ngf'] = ''
+#     cmd['ks'] = ''
+#     cmd['wgan'] = ''
+#     cmd['extractor_fine_tuned'] = '--extractor_fine_tuned'
+#     cmd['no_padding'] = ''
+#     train_eft(cmd)
+#
+#     l_con = '--l_con l2'
+#     cmd['phase'] = '--phase val'
+#     testAndeval_eft(cmd)
+# except:
+#     from line_notify import sent_message
+#
+#     sent_message('AnomalyDetectionData_newdata_train0.5_DFR_CAE_noDis_eft_au')
+
 try:
     cmd = {}
-    cmd['dataset'] = '--dataset AnomalyDetectionData_newdata_train0.5_vgg'
-    cmd['name'] = '--name AnomalyDetectionData_newdata_train0.5_DFR_CAE_noDis_eft_au'
+    cmd['dataset'] = '--dataset AnomalyDetectionData_newdata_train0.5'
+    cmd['name'] = '--name AnomalyDetectionData_newdata_train0.5_Unet_noSkipConnection_wgan'
     cmd['isize'] = '--isize 128'
     cmd['niter'] = '--niter 300'
     cmd['phase'] = '--phase train'
-    cmd['batchsize'] = '--batchsize 4'
-    cmd['dfr'] = '--DFR'
-    cmd['netg'] = '--netg CAE'
+    cmd['batchsize'] = '--batchsize 64'
+    cmd['dfr'] = ''
+    cmd['netg'] = '--netg Unet_noSkipConnection'
     cmd['l_con'] = '--l_con l1'
-    cmd['discriminator'] = '--no_discriminator'
+    cmd['discriminator'] = ''
     cmd['ndf'] = ''
     cmd['ngf'] = ''
     cmd['ks'] = ''
-    cmd['wgan'] = ''
-    cmd['extractor_fine_tuned'] = '--extractor_fine_tuned'
+    cmd['wgan'] = '--wgan'
+    cmd['extractor_fine_tuned'] = ''
     cmd['no_padding'] = ''
     train_eft(cmd)
 
@@ -1712,6 +1740,6 @@ try:
 except:
     from line_notify import sent_message
 
-    sent_message('AnomalyDetectionData_newdata_train0.5_DFR_CAE_noDis_eft_au')
+    sent_message('AnomalyDetectionData_newdata_train0.5_Unet_noSkipConnection_wgan error')
 
 print('done')
