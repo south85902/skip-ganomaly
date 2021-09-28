@@ -1806,7 +1806,7 @@ try:
     cmd['isize'] = '--isize 128'
     cmd['niter'] = '--niter 3'
     cmd['phase'] = '--phase train'
-    cmd['batchsize'] = '--batchsize 64'
+    cmd['batchsize'] = '--batchsize 32'
     cmd['dfr'] = ''
     cmd['netg'] = '--netg Unet_noSkipConnection_res'
     cmd['l_con'] = '--l_con l1'
