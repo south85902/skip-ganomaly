@@ -1729,7 +1729,7 @@ try:
     cmd['ndf'] = ''
     cmd['ngf'] = ''
     cmd['ks'] = ''
-    cmd['wgan'] = '--wgan'
+    cmd['wgan'] = '--WGAN'
     cmd['extractor_fine_tuned'] = ''
     cmd['no_padding'] = ''
     train_eft(cmd)
