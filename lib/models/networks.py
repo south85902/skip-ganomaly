@@ -190,12 +190,15 @@ class BasicDiscriminator(nn.Module):
         #                     nn.Conv2d(cndf, nz, 4, 1, 0, bias=False))
 
         # for res
-        if not opt.netg == 'Unet_noSkipConnection_res':
-            feat.add_module('final-{0}-{1}-conv'.format(cndf, 1),
-                                nn.Conv2d(cndf, nz, 4, 1, 0, bias=False))
-        else:
-            feat.add_module('final-{0}-{1}-conv'.format(cndf, 1),
-                                nn.Conv2d(cndf, nz, 3, 1, 1, bias=False))
+        # if not opt.netg == 'Unet_noSkipConnection_res':
+        #     feat.add_module('final-{0}-{1}-conv'.format(cndf, 1),
+        #                         nn.Conv2d(cndf, nz, 4, 1, 0, bias=False))
+        # else:
+        #     feat.add_module('final-{0}-{1}-conv'.format(cndf, 1),
+        #                         nn.Conv2d(cndf, nz, 3, 1, 1, bias=False))
+
+        feat.add_module('final-{0}-{1}-conv'.format(cndf, 1),
+                            nn.Conv2d(cndf, nz, 4, 1, 0, bias=False))
 
         clas.add_module('classifier', nn.Conv2d(nz, 1, 3, 1, 1, bias=False))
         if not opt.WGAN:
@@ -928,7 +931,7 @@ class up_ResidualConv(nn.Module):
     def __init__(self, input_dim, output_dim, stride, kernel_size, padding):
         super(up_ResidualConv, self).__init__()
         self.conv_upsample = nn.Sequential(
-            nn.ConvTranspose2d(input_dim, input_dim, kernel_size=kernel_size, stride=stride, padding=padding),
+            nn.ConvTranspose2d(input_dim, input_dim, kernel_size=4, stride=2, padding=padding),
             nn.BatchNorm2d(input_dim),
         )
         self.conv_block = nn.Sequential(
@@ -974,7 +977,7 @@ class UnetSkipConnectionBlock_noSkipConnection_res(nn.Module):
             # upconv = nn.ConvTranspose2d(inner_nc, outer_nc,
             #                             kernel_size=4, stride=2,
             #                             padding=1)
-            upconv = up_ResidualConv(inner_nc, outer_nc, stride=2, kernel_size=kernel_size, padding=1)
+            upconv = up_ResidualConv(inner_nc, outer_nc, stride=1, kernel_size=kernel_size, padding=1)
             down = [downconv]
             #up = [uprelu, upconv, nn.Tanh()]
             up = [upconv, nn.Tanh()]
@@ -983,7 +986,7 @@ class UnetSkipConnectionBlock_noSkipConnection_res(nn.Module):
             # upconv = nn.ConvTranspose2d(inner_nc, outer_nc,
             #                             kernel_size=4, stride=2,
             #                             padding=1, bias=use_bias)
-            upconv = up_ResidualConv(inner_nc, outer_nc, stride=2, kernel_size=kernel_size, padding=1)
+            upconv = up_ResidualConv(inner_nc, outer_nc, stride=1, kernel_size=kernel_size, padding=1)
             #down = [downrelu, downconv]
             down = [downconv]
             #up = [uprelu, upconv, upnorm]
@@ -993,7 +996,7 @@ class UnetSkipConnectionBlock_noSkipConnection_res(nn.Module):
             # upconv = nn.ConvTranspose2d(inner_nc, outer_nc,
             #                             kernel_size=4, stride=2,
             #                             padding=1, bias=use_bias)
-            upconv = up_ResidualConv(inner_nc, outer_nc, stride=2, kernel_size=kernel_size, padding=1)
+            upconv = up_ResidualConv(inner_nc, outer_nc, stride=1, kernel_size=kernel_size, padding=1)
             #down = [downrelu, downconv, downnorm]
             down = [downconv]
             #up = [uprelu, upconv, upnorm]
