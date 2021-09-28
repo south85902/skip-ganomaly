@@ -1714,22 +1714,50 @@ def train_vgg19(cmds):
 #
 #     sent_message('AnomalyDetectionData_newdata_train0.5_DFR_CAE_noDis_eft_au')
 
+# try:
+#     cmd = {}
+#     cmd['dataset'] = '--dataset AnomalyDetectionData_newdata_train0.5'
+#     cmd['name'] = '--name AnomalyDetectionData_newdata_train0.5_Unet_noSkipConnection_wgan'
+#     cmd['isize'] = '--isize 128'
+#     cmd['niter'] = '--niter 300'
+#     cmd['phase'] = '--phase train'
+#     cmd['batchsize'] = '--batchsize 64'
+#     cmd['dfr'] = ''
+#     cmd['netg'] = '--netg Unet_noSkipConnection'
+#     cmd['l_con'] = '--l_con l1'
+#     cmd['discriminator'] = ''
+#     cmd['ndf'] = ''
+#     cmd['ngf'] = ''
+#     cmd['ks'] = ''
+#     cmd['wgan'] = '--WGAN'
+#     cmd['extractor_fine_tuned'] = ''
+#     cmd['no_padding'] = ''
+#     train_eft(cmd)
+#
+#     l_con = '--l_con l2'
+#     cmd['phase'] = '--phase val'
+#     testAndeval_eft(cmd)
+# except:
+#     from line_notify import sent_message
+#
+#     sent_message('AnomalyDetectionData_newdata_train0.5_Unet_noSkipConnection_wgan error')
+
 try:
     cmd = {}
     cmd['dataset'] = '--dataset AnomalyDetectionData_newdata_train0.5'
-    cmd['name'] = '--name AnomalyDetectionData_newdata_train0.5_Unet_noSkipConnection_wgan'
+    cmd['name'] = '--name AnomalyDetectionData_newdata_train0.5_Unet_noSkipConnection_res'
     cmd['isize'] = '--isize 128'
     cmd['niter'] = '--niter 300'
     cmd['phase'] = '--phase train'
     cmd['batchsize'] = '--batchsize 64'
     cmd['dfr'] = ''
-    cmd['netg'] = '--netg Unet_noSkipConnection'
+    cmd['netg'] = '--netg Unet_noSkipConnection_res'
     cmd['l_con'] = '--l_con l1'
     cmd['discriminator'] = ''
     cmd['ndf'] = ''
     cmd['ngf'] = ''
-    cmd['ks'] = ''
-    cmd['wgan'] = '--WGAN'
+    cmd['ks'] = '--ks 3'
+    cmd['wgan'] = ''
     cmd['extractor_fine_tuned'] = ''
     cmd['no_padding'] = ''
     train_eft(cmd)
@@ -1740,6 +1768,6 @@ try:
 except:
     from line_notify import sent_message
 
-    sent_message('AnomalyDetectionData_newdata_train0.5_Unet_noSkipConnection_wgan error')
+    sent_message('AnomalyDetectionData_newdata_train0.5_Unet_noSkipConnection_res error')
 
 print('done')
