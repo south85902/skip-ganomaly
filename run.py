@@ -159,13 +159,13 @@ def train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, k
 
 def testAndeval_eft(cmds):
     return_code = subprocess.call(
-        "python test.py %s %s %s %s --display --save_image_freq 1 --print_freq 1 --load_weights %s --verbose %s %s %s %s %s %s %s %s %s" % (
-        cmds['dataset'], cmds['name'], cmds['isize'], cmds['phase'], cmds['batchsize'], cmds['dfr'], cmds['netg'], cmds['l_con'], cmds['discriminator'], cmds['ndf'], cmds['ngf'], cmds['ks'], cmds['extractor_fine_tuned'], cmds['no_padding']), shell=True)
+        "python test.py %s %s %s %s --display --save_image_freq 1 --print_freq 1 --load_weights %s --verbose %s %s %s %s %s %s %s %s %s %s" % (
+        cmds['dataset'], cmds['name'], cmds['isize'], cmds['phase'], cmds['batchsize'], cmds['dfr'], cmds['netg'], cmds['l_con'], cmds['discriminator'], cmds['ndf'], cmds['ngf'], cmds['ks'], cmds['extractor_fine_tuned'], cmds['no_padding'], cmds['resize_same']), shell=True)
     return_code = subprocess.call("python draw_distribute.py %s %s %s" % (cmds['dataset'], cmds['name'], cmds['phase']),
                                   shell=True)
     return_code = subprocess.call(
-        "python eval.py %s %s %s --niter 1 --display --save_image_freq 1 --print_freq 1 %s --save_test_images --load_weights %s %s %s %s %s %s %s %s %s %s" % (
-        cmds['dataset'], cmds['name'], cmds['isize'], cmds['phase'], cmds['batchsize'], cmds['dfr'], cmds['netg'], cmds['l_con'], cmds['discriminator'], cmds['ndf'], cmds['ngf'], cmds['ks'], cmds['extractor_fine_tuned'], cmds['no_padding']), shell=True)
+        "python eval.py %s %s %s --niter 1 --display --save_image_freq 1 --print_freq 1 %s --save_test_images --load_weights %s %s %s %s %s %s %s %s %s %s %s" % (
+        cmds['dataset'], cmds['name'], cmds['isize'], cmds['phase'], cmds['batchsize'], cmds['dfr'], cmds['netg'], cmds['l_con'], cmds['discriminator'], cmds['ndf'], cmds['ngf'], cmds['ks'], cmds['extractor_fine_tuned'], cmds['no_padding'], cmds['resize_same']), shell=True)
 
     name = cmds['name']
     name = name.split(' ', 1)
@@ -179,8 +179,8 @@ def testAndeval_eft(cmds):
 
 def train_eft(cmds):
     return_code = subprocess.call(
-        "python train.py %s %s %s %s --display --save_image_freq 1 --print_freq 1 --phase train %s --verbose %s %s %s %s %s %s %s %s %s %s %s" % (
-            cmds['dataset'], cmds['name'], cmds['isize'], cmds['niter'], cmds['phase'], cmds['batchsize'], cmds['dfr'], cmds['netg'], cmds['l_con'], cmds['discriminator'], cmds['ndf'], cmds['ngf'], cmds['ks'], cmds['wgan'], cmds['extractor_fine_tuned'], cmds['no_padding']), shell=True)
+        "python train.py %s %s %s %s --display --save_image_freq 1 --print_freq 1 --phase train %s --verbose %s %s %s %s %s %s %s %s %s %s %s %s" % (
+            cmds['dataset'], cmds['name'], cmds['isize'], cmds['niter'], cmds['phase'], cmds['batchsize'], cmds['dfr'], cmds['netg'], cmds['l_con'], cmds['discriminator'], cmds['ndf'], cmds['ngf'], cmds['ks'], cmds['wgan'], cmds['extractor_fine_tuned'], cmds['no_padding'], cmds['resize_same']), shell=True)
 
 def train_vgg19(cmds):
     return_code = subprocess.call(
@@ -1869,7 +1869,8 @@ try:
     cmd['ks'] = '--ks 3'
     cmd['wgan'] = ''
     cmd['extractor_fine_tuned'] = ''
-    cmd['no_padding'] = '--no_padding'
+    cmd['no_padding'] = ''
+    cmd['resize_same'] = '--resize_same'
     train_eft(cmd)
 
     l_con = '--l_con l2'

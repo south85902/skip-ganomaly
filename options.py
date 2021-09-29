@@ -60,6 +60,8 @@ class Options():
         self.parser.add_argument('--WGAN', action='store_true', help='WGAN.')
         self.parser.add_argument('--extractor_fine_tuned', action='store_true', help='extractor fine tuned.')
         self.parser.add_argument('--no_padding', action='store_true', help='data no padding.')
+        self.parser.add_argument('--resize_same', action='store_true', help='data resize same size.')
+
         ##
         # Train
         self.parser.add_argument('--print_freq', type=int, default=100, help='frequency of showing training results on console')
