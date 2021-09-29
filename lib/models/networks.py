@@ -693,8 +693,8 @@ class UnetGenerator_noSkipConnection(nn.Module):
 
         # construct unet structure
         unet_block = UnetSkipConnectionBlock_noSkipConnection(ngf * 8, ngf * 8, input_nc=None, submodule=None, norm_layer=norm_layer, innermost=True, opt=opt)
-        # for i in range(num_downs - 5):
-        #     unet_block = UnetSkipConnectionBlock_noSkipConnection(ngf * 8, ngf * 8, input_nc=None, submodule=unet_block, norm_layer=norm_layer, use_dropout=use_dropout, opt=opt)
+        for i in range(num_downs - 5):
+            unet_block = UnetSkipConnectionBlock_noSkipConnection(ngf * 8, ngf * 8, input_nc=None, submodule=unet_block, norm_layer=norm_layer, use_dropout=use_dropout, opt=opt)
         unet_block = UnetSkipConnectionBlock_noSkipConnection(ngf * 4, ngf * 8, input_nc=None, submodule=unet_block, norm_layer=norm_layer, opt=opt)
         unet_block = UnetSkipConnectionBlock_noSkipConnection(ngf * 2, ngf * 4, input_nc=None, submodule=unet_block, norm_layer=norm_layer, opt=opt)
         unet_block = UnetSkipConnectionBlock_noSkipConnection(ngf, ngf * 2, input_nc=None, submodule=unet_block, norm_layer=norm_layer, opt=opt)
@@ -731,8 +731,8 @@ class UnetGenerator_noSkipConnection_res(nn.Module):
 
         # construct unet structure
         unet_block = UnetSkipConnectionBlock_noSkipConnection_res(ngf * 8, ngf * 8, input_nc=None, submodule=None, norm_layer=norm_layer, innermost=True, opt=opt)
-        # for i in range(num_downs - 5):
-        #     unet_block = UnetSkipConnectionBlock_noSkipConnection_res(ngf * 8, ngf * 8, input_nc=None, submodule=unet_block, norm_layer=norm_layer, use_dropout=use_dropout, opt=opt)
+        for i in range(num_downs - 5):
+            unet_block = UnetSkipConnectionBlock_noSkipConnection_res(ngf * 8, ngf * 8, input_nc=None, submodule=unet_block, norm_layer=norm_layer, use_dropout=use_dropout, opt=opt)
         unet_block = UnetSkipConnectionBlock_noSkipConnection_res(ngf * 4, ngf * 8, input_nc=None, submodule=unet_block, norm_layer=norm_layer, opt=opt)
         unet_block = UnetSkipConnectionBlock_noSkipConnection_res(ngf * 2, ngf * 4, input_nc=None, submodule=unet_block, norm_layer=norm_layer, opt=opt)
         unet_block = UnetSkipConnectionBlock_noSkipConnection_res(ngf, ngf * 2, input_nc=None, submodule=unet_block, norm_layer=norm_layer, opt=opt)
@@ -953,6 +953,68 @@ class up_ResidualConv(nn.Module):
         x = self.conv_upsample(x)
         return self.conv_block(x) + self.conv_skip(x)
 
+# class UnetSkipConnectionBlock_noSkipConnection_res(nn.Module):
+#     def __init__(self, outer_nc, inner_nc, input_nc=None,
+#                  submodule=None, outermost=False, innermost=False, norm_layer=nn.BatchNorm2d, use_dropout=False, opt=None):
+#         super(UnetSkipConnectionBlock_noSkipConnection_res, self).__init__()
+#         self.outermost = outermost
+#         kernel_size = opt.ks
+#         if type(norm_layer) == functools.partial:
+#             use_bias = norm_layer.func == nn.InstanceNorm2d
+#         else:
+#             use_bias = norm_layer == nn.InstanceNorm2d
+#         if input_nc is None:
+#             input_nc = outer_nc
+#         # downconv = nn.Conv2d(input_nc, inner_nc, kernel_size=kernel_size,
+#         #                      stride=2, padding=1, bias=use_bias)
+#         downconv = ResidualConv(input_nc, inner_nc, stride=2, kernel_size=kernel_size, padding=1)
+#         #downrelu = nn.LeakyReLU(0.2, True)
+#         #downnorm = norm_layer(inner_nc)
+#         uprelu = nn.ReLU(True)
+#         upnorm = norm_layer(outer_nc)
+#
+#         if outermost:
+#             # upconv = nn.ConvTranspose2d(inner_nc, outer_nc,
+#             #                             kernel_size=4, stride=2,
+#             #                             padding=1)
+#             upconv = up_ResidualConv(inner_nc, outer_nc, stride=1, kernel_size=kernel_size, padding=1)
+#             down = [downconv]
+#             #up = [uprelu, upconv, nn.Tanh()]
+#             up = [upconv, nn.Tanh()]
+#             model = down + [submodule] + up
+#         elif innermost:
+#             # upconv = nn.ConvTranspose2d(inner_nc, outer_nc,
+#             #                             kernel_size=4, stride=2,
+#             #                             padding=1, bias=use_bias)
+#             upconv = up_ResidualConv(inner_nc, outer_nc, stride=1, kernel_size=kernel_size, padding=1)
+#             #down = [downrelu, downconv]
+#             down = [downconv]
+#             #up = [uprelu, upconv, upnorm]
+#             up = [upconv, upnorm]
+#             model = down + up
+#         else:
+#             # upconv = nn.ConvTranspose2d(inner_nc, outer_nc,
+#             #                             kernel_size=4, stride=2,
+#             #                             padding=1, bias=use_bias)
+#             upconv = up_ResidualConv(inner_nc, outer_nc, stride=1, kernel_size=kernel_size, padding=1)
+#             #down = [downrelu, downconv, downnorm]
+#             down = [downconv]
+#             #up = [uprelu, upconv, upnorm]
+#             up = [upconv]
+#
+#             if use_dropout:
+#                 model = down + [submodule] + up + [nn.Dropout(0.5)]
+#             else:
+#                 model = down + [submodule] + up
+#
+#         self.model = nn.Sequential(*model)
+#
+#     def forward(self, x):
+#         if self.outermost:
+#             return self.model(x)
+#         else:
+#             return self.model(x)
+
 class UnetSkipConnectionBlock_noSkipConnection_res(nn.Module):
     def __init__(self, outer_nc, inner_nc, input_nc=None,
                  submodule=None, outermost=False, innermost=False, norm_layer=nn.BatchNorm2d, use_dropout=False, opt=None):
@@ -974,33 +1036,33 @@ class UnetSkipConnectionBlock_noSkipConnection_res(nn.Module):
         upnorm = norm_layer(outer_nc)
 
         if outermost:
-            # upconv = nn.ConvTranspose2d(inner_nc, outer_nc,
-            #                             kernel_size=4, stride=2,
-            #                             padding=1)
-            upconv = up_ResidualConv(inner_nc, outer_nc, stride=1, kernel_size=kernel_size, padding=1)
+            upconv = nn.ConvTranspose2d(inner_nc, outer_nc,
+                                        kernel_size=4, stride=2,
+                                        padding=1)
+            # upconv = up_ResidualConv(inner_nc, outer_nc, stride=1, kernel_size=kernel_size, padding=1)
             down = [downconv]
-            #up = [uprelu, upconv, nn.Tanh()]
-            up = [upconv, nn.Tanh()]
+            up = [uprelu, upconv, nn.Tanh()]
+            # up = [upconv, nn.Tanh()]
             model = down + [submodule] + up
         elif innermost:
-            # upconv = nn.ConvTranspose2d(inner_nc, outer_nc,
-            #                             kernel_size=4, stride=2,
-            #                             padding=1, bias=use_bias)
+            upconv = nn.ConvTranspose2d(inner_nc, outer_nc,
+                                        kernel_size=4, stride=2,
+                                        padding=1, bias=use_bias)
             upconv = up_ResidualConv(inner_nc, outer_nc, stride=1, kernel_size=kernel_size, padding=1)
             #down = [downrelu, downconv]
             down = [downconv]
-            #up = [uprelu, upconv, upnorm]
-            up = [upconv, upnorm]
+            up = [uprelu, upconv, upnorm]
+            # up = [upconv, upnorm]
             model = down + up
         else:
-            # upconv = nn.ConvTranspose2d(inner_nc, outer_nc,
-            #                             kernel_size=4, stride=2,
-            #                             padding=1, bias=use_bias)
+            upconv = nn.ConvTranspose2d(inner_nc, outer_nc,
+                                        kernel_size=4, stride=2,
+                                        padding=1, bias=use_bias)
             upconv = up_ResidualConv(inner_nc, outer_nc, stride=1, kernel_size=kernel_size, padding=1)
             #down = [downrelu, downconv, downnorm]
             down = [downconv]
-            #up = [uprelu, upconv, upnorm]
-            up = [upconv]
+            up = [uprelu, upconv, upnorm]
+            # up = [upconv]
 
             if use_dropout:
                 model = down + [submodule] + up + [nn.Dropout(0.5)]
@@ -1014,6 +1076,7 @@ class UnetSkipConnectionBlock_noSkipConnection_res(nn.Module):
             return self.model(x)
         else:
             return self.model(x)
+
 
 # Defines the PatchGAN discriminator with the specified arguments.
 class NLayerDiscriminator(nn.Module):
