@@ -1855,7 +1855,7 @@ def train_vgg19(cmds):
 try:
     cmd = {}
     cmd['dataset'] = '--dataset AnomalyDetectionData_train0.1'
-    cmd['name'] = '--name AnomalyDetectionData_train0.1_Unet_noSkipConnection_resize_same'
+    cmd['name'] = '--name AnomalyDetectionData_train0.1_Unet_noSkipConnection_resize_same_w16'
     cmd['isize'] = '--isize 128'
     cmd['niter'] = '--niter 100'
     cmd['phase'] = '--phase train'
@@ -1878,7 +1878,7 @@ try:
     testAndeval_eft(cmd)
 except:
     from line_notify import sent_message
-    sent_message('AnomalyDetectionData_train0.1_Unet_noSkipConnection_resize_same error')
+    sent_message('AnomalyDetectionData_train0.1_Unet_noSkipConnection_resize_same_w16 error')
 
 # try:
 #     cmd = {}
