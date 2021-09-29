@@ -87,7 +87,7 @@ def load_data(opt):
                                             transforms.ToTensor(),
                                             transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)), ])
         elif opt.resize_same:
-            transform = transforms.Compose([transforms.Resize([opt.isize, 16]),
+            transform = transforms.Compose([transforms.Resize([opt.isize, 32]),
                                             SquarePad(),
                                             transforms.CenterCrop(opt.isize),
                                             transforms.ToTensor(),
