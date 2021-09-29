@@ -693,8 +693,8 @@ class UnetGenerator_noSkipConnection(nn.Module):
 
         # construct unet structure
         unet_block = UnetSkipConnectionBlock_noSkipConnection(ngf * 8, ngf * 8, input_nc=None, submodule=None, norm_layer=norm_layer, innermost=True, opt=opt)
-        for i in range(num_downs - 5):
-            unet_block = UnetSkipConnectionBlock_noSkipConnection(ngf * 8, ngf * 8, input_nc=None, submodule=unet_block, norm_layer=norm_layer, use_dropout=use_dropout, opt=opt)
+        # for i in range(num_downs - 5):
+        #     unet_block = UnetSkipConnectionBlock_noSkipConnection(ngf * 8, ngf * 8, input_nc=None, submodule=unet_block, norm_layer=norm_layer, use_dropout=use_dropout, opt=opt)
         unet_block = UnetSkipConnectionBlock_noSkipConnection(ngf * 4, ngf * 8, input_nc=None, submodule=unet_block, norm_layer=norm_layer, opt=opt)
         unet_block = UnetSkipConnectionBlock_noSkipConnection(ngf * 2, ngf * 4, input_nc=None, submodule=unet_block, norm_layer=norm_layer, opt=opt)
         unet_block = UnetSkipConnectionBlock_noSkipConnection(ngf, ngf * 2, input_nc=None, submodule=unet_block, norm_layer=norm_layer, opt=opt)
