@@ -911,12 +911,14 @@ class ResidualConv(nn.Module):
 
         self.conv_block = nn.Sequential(
             nn.BatchNorm2d(input_dim),
-            nn.ReLU(),
+            # nn.ReLU(),
+            nn.LeakyReLU(0.2, True),
             nn.Conv2d(
                 input_dim, output_dim, kernel_size=kernel_size, stride=stride, padding=padding
             ),
             nn.BatchNorm2d(output_dim),
-            nn.ReLU(),
+            # nn.ReLU(),
+            nn.LeakyReLU(0.2, True),
             nn.Conv2d(output_dim, output_dim, kernel_size=kernel_size, padding=1),
         )
         self.conv_skip = nn.Sequential(
@@ -925,6 +927,7 @@ class ResidualConv(nn.Module):
         )
 
     def forward(self, x):
+        # return self.conv_block(x) + self.conv_skip(x)
         return self.conv_block(x) + self.conv_skip(x)
 
 class up_ResidualConv(nn.Module):
