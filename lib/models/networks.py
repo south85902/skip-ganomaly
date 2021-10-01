@@ -1051,7 +1051,7 @@ class UnetSkipConnectionBlock_noSkipConnection_res(nn.Module):
             upconv = nn.ConvTranspose2d(inner_nc, outer_nc,
                                         kernel_size=4, stride=2,
                                         padding=1, bias=use_bias)
-            upconv = up_ResidualConv(inner_nc, outer_nc, stride=1, kernel_size=kernel_size, padding=1)
+            #upconv = up_ResidualConv(inner_nc, outer_nc, stride=1, kernel_size=kernel_size, padding=1)
             #down = [downrelu, downconv]
             down = [downconv]
             up = [uprelu, upconv, upnorm]
@@ -1061,7 +1061,7 @@ class UnetSkipConnectionBlock_noSkipConnection_res(nn.Module):
             upconv = nn.ConvTranspose2d(inner_nc, outer_nc,
                                         kernel_size=4, stride=2,
                                         padding=1, bias=use_bias)
-            upconv = up_ResidualConv(inner_nc, outer_nc, stride=1, kernel_size=kernel_size, padding=1)
+            #upconv = up_ResidualConv(inner_nc, outer_nc, stride=1, kernel_size=kernel_size, padding=1)
             #down = [downrelu, downconv, downnorm]
             down = [downconv]
             up = [uprelu, upconv, upnorm]
