@@ -1982,33 +1982,33 @@ except:
 
     sent_message('train vgg19 error')
 
-try:
-    cmd = {}
-    cmd['dataset'] = '--dataset AnomalyDetectionData_balance_vgg'
-    cmd['name'] = '--name AnomalyDetectionData_balance_vgg_Unet_noSkipConnection_resize_same_w32'
-    cmd['isize'] = '--isize 128'
-    cmd['niter'] = '--niter 100'
-    cmd['phase'] = '--phase train'
-    cmd['batchsize'] = '--batchsize 64'
-    cmd['dfr'] = ''
-    cmd['netg'] = '--netg Unet_noSkipConnection'
-    cmd['l_con'] = '--l_con l1'
-    cmd['discriminator'] = ''
-    cmd['ndf'] = ''
-    cmd['ngf'] = ''
-    cmd['ks'] = '--ks 3'
-    cmd['wgan'] = ''
-    cmd['extractor_fine_tuned'] = ''
-    cmd['no_padding'] = ''
-    cmd['resize_same'] = '--resize_same'
-    train_eft(cmd)
-
-    l_con = '--l_con l1'
-    cmd['phase'] = '--phase val'
-    testAndeval_eft(cmd)
-except:
-    from line_notify import sent_message
-    sent_message('AnomalyDetectionData_balance_vgg_Unet_noSkipConnection_resize_same_w32 error')
+# try:
+#     cmd = {}
+#     cmd['dataset'] = '--dataset AnomalyDetectionData_balance_vgg'
+#     cmd['name'] = '--name AnomalyDetectionData_balance_vgg_Unet_noSkipConnection_resize_same_w32'
+#     cmd['isize'] = '--isize 128'
+#     cmd['niter'] = '--niter 100'
+#     cmd['phase'] = '--phase train'
+#     cmd['batchsize'] = '--batchsize 64'
+#     cmd['dfr'] = ''
+#     cmd['netg'] = '--netg Unet_noSkipConnection'
+#     cmd['l_con'] = '--l_con l1'
+#     cmd['discriminator'] = ''
+#     cmd['ndf'] = ''
+#     cmd['ngf'] = ''
+#     cmd['ks'] = '--ks 3'
+#     cmd['wgan'] = ''
+#     cmd['extractor_fine_tuned'] = ''
+#     cmd['no_padding'] = ''
+#     cmd['resize_same'] = '--resize_same'
+#     train_eft(cmd)
+#
+#     l_con = '--l_con l1'
+#     cmd['phase'] = '--phase val'
+#     testAndeval_eft(cmd)
+# except:
+#     from line_notify import sent_message
+#     sent_message('AnomalyDetectionData_balance_vgg_Unet_noSkipConnection_resize_same_w32 error')
 
 try:
     cmd = {}
