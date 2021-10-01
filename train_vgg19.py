@@ -316,18 +316,35 @@ if __name__ == '__main__':
     print("Initializing Datasets and Dataloaders...")
 
     data_transforms = {
+        # transform = transforms.Compose([transforms.Resize([opt.isize, 32]),
+        #                                 SquarePad(),
+        #                                 transforms.CenterCrop(opt.isize),
+        #                                 transforms.ToTensor(),
+        #                                 transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)), ])
+
+        ## og
+        # 'train':  # add padding
+        #     transforms.Compose([SquarePad(),
+        #                         transforms.Resize(input_size),
+        #                         transforms.CenterCrop(input_size),
+        #                         transforms.ToTensor(),
+        #                         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)), ]),
+        # 'val': transforms.Compose([SquarePad(),
+        #                            transforms.Resize(input_size),
+        #                            transforms.CenterCrop(input_size),
+        #                            transforms.ToTensor(),
+        #                            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)), ]),
         'train':  # add padding
-            transforms.Compose([SquarePad(),
-                                transforms.Resize(input_size),
+            transforms.Compose([transforms.Resize([opt.isize, 32]),
+                                SquarePad(),
                                 transforms.CenterCrop(input_size),
                                 transforms.ToTensor(),
                                 transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)), ]),
-        'val': transforms.Compose([SquarePad(),
-                                   transforms.Resize(input_size),
+        'val': transforms.Compose([transforms.Resize([opt.isize, 32]),
+                                   SquarePad(),
                                    transforms.CenterCrop(input_size),
                                    transforms.ToTensor(),
                                    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)), ]),
-
     }
 
     # Create training and validation datasets
