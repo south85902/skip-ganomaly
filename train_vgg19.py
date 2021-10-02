@@ -74,7 +74,7 @@ class Options():
         self.parser.add_argument('--lr_policy', type=str, default='lambda', help='lambda|step|plateau')
         self.parser.add_argument('--lr_decay_iters', type=int, default=50, help='multiply by a gamma every lr_decay_iters iterations')
         self.parser.add_argument('--model_name', type=str, default='vgg', help='vgg|resnet')
-        self.parser.add_argument('--weight_name', type=str, default='vgg', help='weight saved name.')
+        self.parser.add_argument('--weight_name', type=str, default='', help='weight saved name.')
         self.isTrain = True
         self.opt = None
 
