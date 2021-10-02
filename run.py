@@ -2068,51 +2068,15 @@ def train_vgg19(cmds):
 #     sent_message('AnomalyDetectionData_balance_vgg_DFR_CAE_noDis_eft_au_resize_same_w32 error')
 
 
-# try:
-#     cmd = {}
-#     cmd['dataroot'] = '--dataroot ../dataSet/AnomalyDetectionData_train5404_vgg/train_vgg_all_au'
-#     cmd['name'] = '--name vgg_weights'
-#     cmd['isize'] = '--isize 128'
-#     cmd['niter'] = '--niter 2'
-#     cmd['lr'] = '--lr 0.0001'
-#     cmd['model_name'] = '--model_name vgg'
-#     cmd['weight_name'] = '--weight_name train5404_all_au'
-#     cmd['device'] = ''
-#     cmd['outf'] = '--outf ../vgg_weights'
-#     cmd['batchsize'] = '--batchsize 16'
-#     train_vgg19(cmd)
-# except:
-#     from line_notify import sent_message
-#
-#     sent_message('train vgg19 error')
-#
-# try:
-#     cmd = {}
-#     cmd['dataroot'] = '--dataroot ../dataSet/AnomalyDetectionData_train5404_vgg/train_vgg_0.5_au'
-#     cmd['name'] = '--name vgg_weights'
-#     cmd['isize'] = '--isize 128'
-#     cmd['niter'] = '--niter 2'
-#     cmd['lr'] = '--lr 0.0001'
-#     cmd['model_name'] = '--model_name vgg'
-#     cmd['weight_name'] = '--weight_name train5404_0.5_au'
-#     cmd['device'] = ''
-#     cmd['outf'] = '--outf ../vgg_weights'
-#     cmd['batchsize'] = '--batchsize 16'
-#     train_vgg19(cmd)
-# except:
-#     from line_notify import sent_message
-#
-#     sent_message('train vgg19 error')
-
 try:
     cmd = {}
-    cmd['dataroot'] = '--dataroot ../dataSet/AnomalyDetectionData_2PIN_train0.5_vgg/train_vgg_all_au'
+    cmd['dataroot'] = '--dataroot ../dataSet/AnomalyDetectionData_train5404_vgg/train_vgg_all_au'
     cmd['name'] = '--name vgg_weights'
     cmd['isize'] = '--isize 128'
-    cmd['niter'] = '--niter 2'
+    cmd['niter'] = '--niter 1'
     cmd['lr'] = '--lr 0.0001'
     cmd['model_name'] = '--model_name vgg'
-    cmd['weight_name'] = '--weight_name 2PIN_train0.5_all_au'
+    cmd['weight_name'] = '--weight_name train5404_all_au'
     cmd['device'] = ''
     cmd['outf'] = '--outf ../vgg_weights'
     cmd['batchsize'] = '--batchsize 16'
@@ -2124,13 +2088,13 @@ except:
 
 try:
     cmd = {}
-    cmd['dataroot'] = '--dataroot ../dataSet/AnomalyDetectionData_2PIN_train0.5_vgg/train_vgg_0.5_au'
+    cmd['dataroot'] = '--dataroot ../dataSet/AnomalyDetectionData_train5404_vgg/train_vgg_0.5_au'
     cmd['name'] = '--name vgg_weights'
     cmd['isize'] = '--isize 128'
     cmd['niter'] = '--niter 2'
     cmd['lr'] = '--lr 0.0001'
     cmd['model_name'] = '--model_name vgg'
-    cmd['weight_name'] = '--weight_name 2PIN_train0.5_0.5_au'
+    cmd['weight_name'] = ''
     cmd['device'] = ''
     cmd['outf'] = '--outf ../vgg_weights'
     cmd['batchsize'] = '--batchsize 16'
@@ -2139,6 +2103,42 @@ except:
     from line_notify import sent_message
 
     sent_message('train vgg19 error')
+
+# try:
+#     cmd = {}
+#     cmd['dataroot'] = '--dataroot ../dataSet/AnomalyDetectionData_2PIN_train0.5_vgg/train_vgg_all_au'
+#     cmd['name'] = '--name vgg_weights'
+#     cmd['isize'] = '--isize 128'
+#     cmd['niter'] = '--niter 50'
+#     cmd['lr'] = '--lr 0.0001'
+#     cmd['model_name'] = '--model_name vgg'
+#     cmd['weight_name'] = '--weight_name 2PIN_train0.5_all_au'
+#     cmd['device'] = ''
+#     cmd['outf'] = '--outf ../vgg_weights'
+#     cmd['batchsize'] = '--batchsize 16'
+#     train_vgg19(cmd)
+# except:
+#     from line_notify import sent_message
+#
+#     sent_message('train vgg19 error')
+#
+# try:
+#     cmd = {}
+#     cmd['dataroot'] = '--dataroot ../dataSet/AnomalyDetectionData_2PIN_train0.5_vgg/train_vgg_0.5_au'
+#     cmd['name'] = '--name vgg_weights'
+#     cmd['isize'] = '--isize 128'
+#     cmd['niter'] = '--niter 50'
+#     cmd['lr'] = '--lr 0.0001'
+#     cmd['model_name'] = '--model_name vgg'
+#     cmd['weight_name'] = '--weight_name 2PIN_train0.5_0.5_au'
+#     cmd['device'] = ''
+#     cmd['outf'] = '--outf ../vgg_weights'
+#     cmd['batchsize'] = '--batchsize 16'
+#     train_vgg19(cmd)
+# except:
+#     from line_notify import sent_message
+#
+#     sent_message('train vgg19 error')
 
 # try:
 #     cmd = {}
