@@ -74,6 +74,7 @@ class Options():
         self.parser.add_argument('--lr_policy', type=str, default='lambda', help='lambda|step|plateau')
         self.parser.add_argument('--lr_decay_iters', type=int, default=50, help='multiply by a gamma every lr_decay_iters iterations')
         self.parser.add_argument('--model_name', type=str, default='vgg', help='vgg|resnet')
+        self.parser.add_argument('--weight_name', type=str, default='vgg', help='weight saved name.')
         self.isTrain = True
         self.opt = None
 
@@ -268,7 +269,7 @@ def train_model(opt, model, dataloaders, criterion, optimizer, num_epochs=25, is
             if phase == 'val' and epoch_acc > best_acc:
                 best_acc = epoch_acc
                 best_model_wts = copy.deepcopy(model.state_dict())
-                torch.save(best_model_wts, opt.outf+'/best.pth')
+                torch.save(best_model_wts, opt.outf+'/best_'+opt.weight_name+'.pth')
             if phase == 'val':
                 val_acc_history.append(epoch_acc)
 
