@@ -158,11 +158,11 @@ def train(dataset, batchsize, name, dfr, netg, l_con, discriminator, ndf, ngf, k
 #             dataset, name, niter, batchsize, dfr, netg, l_con, discriminator, ndf, ngf, ks, wgan, extractor_fine_tuned), shell=True)
 
 def testAndeval_eft(cmds):
-    # return_code = subprocess.call(
-    #     "python test.py %s %s %s %s --display --save_image_freq 1 --print_freq 1 --load_weights %s --verbose %s %s %s %s %s %s %s %s %s %s" % (
-    #     cmds['dataset'], cmds['name'], cmds['isize'], cmds['phase'], cmds['batchsize'], cmds['dfr'], cmds['netg'], cmds['l_con'], cmds['discriminator'], cmds['ndf'], cmds['ngf'], cmds['ks'], cmds['extractor_fine_tuned'], cmds['no_padding'], cmds['resize_same']), shell=True)
-    # return_code = subprocess.call("python draw_distribute.py %s %s %s" % (cmds['dataset'], cmds['name'], cmds['phase']),
-    #                               shell=True)
+    return_code = subprocess.call(
+        "python test.py %s %s %s %s --display --save_image_freq 1 --print_freq 1 --load_weights %s --verbose %s %s %s %s %s %s %s %s %s %s" % (
+        cmds['dataset'], cmds['name'], cmds['isize'], cmds['phase'], cmds['batchsize'], cmds['dfr'], cmds['netg'], cmds['l_con'], cmds['discriminator'], cmds['ndf'], cmds['ngf'], cmds['ks'], cmds['extractor_fine_tuned'], cmds['no_padding'], cmds['resize_same']), shell=True)
+    return_code = subprocess.call("python draw_distribute.py %s %s %s" % (cmds['dataset'], cmds['name'], cmds['phase']),
+                                  shell=True)
     return_code = subprocess.call(
         "python eval.py %s %s %s --niter 1 --display --save_image_freq 1 --print_freq 1 %s --save_test_images --load_weights %s %s %s %s %s %s %s %s %s %s %s" % (
         cmds['dataset'], cmds['name'], cmds['isize'], cmds['phase'], cmds['batchsize'], cmds['dfr'], cmds['netg'], cmds['l_con'], cmds['discriminator'], cmds['ndf'], cmds['ngf'], cmds['ks'], cmds['extractor_fine_tuned'], cmds['no_padding'], cmds['resize_same']), shell=True)
