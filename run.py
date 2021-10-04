@@ -1873,7 +1873,7 @@ try:
     cmd['resize_same'] = '--resize_same'
     #train_eft(cmd)
 
-    l_con = '--l_con ssim'
+    cmd['l_con'] = '--l_con l2'
     cmd['phase'] = '--phase val'
     testAndeval_eft(cmd)
 except:
