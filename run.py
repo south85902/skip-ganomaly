@@ -1852,33 +1852,33 @@ def train_vgg19(cmds):
 #     from line_notify import sent_message
 #     sent_message('AnomalyDetectionData_train0.5_Unet_noSkipConnection_res_2 error')
 
-# try:
-#     cmd = {}
-#     cmd['dataset'] = '--dataset AnomalyDetectionData_train0.1'
-#     cmd['name'] = '--name AnomalyDetectionData_train0.1_Unet_noSkipConnection_resize_same_w16'
-#     cmd['isize'] = '--isize 128'
-#     cmd['niter'] = '--niter 100'
-#     cmd['phase'] = '--phase train'
-#     cmd['batchsize'] = '--batchsize 64'
-#     cmd['dfr'] = ''
-#     cmd['netg'] = '--netg Unet_noSkipConnection'
-#     cmd['l_con'] = '--l_con l1'
-#     cmd['discriminator'] = ''
-#     cmd['ndf'] = ''
-#     cmd['ngf'] = ''
-#     cmd['ks'] = '--ks 3'
-#     cmd['wgan'] = ''
-#     cmd['extractor_fine_tuned'] = ''
-#     cmd['no_padding'] = ''
-#     cmd['resize_same'] = '--resize_same'
-#     #train_eft(cmd)
-#
-#     l_con = '--l_con l1'
-#     cmd['phase'] = '--phase val'
-#     testAndeval_eft(cmd)
-# except:
-#     from line_notify import sent_message
-#     sent_message('AnomalyDetectionData_train0.1_Unet_noSkipConnection_resize_same_w16 error')
+try:
+    cmd = {}
+    cmd['dataset'] = '--dataset AnomalyDetectionData_train0.1'
+    cmd['name'] = '--name AnomalyDetectionData_train0.1_Unet_noSkipConnection_resize_same'
+    cmd['isize'] = '--isize 128'
+    cmd['niter'] = '--niter 100'
+    cmd['phase'] = '--phase train'
+    cmd['batchsize'] = '--batchsize 64'
+    cmd['dfr'] = ''
+    cmd['netg'] = '--netg Unet_noSkipConnection'
+    cmd['l_con'] = '--l_con l1'
+    cmd['discriminator'] = ''
+    cmd['ndf'] = ''
+    cmd['ngf'] = ''
+    cmd['ks'] = '--ks 3'
+    cmd['wgan'] = ''
+    cmd['extractor_fine_tuned'] = ''
+    cmd['no_padding'] = ''
+    cmd['resize_same'] = '--resize_same'
+    #train_eft(cmd)
+
+    l_con = '--l_con l1'
+    cmd['phase'] = '--phase val'
+    testAndeval_eft(cmd)
+except:
+    from line_notify import sent_message
+    sent_message('AnomalyDetectionData_train0.1_Unet_noSkipConnection_resize_same error')
 
 # try:
 #     cmd = {}
@@ -2067,125 +2067,130 @@ def train_vgg19(cmds):
 #     from line_notify import sent_message
 #     sent_message('AnomalyDetectionData_balance_vgg_DFR_CAE_noDis_eft_au_resize_same_w32 error')
 
-try:
-    cmd = {}
-    cmd['dataset'] = '--dataset AnomalyDetectionData_train5404_vgg'
-    cmd['name'] = '--name AnomalyDetectionData_train5404_vgg_Unet_noSkipConnection_resize_same_w32'
-    cmd['isize'] = '--isize 128'
-    cmd['niter'] = '--niter 100'
-    cmd['phase'] = '--phase train'
-    cmd['batchsize'] = '--batchsize 64'
-    cmd['dfr'] = ''
-    cmd['netg'] = '--netg Unet_noSkipConnection'
-    cmd['l_con'] = '--l_con l1'
-    cmd['discriminator'] = ''
-    cmd['ndf'] = ''
-    cmd['ngf'] = ''
-    cmd['ks'] = '--ks 3'
-    cmd['wgan'] = ''
-    cmd['extractor_fine_tuned'] = ''
-    cmd['no_padding'] = ''
-    cmd['resize_same'] = '--resize_same'
-    train_eft(cmd)
 
-    l_con = '--l_con l1'
-    cmd['phase'] = '--phase val'
-    testAndeval_eft(cmd)
-except:
-    from line_notify import sent_message
-    sent_message('AnomalyDetectionData_train5404_vgg_Unet_noSkipConnection_resize_same_w32 error')
+# wait
+#
+# try:
+#     cmd = {}
+#     cmd['dataset'] = '--dataset AnomalyDetectionData_train5404_vgg'
+#     cmd['name'] = '--name AnomalyDetectionData_train5404_vgg_Unet_noSkipConnection_resize_same_w32'
+#     cmd['isize'] = '--isize 128'
+#     cmd['niter'] = '--niter 100'
+#     cmd['phase'] = '--phase train'
+#     cmd['batchsize'] = '--batchsize 64'
+#     cmd['dfr'] = ''
+#     cmd['netg'] = '--netg Unet_noSkipConnection'
+#     cmd['l_con'] = '--l_con l1'
+#     cmd['discriminator'] = ''
+#     cmd['ndf'] = ''
+#     cmd['ngf'] = ''
+#     cmd['ks'] = '--ks 3'
+#     cmd['wgan'] = ''
+#     cmd['extractor_fine_tuned'] = ''
+#     cmd['no_padding'] = ''
+#     cmd['resize_same'] = '--resize_same'
+#     train_eft(cmd)
+#
+#     l_con = '--l_con l1'
+#     cmd['phase'] = '--phase val'
+#     testAndeval_eft(cmd)
+# except:
+#     from line_notify import sent_message
+#     sent_message('AnomalyDetectionData_train5404_vgg_Unet_noSkipConnection_resize_same_w32 error')
+#
+# try:
+#     cmd = {}
+#     cmd['dataroot'] = '--dataroot ../dataSet/AnomalyDetectionData_train5404_vgg/train_vgg_0.5_au'
+#     cmd['name'] = '--name vgg_weights'
+#     cmd['isize'] = '--isize 128'
+#     cmd['niter'] = '--niter 50'
+#     cmd['lr'] = '--lr 0.0001'
+#     cmd['model_name'] = '--model_name vgg'
+#     cmd['weight_name'] = ''
+#     cmd['device'] = ''
+#     cmd['outf'] = '--outf ../vgg_weights'
+#     cmd['batchsize'] = '--batchsize 16'
+#     train_vgg19(cmd)
+# except:
+#     from line_notify import sent_message
+#
+#     sent_message('train vgg19 error')
+#
+# try:
+#     cmd = {}
+#     cmd['dataset'] = '--dataset AnomalyDetectionData_train5404_vgg'
+#     cmd['name'] = '--name AnomalyDetectionData_train5404_vgg_DFR_CAE_noDis_eft_au0.5_resize_same_w32'
+#     cmd['isize'] = '--isize 128'
+#     cmd['niter'] = '--niter 50'
+#     cmd['phase'] = '--phase train'
+#     cmd['batchsize'] = '--batchsize 4'
+#     cmd['dfr'] = '--DFR'
+#     cmd['netg'] = '--netg CAE'
+#     cmd['l_con'] = '--l_con l1'
+#     cmd['discriminator'] = '--no_discriminator'
+#     cmd['ndf'] = ''
+#     cmd['ngf'] = ''
+#     cmd['ks'] = '--ks 3'
+#     cmd['wgan'] = ''
+#     cmd['extractor_fine_tuned'] = '--extractor_fine_tuned'
+#     cmd['no_padding'] = ''
+#     cmd['resize_same'] = '--resize_same'
+#     train_eft(cmd)
+#
+#     l_con = '--l_con l1'
+#     cmd['phase'] = '--phase val'
+#     testAndeval_eft(cmd)
+# except:
+#     from line_notify import sent_message
+#     sent_message('AnomalyDetectionData_train5404_vgg_DFR_CAE_noDis_eft_au0.5_resize_same_w32 error')
+#
+# try:
+#     cmd = {}
+#     cmd['dataset'] = '--dataset AnomalyDetectionData_balance_vgg'
+#     cmd['name'] = '--name AnomalyDetectionData_balance_vgg_DFR_CAE_noDis_eft_au_resize_same_w32'
+#     cmd['isize'] = '--isize 128'
+#     cmd['niter'] = '--niter 50'
+#     cmd['phase'] = '--phase train'
+#     cmd['batchsize'] = '--batchsize 4'
+#     cmd['dfr'] = '--DFR'
+#     cmd['netg'] = '--netg CAE'
+#     cmd['l_con'] = '--l_con l1'
+#     cmd['discriminator'] = '--no_discriminator'
+#     cmd['ndf'] = ''
+#     cmd['ngf'] = ''
+#     cmd['ks'] = '--ks 3'
+#     cmd['wgan'] = ''
+#     cmd['extractor_fine_tuned'] = '--extractor_fine_tuned'
+#     cmd['no_padding'] = ''
+#     cmd['resize_same'] = '--resize_same'
+#     # train_eft(cmd)
+#
+#     l_con = '--l_con l1'
+#     cmd['phase'] = '--phase val'
+#     testAndeval_eft(cmd)
+# except:
+#     from line_notify import sent_message
+#     sent_message('AnomalyDetectionData_balance_vgg_DFR_CAE_noDis_eft_au_resize_same_w32 error')
+#
+# try:
+#     cmd = {}
+#     cmd['dataroot'] = '--dataroot ../dataSet/AnomalyDetectionData_train5404_vgg/train_vgg_all_au'
+#     cmd['name'] = '--name vgg_weights'
+#     cmd['isize'] = '--isize 128'
+#     cmd['niter'] = '--niter 50'
+#     cmd['lr'] = '--lr 0.0001'
+#     cmd['model_name'] = '--model_name vgg'
+#     cmd['weight_name'] = '--weight_name _train5404_all_au'
+#     cmd['device'] = ''
+#     cmd['outf'] = '--outf ../vgg_weights'
+#     cmd['batchsize'] = '--batchsize 16'
+#     train_vgg19(cmd)
+# except:
+#     from line_notify import sent_message
+#
+#     sent_message('train vgg19 error')
+# wait
 
-try:
-    cmd = {}
-    cmd['dataroot'] = '--dataroot ../dataSet/AnomalyDetectionData_train5404_vgg/train_vgg_0.5_au'
-    cmd['name'] = '--name vgg_weights'
-    cmd['isize'] = '--isize 128'
-    cmd['niter'] = '--niter 50'
-    cmd['lr'] = '--lr 0.0001'
-    cmd['model_name'] = '--model_name vgg'
-    cmd['weight_name'] = ''
-    cmd['device'] = ''
-    cmd['outf'] = '--outf ../vgg_weights'
-    cmd['batchsize'] = '--batchsize 16'
-    train_vgg19(cmd)
-except:
-    from line_notify import sent_message
-
-    sent_message('train vgg19 error')
-
-try:
-    cmd = {}
-    cmd['dataset'] = '--dataset AnomalyDetectionData_train5404_vgg'
-    cmd['name'] = '--name AnomalyDetectionData_train5404_vgg_DFR_CAE_noDis_eft_au0.5_resize_same_w32'
-    cmd['isize'] = '--isize 128'
-    cmd['niter'] = '--niter 50'
-    cmd['phase'] = '--phase train'
-    cmd['batchsize'] = '--batchsize 4'
-    cmd['dfr'] = '--DFR'
-    cmd['netg'] = '--netg CAE'
-    cmd['l_con'] = '--l_con l1'
-    cmd['discriminator'] = '--no_discriminator'
-    cmd['ndf'] = ''
-    cmd['ngf'] = ''
-    cmd['ks'] = '--ks 3'
-    cmd['wgan'] = ''
-    cmd['extractor_fine_tuned'] = '--extractor_fine_tuned'
-    cmd['no_padding'] = ''
-    cmd['resize_same'] = '--resize_same'
-    train_eft(cmd)
-
-    l_con = '--l_con l1'
-    cmd['phase'] = '--phase val'
-    testAndeval_eft(cmd)
-except:
-    from line_notify import sent_message
-    sent_message('AnomalyDetectionData_train5404_vgg_DFR_CAE_noDis_eft_au0.5_resize_same_w32 error')
-
-try:
-    cmd = {}
-    cmd['dataset'] = '--dataset AnomalyDetectionData_balance_vgg'
-    cmd['name'] = '--name AnomalyDetectionData_balance_vgg_DFR_CAE_noDis_eft_au_resize_same_w32'
-    cmd['isize'] = '--isize 128'
-    cmd['niter'] = '--niter 50'
-    cmd['phase'] = '--phase train'
-    cmd['batchsize'] = '--batchsize 4'
-    cmd['dfr'] = '--DFR'
-    cmd['netg'] = '--netg CAE'
-    cmd['l_con'] = '--l_con l1'
-    cmd['discriminator'] = '--no_discriminator'
-    cmd['ndf'] = ''
-    cmd['ngf'] = ''
-    cmd['ks'] = '--ks 3'
-    cmd['wgan'] = ''
-    cmd['extractor_fine_tuned'] = '--extractor_fine_tuned'
-    cmd['no_padding'] = ''
-    cmd['resize_same'] = '--resize_same'
-    # train_eft(cmd)
-
-    l_con = '--l_con l1'
-    cmd['phase'] = '--phase val'
-    testAndeval_eft(cmd)
-except:
-    from line_notify import sent_message
-    sent_message('AnomalyDetectionData_balance_vgg_DFR_CAE_noDis_eft_au_resize_same_w32 error')
-
-try:
-    cmd = {}
-    cmd['dataroot'] = '--dataroot ../dataSet/AnomalyDetectionData_train5404_vgg/train_vgg_all_au'
-    cmd['name'] = '--name vgg_weights'
-    cmd['isize'] = '--isize 128'
-    cmd['niter'] = '--niter 50'
-    cmd['lr'] = '--lr 0.0001'
-    cmd['model_name'] = '--model_name vgg'
-    cmd['weight_name'] = '--weight_name _train5404_all_au'
-    cmd['device'] = ''
-    cmd['outf'] = '--outf ../vgg_weights'
-    cmd['batchsize'] = '--batchsize 16'
-    train_vgg19(cmd)
-except:
-    from line_notify import sent_message
-
-    sent_message('train vgg19 error')
 
 # try:
 #     cmd = {}
