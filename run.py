@@ -2234,7 +2234,7 @@ try:
     cmd['extractor_fine_tuned'] = '--extractor_fine_tuned'
     cmd['no_padding'] = ''
     cmd['resize_same'] = '--resize_same'
-    # train_eft(cmd)
+    train_eft(cmd)
 
     cmd['l_con'] = '--l_con l2'
     cmd['phase'] = '--phase val'
