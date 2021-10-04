@@ -1860,33 +1860,33 @@ def train_vgg19(cmds):
 #     from line_notify import sent_message
 #     sent_message('AnomalyDetectionData_train0.5_Unet_noSkipConnection_res_2 error')
 
-try:
-    cmd = {}
-    cmd['dataset'] = '--dataset AnomalyDetectionData_train0.1'
-    cmd['name'] = '--name AnomalyDetectionData_train0.1_Unet_noSkipConnection_resize_same_w16'
-    cmd['isize'] = '--isize 128'
-    cmd['niter'] = '--niter 100'
-    cmd['phase'] = '--phase train'
-    cmd['batchsize'] = '--batchsize 64'
-    cmd['dfr'] = ''
-    cmd['netg'] = '--netg Unet_noSkipConnection'
-    cmd['l_con'] = '--l_con l1'
-    cmd['discriminator'] = ''
-    cmd['ndf'] = ''
-    cmd['ngf'] = ''
-    cmd['ks'] = '--ks 3'
-    cmd['wgan'] = ''
-    cmd['extractor_fine_tuned'] = ''
-    cmd['no_padding'] = ''
-    cmd['resize_same'] = '--resize_same'
-    #train_eft(cmd)
-
-    cmd['l_con'] = '--l_con l2'
-    cmd['phase'] = '--phase val'
-    testAndeval_eft(cmd)
-except:
-    from line_notify import sent_message
-    sent_message('AnomalyDetectionData_train0.1_Unet_noSkipConnection_resize_same_w16 error')
+# try:
+#     cmd = {}
+#     cmd['dataset'] = '--dataset AnomalyDetectionData_train0.1'
+#     cmd['name'] = '--name AnomalyDetectionData_train0.1_Unet_noSkipConnection_resize_same_w16'
+#     cmd['isize'] = '--isize 128'
+#     cmd['niter'] = '--niter 100'
+#     cmd['phase'] = '--phase train'
+#     cmd['batchsize'] = '--batchsize 64'
+#     cmd['dfr'] = ''
+#     cmd['netg'] = '--netg Unet_noSkipConnection'
+#     cmd['l_con'] = '--l_con l1'
+#     cmd['discriminator'] = ''
+#     cmd['ndf'] = ''
+#     cmd['ngf'] = ''
+#     cmd['ks'] = '--ks 3'
+#     cmd['wgan'] = ''
+#     cmd['extractor_fine_tuned'] = ''
+#     cmd['no_padding'] = ''
+#     cmd['resize_same'] = '--resize_same'
+#     #train_eft(cmd)
+#
+#     cmd['l_con'] = '--l_con l2'
+#     cmd['phase'] = '--phase val'
+#     testAndeval_eft(cmd)
+# except:
+#     from line_notify import sent_message
+#     sent_message('AnomalyDetectionData_train0.1_Unet_noSkipConnection_resize_same_w16 error')
 
 # try:
 #     cmd = {}
