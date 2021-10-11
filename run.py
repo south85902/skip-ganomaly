@@ -2429,16 +2429,45 @@ def train_vgg19(cmds):
 #     from line_notify import sent_message
 #     sent_message('AnomalyDetectionData_train0.5_vgg_Unet_twoSkipConnection_resize_same_w32 error')
 #
+
+# try:
+#     cmd = {}
+#     cmd['dataset'] = '--dataset AnomalyDetectionData_train0.5_vgg'
+#     cmd['name'] = '--name AnomalyDetectionData_train0.5_vgg_DFR_CAE_noDis_resize_same_w32'
+#     cmd['isize'] = '--isize 128'
+#     cmd['niter'] = '--niter 50'
+#     cmd['phase'] = '--phase train'
+#     cmd['batchsize'] = '--batchsize 4'
+#     cmd['dfr'] = '--DFR'
+#     cmd['netg'] = '--netg CAE'
+#     cmd['l_con'] = '--l_con l1'
+#     cmd['discriminator'] = '--no_discriminator'
+#     cmd['ndf'] = ''
+#     cmd['ngf'] = ''
+#     cmd['ks'] = '--ks 3'
+#     cmd['wgan'] = ''
+#     cmd['extractor_fine_tuned'] = ''
+#     cmd['no_padding'] = ''
+#     cmd['resize_same'] = '--resize_same'
+#     # train_eft(cmd)
+#
+#     cmd['l_con'] = '--l_con l2'
+#     cmd['phase'] = '--phase val'
+#     testAndeval_eft(cmd)
+# except:
+#     from line_notify import sent_message
+#     sent_message('AnomalyDetectionData_train0.5_vgg_DFR_CAE_noDis_resize_same_w32 error')
+
 try:
     cmd = {}
     cmd['dataset'] = '--dataset AnomalyDetectionData_train0.5_vgg'
-    cmd['name'] = '--name AnomalyDetectionData_train0.5_vgg_DFR_CAE_noDis_resize_same_w32'
+    cmd['name'] = '--name AnomalyDetectionData_train0.5_vgg_DFR_Unet_noDis_resize_same_w32'
     cmd['isize'] = '--isize 128'
     cmd['niter'] = '--niter 50'
     cmd['phase'] = '--phase train'
     cmd['batchsize'] = '--batchsize 4'
     cmd['dfr'] = '--DFR'
-    cmd['netg'] = '--netg CAE'
+    cmd['netg'] = '--netg Unet'
     cmd['l_con'] = '--l_con l1'
     cmd['discriminator'] = '--no_discriminator'
     cmd['ndf'] = ''
@@ -2448,14 +2477,42 @@ try:
     cmd['extractor_fine_tuned'] = ''
     cmd['no_padding'] = ''
     cmd['resize_same'] = '--resize_same'
-    # train_eft(cmd)
+    train_eft(cmd)
 
     cmd['l_con'] = '--l_con l2'
     cmd['phase'] = '--phase val'
     testAndeval_eft(cmd)
 except:
     from line_notify import sent_message
-    sent_message('AnomalyDetectionData_train0.5_vgg_DFR_CAE_noDis_resize_same_w32 error')
+    sent_message('AnomalyDetectionData_train0.5_vgg_DFR_Unet_noDis_resize_same_w32 error')
+
+try:
+    cmd = {}
+    cmd['dataset'] = '--dataset AnomalyDetectionData_train0.5_vgg'
+    cmd['name'] = '--name AnomalyDetectionData_train0.5_vgg_DFR_Unet_noSkipConnection_noDis_resize_same_w32'
+    cmd['isize'] = '--isize 128'
+    cmd['niter'] = '--niter 50'
+    cmd['phase'] = '--phase train'
+    cmd['batchsize'] = '--batchsize 4'
+    cmd['dfr'] = '--DFR'
+    cmd['netg'] = '--netg Unet_noSkipConnection'
+    cmd['l_con'] = '--l_con l1'
+    cmd['discriminator'] = '--no_discriminator'
+    cmd['ndf'] = ''
+    cmd['ngf'] = ''
+    cmd['ks'] = '--ks 3'
+    cmd['wgan'] = ''
+    cmd['extractor_fine_tuned'] = ''
+    cmd['no_padding'] = ''
+    cmd['resize_same'] = '--resize_same'
+    train_eft(cmd)
+
+    cmd['l_con'] = '--l_con l2'
+    cmd['phase'] = '--phase val'
+    testAndeval_eft(cmd)
+except:
+    from line_notify import sent_message
+    sent_message('AnomalyDetectionData_train0.5_vgg_DFR_Unet_noSkipConnection_noDis_resize_same_w32 error')
 
 # try:
 #     cmd = {}
