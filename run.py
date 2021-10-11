@@ -2461,7 +2461,7 @@ def train_vgg19(cmds):
 try:
     cmd = {}
     cmd['dataset'] = '--dataset AnomalyDetectionData_train0.5_vgg'
-    cmd['name'] = '--name AnomalyDetectionData_train0.5_vgg_DFR_Unet_noDis_resize_same_w32'
+    cmd['name'] = '--name AnomalyDetectionData_train0.5_vgg_DFR_Unet_noDis_eft_au0.5_resize_same_w32'
     cmd['isize'] = '--isize 128'
     cmd['niter'] = '--niter 50'
     cmd['phase'] = '--phase train'
@@ -2474,7 +2474,7 @@ try:
     cmd['ngf'] = ''
     cmd['ks'] = '--ks 3'
     cmd['wgan'] = ''
-    cmd['extractor_fine_tuned'] = ''
+    cmd['extractor_fine_tuned'] = '--extractor_fine_tuned'
     cmd['no_padding'] = ''
     cmd['resize_same'] = '--resize_same'
     train_eft(cmd)
@@ -2484,12 +2484,12 @@ try:
     testAndeval_eft(cmd)
 except:
     from line_notify import sent_message
-    sent_message('AnomalyDetectionData_train0.5_vgg_DFR_Unet_noDis_resize_same_w32 error')
+    sent_message('AnomalyDetectionData_train0.5_vgg_DFR_Unet_noDis_eft_au0.5_resize_same_w32 error')
 
 try:
     cmd = {}
     cmd['dataset'] = '--dataset AnomalyDetectionData_train0.5_vgg'
-    cmd['name'] = '--name AnomalyDetectionData_train0.5_vgg_DFR_Unet_noSkipConnection_noDis_resize_same_w32'
+    cmd['name'] = '--name AnomalyDetectionData_train0.5_vgg_DFR_Unet_noSkipConnection_noDis_eft_au0.5_resize_same_w32'
     cmd['isize'] = '--isize 128'
     cmd['niter'] = '--niter 50'
     cmd['phase'] = '--phase train'
@@ -2502,7 +2502,7 @@ try:
     cmd['ngf'] = ''
     cmd['ks'] = '--ks 3'
     cmd['wgan'] = ''
-    cmd['extractor_fine_tuned'] = ''
+    cmd['extractor_fine_tuned'] = '--extractor_fine_tuned'
     cmd['no_padding'] = ''
     cmd['resize_same'] = '--resize_same'
     train_eft(cmd)
@@ -2512,7 +2512,7 @@ try:
     testAndeval_eft(cmd)
 except:
     from line_notify import sent_message
-    sent_message('AnomalyDetectionData_train0.5_vgg_DFR_Unet_noSkipConnection_noDis_resize_same_w32 error')
+    sent_message('AnomalyDetectionData_train0.5_vgg_DFR_Unet_noSkipConnection_noDis_eft_au0.5_resize_same_w32 error')
 
 # try:
 #     cmd = {}
